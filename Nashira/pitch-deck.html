@@ -1,0 +1,4353 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KwikShop — for Nashira</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B1437'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Arial' font-size='16' font-weight='700' fill='%23F59E0B'%3EK%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #FFFFFF;
+      --bg-soft: #F8FAFC;
+      --bg-elev: #F1F5F9;
+      --bg-card: #FFFFFF;
+
+      --navy: #0B1437;
+      --navy-mid: #1E2A5C;
+      --navy-soft: #1E293B;
+
+      --primary: #1E40AF;
+      --primary-deep: #1E3A8A;
+      --primary-tint: #EFF6FF;
+      --primary-light: #DBEAFE;
+
+      --accent: #F59E0B;
+      --accent-light: #FEF3C7;
+      --accent-deep: #B45309;
+
+      --emerald: #059669;
+      --emerald-light: #D1FAE5;
+      --rose: #E11D48;
+      --rose-light: #FFE4E6;
+      --cyan: #0891B2;
+      --cyan-light: #CFFAFE;
+      --violet: #7C3AED;
+      --violet-light: #EDE9FE;
+
+      --border: #E2E8F0;
+      --border-strong: #CBD5E1;
+      --line-soft: #F1F5F9;
+
+      --text: #0F172A;
+      --text-soft: #334155;
+      --text-mute: #64748B;
+
+      --font: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, monospace;
+
+      --max: 1280px;
+      --pad: clamp(1.25rem, 4vw, 4rem);
+      --ease: cubic-bezier(.2, .7, .2, 1);
+      --ease-out: cubic-bezier(.16, 1, .3, 1);
+      --spring: cubic-bezier(.18, .89, .32, 1.12);
+      --spring-soft: cubic-bezier(.2, .82, .22, 1);
+      --glass: rgba(255, 255, 255, 0.72);
+      --glass-border: rgba(255, 255, 255, 0.42);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      font-size: 18px;
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* ---------- Type ---------- */
+    h1, h2, h3, h4 {
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      color: var(--text);
+    }
+    h1 { font-weight: 800; letter-spacing: -0.045em; }
+    h2 { font-weight: 800; letter-spacing: -0.04em; }
+
+    .eyebrow {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .eyebrow.muted { color: var(--text-mute); }
+    .eyebrow.cream { color: rgba(255, 255, 255, 0.72); }
+    .eyebrow::before {
+      content: ""; display: inline-block;
+      width: 28px; height: 2px; background: currentColor;
+      flex-shrink: 0;
+    }
+    .eyebrow.no-line::before { display: none; }
+    .eyebrow.no-line { gap: 0; }
+    .eyebrow.no-line .dot {
+      display: inline-block; width: 8px; height: 8px;
+      background: currentColor; border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .lede {
+      font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+      line-height: 1.5;
+      color: var(--text-soft);
+      max-width: 60ch;
+      font-weight: 400;
+    }
+
+    section.slide {
+      position: relative;
+      min-height: 88vh;
+      padding: clamp(5rem, 10vh, 7rem) var(--pad) clamp(4rem, 8vh, 6rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .wrap { max-width: var(--max); margin: 0 auto; width: 100%; }
+
+    .slide-num {
+      position: absolute;
+      top: 5.5rem; right: var(--pad);
+      width: max-content;
+      max-width: calc(100vw - (var(--pad) * 2));
+      text-align: right;
+      font-family: var(--mono);
+      font-size: 12px; font-weight: 600;
+      color: var(--text-mute); letter-spacing: 0.04em;
+      z-index: 5;
+    }
+    section.slide.dark .slide-num { color: rgba(255, 255, 255, 0.5); }
+    @media (max-width: 899px) {
+      .slide-num {
+        position: static;
+        top: auto; right: auto;
+        display: block;
+        width: auto;
+        max-width: 100%;
+        text-align: left;
+        margin-bottom: 1.1rem;
+      }
+    }
+
+    /* ---------- nav ---------- */
+    nav.top {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 1rem var(--pad);
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 50;
+      background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.64));
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.62);
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+    }
+    nav.top .brand-mark {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-weight: 700; font-size: 17px; color: var(--text);
+    }
+    nav.top .brand-mark .logo {
+      width: 28px; height: 28px;
+      background: var(--navy); border-radius: 7px;
+      display: grid; place-items: center;
+      color: var(--accent); font-weight: 800; font-size: 13px;
+    }
+    nav.top .by {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-mute);
+    }
+    .progress {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      width: 0%; z-index: 60;
+      transition: width 0.1s linear;
+    }
+
+    /* ---------- buttons ---------- */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.95rem 1.5rem; border-radius: 8px;
+      font-family: var(--font); font-weight: 600; font-size: 15px;
+      letter-spacing: -0.005em; cursor: pointer; text-decoration: none;
+      border: 1px solid transparent;
+      position: relative; overflow: hidden; isolation: isolate;
+      transform: translate3d(var(--mx, 0), var(--my, 0), 0);
+      transition: transform 0.22s var(--spring-soft), background 0.2s var(--ease), box-shadow 0.24s var(--ease), border-color 0.2s var(--ease);
+      will-change: transform;
+    }
+    .btn::before {
+      content: "";
+      position: absolute; inset: -1px;
+      border-radius: inherit;
+      background: radial-gradient(circle at var(--rx, 50%) var(--ry, 50%), rgba(245, 158, 11, 0.34), transparent 34%);
+      opacity: 0;
+      transition: opacity 0.22s var(--ease);
+      z-index: -1;
+    }
+    .btn:hover::before { opacity: 1; }
+    .btn:hover { transform: translate3d(var(--mx, 0), var(--my, 0), 0) translateY(-1px); }
+    .btn .ripple {
+      position: absolute;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.42);
+      transform: translate(-50%, -50%) scale(0);
+      animation: ripple 650ms var(--ease-out);
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes ripple {
+      to { transform: translate(-50%, -50%) scale(24); opacity: 0; }
+    }
+    .btn-primary {
+      background: var(--navy); color: #FFF; border-color: var(--navy);
+    }
+    .btn-primary:hover {
+      background: var(--navy-mid); transform: translateY(-1px);
+      box-shadow: 0 8px 16px -4px rgba(11, 20, 55, 0.3);
+    }
+    .btn-ghost { background: transparent; color: var(--text); border-color: var(--border-strong); }
+    .btn-ghost:hover { background: var(--bg-elev); }
+    .btn-light { background: #FFF; color: var(--navy); border-color: #FFF; }
+    .btn-light:hover { transform: translateY(-1px); box-shadow: 0 8px 16px -4px rgba(0,0,0,0.2); }
+    .btn-light-ghost { background: transparent; color: #FFF; border-color: rgba(255,255,255,0.32); }
+    .btn-light-ghost:hover { background: rgba(255,255,255,0.08); border-color: #FFF; }
+    .btn svg { width: 16px; height: 16px; }
+
+    /* ---------- dot grid pattern for dark sections ---------- */
+    .dot-grid {
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+      -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+      transform: translate3d(0, var(--parallax-y, 0), 0);
+      transition: transform 0.2s linear;
+      will-change: transform;
+    }
+    .ambient-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.72;
+      mix-blend-mode: screen;
+    }
+    .ambient-canvas[data-ambient="proof-particles"] {
+      opacity: 0.5;
+      mix-blend-mode: screen;
+    }
+    section.slide.dark > *:not(.dot-grid):not(.ambient-canvas):not(.slide-num) { position: relative; z-index: 1; }
+    section.slide.dark::after {
+      content: "";
+      position: absolute; inset: 0;
+      pointer-events: none;
+      opacity: 0.13;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.46'/%3E%3C/svg%3E");
+      animation: grain-shift 9s steps(3, end) infinite;
+      z-index: 0;
+    }
+    @keyframes grain-shift {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      33% { transform: translate3d(-1.5%, 1%, 0); }
+      66% { transform: translate3d(1%, -1.5%, 0); }
+    }
+
+    /* ============================================================
+       SLIDE 1 · POSITIONING
+       ============================================================ */
+    .slide-1 {
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+      overflow: hidden;
+    }
+    .slide-1::before {
+      content: ""; position: absolute;
+      top: -250px; right: -250px;
+      width: 750px; height: 750px;
+      background: radial-gradient(circle, rgba(30, 64, 175, 0.07), transparent 70%);
+      pointer-events: none;
+    }
+    .slide-1 .grid {
+      display: grid; grid-template-columns: 1fr; gap: 3rem;
+      align-items: end; position: relative; z-index: 1;
+    }
+    @media (min-width: 1024px) { .slide-1 .grid { grid-template-columns: 1.25fr 1fr; gap: 5rem; } }
+
+    .slide-1 h1 {
+      font-size: clamp(2.6rem, 6.5vw, 5.6rem);
+      max-width: 18ch;
+    }
+    .slide-1 h1 .accent { color: var(--primary); }
+    .slide-1 h1 .underline {
+      position: relative; white-space: nowrap; display: inline-block;
+    }
+    .slide-1 h1 .underline::after {
+      content: "";
+      position: absolute; bottom: 0.06em; left: 0; right: 0;
+      height: 0.18em; background: var(--accent);
+      z-index: -1; opacity: 0.6;
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 1.2s var(--ease-out) 0.6s;
+    }
+    .slide-1 .reveal-up.in h1 .underline::after { transform: scaleX(1); }
+
+    .slide-1 .right {
+      padding-top: 2rem;
+      border-top: 2px solid var(--text);
+      display: grid;
+      gap: 1.5rem;
+    }
+    .slide-1 .right p strong { color: var(--text); font-weight: 700; }
+
+    .pills {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .pill {
+      padding: 0.45rem 0.85rem;
+      font-size: 12.5px; font-weight: 600;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      background: var(--bg-elev); color: var(--text-soft);
+      border-radius: 8px; border: 1px solid var(--border);
+    }
+    .pill.live {
+      background: var(--navy); color: #FFF; border-color: var(--navy);
+    }
+
+    .cta-row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+
+    /* ============================================================
+       SLIDE 2 · PROOF (moved early — authority bias)
+       ============================================================ */
+    .slide-2 {
+      background: var(--navy); color: #FFF;
+      overflow: hidden;
+    }
+    .slide-2::before {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(125deg, rgba(11, 20, 55, 0.52), rgba(11, 20, 55, 0.12));
+      opacity: 0.62;
+      pointer-events: none;
+    }
+    .slide-2 .wrap { position: relative; z-index: 1; }
+    .proof-hero-grid {
+      max-width: 760px;
+    }
+    .slide-2 h2 {
+      color: #FFF;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      max-width: 22ch;
+    }
+    .slide-2 h2 .accent { color: var(--accent); }
+    .slide-2 .lede {
+      color: rgba(255, 255, 255, 0.78);
+      max-width: 56ch; margin-top: 1.25rem;
+    }
+
+    .proof-stats {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    @media (min-width: 1024px) { .proof-stats { grid-template-columns: repeat(4, 1fr); gap: 1rem; } }
+
+    .proof-stat {
+      padding: 1.85rem 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      --lift: 0px;
+      transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(var(--lift));
+      transition: background 0.3s var(--ease), border-color 0.3s var(--ease), transform 0.35s var(--spring-soft), box-shadow 0.35s var(--ease);
+    }
+    .proof-stat::after,
+    .category-proof .case::after,
+    .work-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(245, 158, 11, 0.18), transparent 36%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s var(--ease);
+      z-index: 0;
+    }
+    .proof-stat:hover::after,
+    .category-proof .case:hover::after,
+    .work-card:hover::after { opacity: 1; }
+    .proof-stat > *,
+    .category-proof .case > *,
+    .work-card > * { position: relative; z-index: 1; }
+    .proof-stat:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(245, 158, 11, 0.3);
+      --lift: -4px;
+      box-shadow: 0 22px 48px -32px rgba(245, 158, 11, 0.34);
+    }
+    .proof-stat .num {
+      font-size: clamp(2.4rem, 4.4vw, 3.4rem);
+      font-weight: 800; letter-spacing: -0.04em;
+      color: var(--accent);
+      line-height: 1; margin-bottom: 0.5rem;
+    }
+    .proof-stat .lbl {
+      font-size: 14.5px; color: #FFF;
+      font-weight: 600; margin-bottom: 0.2rem; line-height: 1.35;
+    }
+    .proof-stat .sub {
+      font-size: 12.5px; color: rgba(255, 255, 255, 0.6);
+    }
+
+    .category-proof {
+      margin-top: 1.25rem;
+      padding: 1.35rem 1.5rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+    }
+    .category-proof .heading {
+      font-size: 12.5px; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .category-proof .heading::before {
+      content: ""; width: 8px; height: 8px;
+      background: var(--accent); border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .category-proof .proof-row {
+      display: grid; grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+    @media (min-width: 760px) {
+      .category-proof .proof-row { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    }
+    @media (min-width: 1120px) {
+      .category-proof .proof-row { grid-template-columns: repeat(6, 1fr); }
+    }
+    .category-proof .case {
+      padding: 0.85rem 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      --lift: 0px;
+      transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(var(--lift));
+      transition: background 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.3s var(--spring-soft);
+    }
+    .category-proof .case:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(245, 158, 11, 0.35);
+      --lift: -3px;
+    }
+    .category-proof .case .brand-line {
+      display: flex; align-items: center; gap: 0.75rem;
+      min-height: 36px; margin-bottom: 0.55rem;
+    }
+    .category-proof .case .brand-logo {
+      width: 64px; height: 32px; border-radius: 8px;
+      background: rgba(255, 255, 255, 0.92);
+      display: grid; place-items: center; flex-shrink: 0;
+      overflow: hidden; padding: 0.35rem;
+    }
+    .category-proof .case .brand-logo img {
+      max-width: 100%; max-height: 100%; object-fit: contain;
+      filter: saturate(0.96) contrast(1.03);
+    }
+    .category-proof .case .brand-logo.text-logo {
+      color: var(--navy); font-weight: 800; font-size: 12px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .category-proof .case .brand {
+      font-size: 13px; font-weight: 700;
+      color: #FFF; margin-bottom: 0;
+      letter-spacing: -0.01em;
+    }
+    .category-proof .case .category {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 0.65rem;
+    }
+    .category-proof .case .metric-big {
+      font-size: clamp(1.2rem, 2vw, 1.45rem); font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.03em; line-height: 1;
+    }
+    .category-proof .case .metric-label {
+      font-size: 11.5px; color: rgba(255, 255, 255, 0.75);
+      margin-top: 0.35rem; line-height: 1.4;
+    }
+    .category-proof .source-note {
+      margin-top: 1.1rem; color: rgba(255, 255, 255, 0.5);
+      font-size: 12px; line-height: 1.45;
+    }
+
+    /* ============================================================
+       SLIDE 3 · TWO KINDS OF WORK (REFRAMED)
+       ============================================================ */
+    .slide-3 {}
+    .slide-3 h2 {
+      font-size: clamp(2.2rem, 4.8vw, 3.6rem);
+      max-width: 22ch;
+    }
+    .slide-3 h2 .h { background: var(--accent-light); padding: 0 0.12em; }
+    .slide-3 .lede { margin-top: 1.25rem; max-width: 60ch; }
+
+    .work-grid {
+      margin-top: 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    @media (min-width: 900px) { .work-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; } }
+
+    .work-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      --lift: 0px;
+      transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(var(--lift));
+      transition: transform 0.35s var(--spring-soft), box-shadow 0.3s var(--ease), border-color 0.25s var(--ease);
+    }
+    .work-card:hover {
+      --lift: -3px;
+      box-shadow: 0 18px 36px -12px rgba(15, 23, 42, 0.14);
+    }
+    .work-card.you {
+      background: var(--navy); color: #FFF; border-color: var(--navy);
+    }
+    .work-card.you h3 { color: #FFF; }
+    .work-card .label {
+      display: inline-block;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 0.3rem 0.7rem; border-radius: 6px;
+      margin-bottom: 1.5rem;
+    }
+    .work-card.you .label {
+      background: rgba(245, 158, 11, 0.18); color: var(--accent);
+    }
+    .work-card.us .label {
+      background: var(--primary-tint); color: var(--primary);
+    }
+    .work-card h3 {
+      font-size: clamp(1.5rem, 2.4vw, 1.85rem);
+      margin-bottom: 0.6rem;
+    }
+    .work-card .tag {
+      font-size: 16px; font-weight: 500; margin-bottom: 1.5rem;
+    }
+    .work-card.you .tag { color: rgba(255, 255, 255, 0.72); }
+    .work-card.us .tag { color: var(--text-mute); }
+    .work-card ul { list-style: none; }
+    .work-card li {
+      padding: 0.7rem 0; border-bottom: 1px solid;
+      font-size: 14.5px; display: flex; gap: 0.6rem; line-height: 1.45;
+    }
+    .work-card.you li { border-bottom-color: rgba(255, 255, 255, 0.1); }
+    .work-card.us li { border-bottom-color: var(--line-soft); }
+    .work-card li:last-child { border-bottom: 0; }
+    .work-card.you li::before { content: "✓"; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .work-card.us li::before { content: "→"; color: var(--primary); font-weight: 700; flex-shrink: 0; }
+
+    .work-closer {
+      margin-top: 2.5rem;
+      padding: 1.25rem 1.75rem;
+      background: var(--accent-light);
+      border-radius: 10px;
+      font-size: 16px; font-weight: 600;
+      max-width: 70ch; line-height: 1.45;
+    }
+
+    /* ============================================================
+       SLIDE 4 · WHAT WE KNOW (the 6 questions)
+       ============================================================ */
+    .slide-4 { background: var(--bg-soft); }
+    .slide-4 h2 {
+      font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+      max-width: 24ch;
+    }
+    .slide-4 h2 .h {
+      background: var(--accent-light); padding: 0 0.12em;
+    }
+    .slide-4 .lede { margin-top: 1.25rem; max-width: 60ch; }
+
+    .know-grid {
+      margin-top: 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 700px) { .know-grid { grid-template-columns: 1fr 1fr; gap: 1.25rem; } }
+    @media (min-width: 1100px) { .know-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .know-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.6rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    }
+    .know-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 40px -16px rgba(15, 23, 42, 0.15);
+    }
+    .know-card::before {
+      content: ""; position: absolute;
+      top: 0; left: 0; width: 4px; height: 100%;
+      background: var(--accent-c, var(--primary));
+    }
+    .know-card.k1 { --accent-c: var(--primary); }
+    .know-card.k2 { --accent-c: var(--emerald); }
+    .know-card.k3 { --accent-c: var(--cyan); }
+    .know-card.k4 { --accent-c: var(--accent); }
+    .know-card.k5 { --accent-c: var(--violet); }
+    .know-card.k6 { --accent-c: var(--rose); }
+
+    .know-card .num {
+      font-family: var(--mono); font-size: 11.5px;
+      color: var(--text-mute); font-weight: 600;
+      letter-spacing: 0.04em; margin-bottom: 0.85rem;
+    }
+    .know-card .q {
+      font-size: 1.05rem; font-weight: 700;
+      letter-spacing: -0.015em; margin-bottom: 0.85rem; line-height: 1.3;
+    }
+    .know-card .answer {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      font-size: 13.5px; line-height: 1.5;
+      color: var(--text-soft);
+    }
+    .know-card .answer .num-callout {
+      font-weight: 700; color: var(--accent-c);
+    }
+    .know-card .meta {
+      margin-top: 0.85rem; font-size: 11.5px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-mute); font-weight: 600;
+    }
+
+    .know-footnote {
+      margin-top: 2.25rem;
+      font-size: 13px; color: var(--text-mute);
+      max-width: 70ch; line-height: 1.5;
+    }
+    .know-footnote em { font-style: normal; color: var(--text-soft); font-weight: 600; }
+
+    /* ============================================================
+       SLIDE 5 · FOUR AGENTS
+       ============================================================ */
+    .slide-5 {}
+    .slide-5 h2 {
+      font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+      max-width: 26ch;
+    }
+    .slide-5 .lede { margin-top: 1.25rem; max-width: 60ch; }
+
+    .agents-grid {
+      margin-top: 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 700px) { .agents-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1200px) { .agents-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    .agent {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem 1.5rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s var(--spring-soft), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease), background 0.3s var(--ease);
+      display: flex; flex-direction: column;
+      isolation: isolate;
+    }
+    .agent:hover {
+      transform: translateY(-6px);
+      border-color: color-mix(in srgb, var(--accent-color, var(--primary)) 45%, var(--border));
+      box-shadow: 0 24px 54px -20px rgba(15, 23, 42, 0.24);
+    }
+    .agent::before {
+      content: ""; position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: var(--accent-color, var(--primary));
+      z-index: 2;
+    }
+    .agent::after {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%), color-mix(in srgb, var(--accent-color, var(--primary)) 20%, transparent), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,0.42), transparent 52%);
+      opacity: 0;
+      transition: opacity 0.24s var(--ease);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .agent:hover::after { opacity: 1; }
+    .agent > * { position: relative; z-index: 1; }
+
+    .agent .num {
+      font-size: 13px; font-weight: 700;
+      color: var(--text-mute); font-family: var(--mono);
+      margin-bottom: 1rem;
+    }
+    .agent .role {
+      display: inline-block;
+      font-size: 11.5px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 0.3rem 0.65rem; border-radius: 6px;
+      margin-bottom: 1rem;
+      background: var(--accent-color); color: #FFF;
+    }
+    .agent h3 {
+      font-size: 1.5rem; margin-bottom: 0.5rem;
+      letter-spacing: -0.025em;
+    }
+    .agent .tag {
+      font-size: 14.5px; color: var(--text-soft);
+      margin-bottom: 1.5rem; line-height: 1.5;
+    }
+    .agent ul {
+      list-style: none;
+      border-top: 1px solid var(--line-soft);
+      margin-top: auto;
+    }
+    .agent li {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--line-soft);
+      font-size: 13.5px; color: var(--text-soft);
+      line-height: 1.45; display: flex; gap: 0.5rem;
+    }
+    .agent li:last-child { border-bottom: 0; }
+    .agent li::before {
+      content: "+"; color: var(--accent-color);
+      font-weight: 700; flex-shrink: 0;
+    }
+
+    /* ============================================================
+       SLIDE 6 · ON AUTOPILOT (8 functions)
+       ============================================================ */
+    .slide-6 { background: var(--bg-soft); }
+    .stack-head {
+      display: grid; grid-template-columns: 1fr; gap: 1.5rem;
+      align-items: end;
+    }
+    @media (min-width: 900px) { .stack-head { grid-template-columns: 1.4fr 1fr; gap: 4rem; } }
+    .stack-head h2 {
+      font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+      max-width: 22ch;
+    }
+    .stack-head p {
+      font-size: 16.5px; color: var(--text-soft);
+      max-width: 36ch; line-height: 1.55;
+    }
+
+    .stack-grid {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    @media (min-width: 700px) { .stack-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    .stack-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: transform 0.25s var(--ease), border-color 0.25s var(--ease);
+    }
+    .stack-item:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+    }
+    .stack-item .num {
+      font-size: 11.5px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--primary); margin-bottom: 1rem;
+    }
+    .stack-item h4 {
+      font-size: 1.05rem; font-weight: 700;
+      margin-bottom: 0.4rem; letter-spacing: -0.015em;
+    }
+    .stack-item p {
+      font-size: 13.5px; color: var(--text-mute);
+      line-height: 1.5;
+    }
+    .stack-item .tag-ai {
+      display: inline-block;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-top: 0.85rem;
+    }
+
+    /* ============================================================
+       SLIDE 7 · WHAT GROWS (4 levers — Reach/Convert/Retain/AOV)
+       ============================================================ */
+    .slide-7 {
+      overflow: clip;
+      min-height: 100vh;
+      justify-content: flex-start;
+      padding-top: clamp(4.35rem, 6.5vh, 5.25rem);
+      padding-bottom: clamp(2rem, 3vh, 3rem);
+    }
+    .slide-7 .pinning-header {
+      position: relative;
+      z-index: 2;
+    }
+    .slide-7 .pinning-header .slide-num {
+      top: 0.25rem;
+      right: 0;
+    }
+    .slide-7 h2 {
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      max-width: 20ch;
+    }
+    .slide-7 h2 .h {
+      background: var(--accent-light); padding: 0 0.1em;
+    }
+    .slide-7 .lede { margin-top: 0.9rem; max-width: 60ch; }
+
+    .horizontal-scroll-container {
+      width: min(var(--max), calc(100vw - (var(--pad) * 2)));
+      margin: clamp(1.5rem, 3.6vh, 2.35rem) auto 0;
+      overflow: hidden;
+      perspective: 1400px;
+      position: relative;
+      z-index: 1;
+      padding: 0.25rem 0 1.35rem;
+    }
+    .levers-wrapper {
+      display: flex;
+      gap: clamp(0.9rem, 1.4vw, 1.2rem);
+      width: max-content;
+      padding: 0;
+      will-change: transform;
+    }
+    .lever {
+      flex: 0 0 min(312px, calc(100vw - (var(--pad) * 2)));
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: clamp(1.25rem, 1.6vw, 1.55rem);
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      transition: transform 0.35s var(--spring-soft), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease), opacity 0.3s var(--ease), filter 0.3s var(--ease);
+      transform-style: preserve-3d;
+      min-height: clamp(236px, 29vh, 292px);
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+    }
+    .lever:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent-c, var(--primary));
+      box-shadow: 0 24px 54px -22px rgba(15, 23, 42, 0.22);
+    }
+    .lever::after {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%), color-mix(in srgb, var(--accent-c, var(--primary)) 18%, transparent), transparent 35%),
+        linear-gradient(180deg, rgba(255,255,255,0.48), transparent 56%);
+      opacity: 0;
+      transition: opacity 0.24s var(--ease);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .lever:hover::after { opacity: 1; }
+    .lever > * { position: relative; z-index: 1; }
+    .lever.l1 { --accent-c: var(--primary); }
+    .lever.l2 { --accent-c: var(--emerald); }
+    .lever.l3 { --accent-c: var(--cyan); }
+    .lever.l4 { --accent-c: var(--accent); }
+
+    .lever .head {
+      display: flex; align-items: baseline;
+      justify-content: space-between; margin-bottom: 1rem;
+    }
+    .lever .role {
+      font-size: 11.5px; font-weight: 800;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent-c);
+    }
+    .lever .num {
+      font-size: 12px; font-family: var(--mono); color: var(--text-mute);
+    }
+    .lever h3 {
+      font-size: clamp(1.34rem, 1.85vw, 1.7rem);
+      margin-bottom: 1.15rem; letter-spacing: -0.03em;
+      max-width: 14ch;
+    }
+    .lever h3 .h { color: var(--accent-c); }
+    .lever p {
+      font-size: 15px; color: var(--text-soft);
+      margin-bottom: 1.25rem; line-height: 1.55; max-width: 42ch;
+    }
+    .lever ul {
+      list-style: none;
+      border-top: 1px solid var(--line-soft);
+      margin-top: auto;
+    }
+    .lever li {
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--line-soft);
+      font-size: 13.25px; color: var(--text-soft);
+      display: flex; gap: 0.55rem;
+      line-height: 1.4;
+    }
+    .lever li:last-child { border-bottom: 0; }
+    .lever li::before {
+      content: "+"; color: var(--accent-c);
+      font-weight: 700; flex-shrink: 0;
+    }
+    @media (min-width: 900px) {
+      .horizontal-scroll-container { overflow: visible; }
+      .levers-wrapper {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+      .lever {
+        flex: 1 1 auto;
+        min-height: clamp(248px, 29vh, 292px);
+      }
+    }
+
+    .slide-7.is-pinned .lever {
+      opacity: 0.58;
+      filter: saturate(0.72);
+      box-shadow: 0 34px 84px -48px rgba(15, 23, 42, 0.46);
+    }
+    .slide-7.is-pinned .lever.is-active {
+      opacity: 1;
+      filter: saturate(1);
+      border-color: var(--accent-c);
+      box-shadow: 0 34px 86px -44px color-mix(in srgb, var(--accent-c) 38%, transparent);
+    }
+    @media (max-width: 899px) {
+      .slide-7 .pinning-header .slide-num {
+        position: static;
+        display: block;
+        margin-bottom: 1rem;
+        text-align: left;
+      }
+      .horizontal-scroll-container {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 0.5rem;
+      }
+      .levers-wrapper { padding-right: var(--pad); }
+    }
+
+    /* ============================================================
+       SLIDE 8 · DASHBOARD
+       ============================================================ */
+    .slide-9 {}
+    .slide-9 h2 {
+      font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+      max-width: 22ch;
+    }
+    .slide-9 h2 .h { color: var(--primary); }
+    .slide-9 .lede { margin-top: 1.25rem; max-width: 60ch; }
+
+    .dashboard {
+      margin-top: 3rem;
+      border: 1px solid rgba(226, 232, 240, 0.72);
+      border-radius: 18px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.82), rgba(248,250,252,0.58)),
+        radial-gradient(circle at 12% 0%, rgba(30,64,175,0.08), transparent 42%);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      overflow: hidden;
+      box-shadow: 0 50px 110px -34px rgba(11, 20, 55, 0.26), 0 4px 16px rgba(11, 20, 55, 0.05);
+    }
+    .dash-chrome {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: rgba(241, 245, 249, 0.68);
+      backdrop-filter: blur(18px) saturate(180%);
+      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.78);
+    }
+    .dash-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dash-dot:nth-child(1) { background: #E5484D; }
+    .dash-dot:nth-child(2) { background: #F0BC4B; }
+    .dash-dot:nth-child(3) { background: #36B37E; }
+    .dash-url {
+      margin-left: 0.75rem;
+      font-family: var(--mono); font-size: 11.5px;
+      color: var(--text-mute);
+      padding: 0.3rem 0.85rem;
+      background: rgba(255, 255, 255, 0.78);
+      border-radius: 999px;
+      border: 1px solid rgba(226, 232, 240, 0.74);
+      flex: 1; max-width: 380px;
+    }
+
+    .dash-body {
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 1024px) {
+      .dash-body { grid-template-columns: 1fr 1fr; }
+      .dash-header, .dash-stats, .dash-harmony { grid-column: 1 / -1; }
+    }
+    .dash-header {
+      display: flex; align-items: end; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap;
+      padding-bottom: 1rem; border-bottom: 1px solid var(--border);
+    }
+    .dash-header .brand-name {
+      font-size: 1.15rem; font-weight: 700;
+    }
+    .dash-header .brand-name span {
+      color: var(--text-mute); font-size: 0.85rem;
+      font-weight: 500; margin-left: 0.5rem;
+    }
+    .dash-header .period {
+      font-family: var(--mono); font-size: 11.5px;
+      color: var(--text-mute);
+      padding: 0.4rem 0.8rem;
+      background: var(--bg);
+      border-radius: 999px;
+      border: 1px solid var(--border);
+    }
+
+    .dash-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+    @media (min-width: 700px) { .dash-stats { grid-template-columns: repeat(4, 1fr); } }
+    .stat-tile {
+      background: rgba(255, 255, 255, 0.74);
+      padding: 1.1rem 1.25rem;
+      border: 1px solid rgba(226, 232, 240, 0.72);
+      border-radius: 10px;
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      position: relative;
+      overflow: hidden;
+      min-height: 124px;
+      isolation: isolate;
+      --lift: 0px;
+      transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(var(--lift));
+      transition: transform 0.28s var(--spring-soft), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+    }
+    .stat-tile:hover {
+      --lift: -3px;
+      border-color: rgba(30, 64, 175, 0.26);
+      box-shadow: 0 20px 44px -32px rgba(30, 64, 175, 0.34);
+    }
+    .stat-tile::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.34), rgba(255,255,255,0));
+      pointer-events: none;
+      z-index: 0;
+    }
+    .stat-tile > *:not(.sparkline) {
+      position: relative;
+      z-index: 2;
+    }
+    .sparkline {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 74px;
+      opacity: 0.58;
+      z-index: 1;
+      transform: translateY(8px);
+    }
+    .sparkline path {
+      fill: none;
+      stroke: var(--spark, var(--primary));
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 8px 14px color-mix(in srgb, var(--spark, var(--primary)) 22%, transparent));
+    }
+    .sparkline .area {
+      stroke: none;
+      fill: color-mix(in srgb, var(--spark, var(--primary)) 11%, transparent);
+    }
+    .stat-tile .lbl {
+      font-size: 11px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text-mute);
+      font-weight: 700; margin-bottom: 0.4rem;
+    }
+    .stat-tile .num {
+      font-size: 1.55rem; font-weight: 800;
+      letter-spacing: -0.025em; color: var(--text);
+    }
+    .stat-tile .delta {
+      font-family: var(--mono); font-size: 11.5px;
+      margin-top: 0.2rem; color: var(--emerald); font-weight: 600;
+    }
+    .stat-tile .delta.down { color: var(--rose); }
+
+    .dash-card {
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(226, 232, 240, 0.72);
+      border-radius: 14px;
+      overflow: hidden;
+      backdrop-filter: blur(16px) saturate(165%);
+      -webkit-backdrop-filter: blur(16px) saturate(165%);
+      box-shadow: 0 18px 50px -34px rgba(11, 20, 55, 0.3);
+    }
+    .dash-card .head {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--line-soft);
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .dash-card .head h4 { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
+    .dash-card .head .meta {
+      font-size: 10.5px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text-mute); font-weight: 700;
+    }
+    .live-feed-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .notification-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.34);
+    }
+    .notification-dot.pulse { animation: notify-pulse 900ms var(--ease-out); }
+    @keyframes notify-pulse {
+      0% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.34); transform: scale(1); }
+      55% { box-shadow: 0 0 0 9px rgba(5, 150, 105, 0); transform: scale(1.35); }
+      100% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0); transform: scale(1); }
+    }
+
+    .feed { padding: 0.4rem 1.25rem; max-height: 360px; overflow: auto; }
+    .feed-item {
+      display: grid; grid-template-columns: 56px 1fr;
+      gap: 0.75rem; padding: 0.65rem 0;
+      border-bottom: 1px solid var(--line-soft);
+      align-items: start;
+    }
+    .feed-item.feed-new {
+      animation: feed-in 560ms var(--spring-soft);
+    }
+    @keyframes feed-in {
+      from { opacity: 0; transform: translateY(-12px) scale(0.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .feed-item:last-child { border-bottom: 0; }
+    .feed-item .t {
+      font-family: var(--mono); font-size: 10.5px;
+      color: var(--text-mute); padding-top: 1px; font-weight: 500;
+    }
+    .feed-item .body { font-size: 13px; color: var(--text); line-height: 1.45; }
+    .feed-item .body .agent {
+      display: inline-block;
+      padding: 0.1rem 0.4rem;
+      font-size: 9.5px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      border-radius: 4px; margin-right: 0.4rem;
+    }
+    .feed-item .body .agent.site { background: var(--primary-tint); color: var(--primary); }
+    .feed-item .body .agent.ads { background: var(--emerald-light); color: var(--emerald); }
+    .feed-item .body .agent.ops { background: var(--cyan-light); color: var(--cyan); }
+    .feed-item .body .agent.margin { background: var(--accent-light); color: var(--accent-deep); }
+    .feed-item .body .agent.support { background: var(--violet-light); color: var(--violet); }
+
+    .approval { padding: 1rem 1.25rem; border-bottom: 1px solid var(--line-soft); }
+    .approval:last-child { border-bottom: 0; }
+    .approval.is-approved { animation: approve-away 720ms var(--spring-soft) forwards; }
+    @keyframes approve-away {
+      0% { opacity: 1; transform: translateX(0); max-height: 180px; }
+      62% { opacity: 0; transform: translateX(18px); max-height: 180px; }
+      100% { opacity: 0; transform: translateX(18px); max-height: 0; padding-top: 0; padding-bottom: 0; border-bottom-color: transparent; }
+    }
+    .approval .title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .approval .sub { font-size: 12.5px; color: var(--text-mute); margin-bottom: 0.85rem; line-height: 1.45; }
+    .approval .row { display: flex; gap: 0.5rem; align-items: center; }
+    .approval .btn-mini {
+      padding: 0.3rem 0.7rem;
+      font-size: 11.5px; font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid var(--navy);
+      background: var(--navy); color: #FFF; cursor: pointer;
+      transition: transform 0.18s var(--spring-soft), background 0.2s var(--ease), border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+    }
+    .approval .btn-mini:hover { transform: translateY(-1px); box-shadow: 0 10px 20px -14px rgba(11, 20, 55, 0.48); }
+    .approval .btn-mini.approved {
+      background: var(--emerald);
+      border-color: var(--emerald);
+      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.12);
+    }
+    .approval .btn-mini.ghost {
+      background: transparent; color: var(--text);
+      border-color: var(--border-strong);
+    }
+    .approval .by {
+      font-family: var(--mono); font-size: 10.5px;
+      color: var(--text-mute); margin-left: auto; font-weight: 500;
+    }
+
+    .digest { padding: 1.25rem; display: grid; gap: 0.85rem; }
+    .digest .item {
+      display: grid; grid-template-columns: 14px 1fr;
+      gap: 0.75rem; align-items: start;
+    }
+    .digest .item .marker {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--emerald); margin-top: 0.5rem;
+    }
+    .digest .item.warn .marker { background: var(--rose); }
+    .digest .item .text { font-size: 13px; color: var(--text); line-height: 1.45; }
+    .digest .item .text .label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--emerald); margin-right: 0.4rem;
+    }
+    .digest .item.warn .text .label { color: var(--rose); }
+
+    /* ============================================================
+       SLIDE 9 · 90 DAYS
+       ============================================================ */
+    .slide-10 { background: var(--bg-soft); }
+    .slide-10 h2 {
+      font-size: clamp(2.15rem, 4.35vw, 3.45rem);
+      max-width: 24ch;
+    }
+    .slide-10 h2 .h { color: var(--primary); }
+
+    .timeline {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      position: relative;
+    }
+    @media (min-width: 900px) {
+      .timeline {
+        grid-template-columns: minmax(0, 1.38fr) minmax(0, 0.9fr) minmax(0, 0.9fr);
+        gap: 1.5rem;
+        padding-top: 2.8rem;
+      }
+    }
+    .timeline-line {
+      display: none;
+    }
+    @media (min-width: 900px) {
+      .timeline-line {
+        display: block;
+        position: absolute;
+        left: calc(100% / 6);
+        right: calc(100% / 6);
+        top: 1.05rem;
+        height: 3px;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.34);
+        overflow: visible;
+        z-index: 0;
+      }
+      .timeline-line::before,
+      .timeline-line::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: rgba(148, 163, 184, 0.58);
+        transform: translate(-50%, -50%);
+      }
+      .timeline-line::before { left: 0; }
+      .timeline-line::after { left: 100%; }
+      .timeline-line .mid-node {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: rgba(148, 163, 184, 0.58);
+        transform: translate(-50%, -50%);
+      }
+      .timeline-line span {
+        display: block;
+        height: 100%;
+        width: 100%;
+        transform: scaleX(var(--line-progress, 0));
+        transform-origin: left;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        box-shadow: 0 0 24px rgba(245, 158, 11, 0.32);
+      }
+    }
+
+    .phase {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem;
+      position: relative;
+      transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), opacity 0.3s var(--ease), filter 0.3s var(--ease), box-shadow 0.3s var(--ease);
+      z-index: 1;
+      overflow: visible;
+      opacity: 0.58;
+      filter: saturate(0.74);
+    }
+    .phase:hover { transform: translateY(-3px); border-color: var(--primary); }
+    @media (min-width: 900px) {
+      .phase::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: -2.18rem;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: rgba(148, 163, 184, 0.9);
+        border: 3px solid var(--bg-soft);
+        transform: translateX(-50%) scale(0.88);
+        box-shadow: 0 0 0 rgba(30, 64, 175, 0);
+        transition: background 0.28s var(--ease), box-shadow 0.28s var(--ease), transform 0.28s var(--ease);
+      }
+    }
+    .phase.is-lit {
+      opacity: 1;
+      filter: saturate(1);
+      border-color: color-mix(in srgb, var(--primary) 52%, var(--border));
+      box-shadow: 0 30px 76px -48px rgba(30, 64, 175, 0.5);
+      transform: translateY(-3px);
+    }
+    .phase.is-lit::before {
+      background: var(--accent);
+      transform: translateX(-50%) scale(1.1);
+      box-shadow: 0 0 0 8px rgba(245, 158, 11, 0.14), 0 0 30px rgba(245, 158, 11, 0.5);
+    }
+    .phase .stamp {
+      display: inline-block;
+      padding: 0.3rem 0.65rem;
+      background: var(--primary-tint); color: var(--primary);
+      font-size: 11.5px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      border-radius: 6px; margin-bottom: 1rem;
+    }
+    .phase .fee-chip {
+      display: inline-block;
+      padding: 0.3rem 0.65rem;
+      background: var(--accent-light); color: var(--accent-deep);
+      font-size: 11.5px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      border-radius: 6px; margin: 0 0 1rem 0.5rem;
+    }
+    .phase .title {
+      font-size: 1.4rem; font-weight: 700;
+      letter-spacing: -0.02em; margin-bottom: 1.25rem;
+    }
+    .phase ul { list-style: none; }
+    .phase li {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--line-soft);
+      font-size: 14px; color: var(--text-soft);
+      line-height: 1.5; display: flex; gap: 0.55rem;
+    }
+    .phase li:last-child { border-bottom: 0; }
+    .phase li::before {
+      content: "→"; color: var(--primary);
+      font-weight: 700; flex-shrink: 0;
+    }
+    .phase-diagnostic {
+      opacity: 1;
+      filter: saturate(1);
+      border-color: rgba(30, 64, 175, 0.28);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(30, 64, 175, 0.1), transparent 36%),
+        linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.94));
+      box-shadow: 0 34px 92px -56px rgba(30, 64, 175, 0.52);
+    }
+    .phase-diagnostic .title {
+      font-size: clamp(1.45rem, 2.2vw, 2rem);
+      max-width: 16ch;
+      margin-bottom: 0.8rem;
+    }
+    .phase-diagnostic .diagnostic-copy {
+      color: var(--text-soft);
+      font-size: 14px;
+      line-height: 1.45;
+      max-width: 52ch;
+      margin-bottom: 1rem;
+    }
+    .diagnostic-board {
+      display: grid;
+      gap: 0.65rem;
+      margin: 1rem 0;
+      padding: 0.95rem;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.74);
+    }
+    .diagnostic-row {
+      display: grid;
+      grid-template-columns: minmax(110px, 0.9fr) minmax(120px, 1.2fr) auto;
+      gap: 0.65rem;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+    .diagnostic-row b {
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .diagnostic-track {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(203, 213, 225, 0.55);
+      overflow: hidden;
+    }
+    .diagnostic-track i {
+      display: block;
+      height: 100%;
+      width: var(--w);
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.22);
+    }
+    .report-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.9rem;
+    }
+    .report-pills span {
+      padding: 0.35rem 0.55rem;
+      border-radius: 999px;
+      background: var(--primary-tint);
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .phase .deliverable {
+      margin-top: 1rem;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--line-soft);
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: var(--text-mute);
+    }
+    .phase .deliverable strong {
+      color: var(--text);
+      font-weight: 800;
+    }
+    .timeline-focus {
+      margin-top: 2.6rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+    @media (min-width: 980px) {
+      .timeline-focus {
+        grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.85fr);
+        grid-template-rows: 1fr 1fr;
+      }
+      .timeline-focus .phase-primary { grid-row: 1 / span 2; }
+    }
+    .timeline-focus .phase {
+      box-shadow: 0 20px 60px -42px rgba(11, 20, 55, 0.45);
+    }
+    .timeline-focus .phase-primary {
+      border-color: rgba(30, 64, 175, 0.22);
+      background:
+        radial-gradient(circle at 0 0, rgba(30, 64, 175, 0.08), transparent 38%),
+        var(--bg);
+      padding: clamp(1.5rem, 2vw, 2rem);
+    }
+    .phase-primary .title {
+      font-size: clamp(1.6rem, 2.4vw, 2rem);
+      max-width: 14ch;
+    }
+    .phase-primary .audit-split {
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 720px) {
+      .phase-primary .audit-split { grid-template-columns: 1fr 1fr; }
+    }
+    .phase-primary .baseline-mini {
+      margin-top: 1.25rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+    }
+    .baseline-mini span {
+      padding: 0.7rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg-soft);
+      color: var(--text-soft);
+      font-size: 12.5px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+    .timeline-focus .phase-secondary {
+      padding: 1.35rem;
+      min-height: 0;
+    }
+    .timeline-focus .phase-secondary .title {
+      font-size: 1.15rem;
+      margin-bottom: 0.8rem;
+    }
+    .timeline-focus .phase-secondary li {
+      padding: 0.45rem 0;
+      font-size: 13.5px;
+    }
+    .timeline-focus .deliverable {
+      margin-top: 1rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--line-soft);
+      color: var(--text-mute);
+      font-size: 12.5px;
+      line-height: 1.4;
+    }
+    .timeline-focus .deliverable strong {
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .framework-grid {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+    @media (min-width: 1024px) {
+      .framework-grid { grid-template-columns: 0.9fr 1.1fr; gap: 1.5rem; }
+    }
+    .month-one-card,
+    .benchmark-card,
+    .phase-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 20px 60px -42px rgba(11, 20, 55, 0.45);
+    }
+    .month-one-card { padding: 1.6rem; }
+    .framework-label {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.35rem 0.65rem;
+      background: var(--primary-tint); color: var(--primary);
+      border-radius: 6px;
+      font-size: 11px; font-weight: 800;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .month-one-card h3,
+    .benchmark-card h3 {
+      font-size: 1.35rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+    .month-one-card .copy,
+    .benchmark-card .copy {
+      color: var(--text-soft);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .audit-split {
+      margin-top: 1.35rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+    }
+    @media (min-width: 640px) { .audit-split { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .audit-split { grid-template-columns: 1fr; } }
+    .audit-box {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      background: var(--bg-soft);
+    }
+    .audit-box .day {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .audit-box .title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.55rem;
+    }
+    .audit-box ul { list-style: none; display: grid; gap: 0.45rem; }
+    .audit-box li {
+      color: var(--text-soft);
+      font-size: 13px;
+      line-height: 1.4;
+      display: flex;
+      gap: 0.45rem;
+    }
+    .audit-box li::before {
+      content: "";
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent);
+      margin-top: 0.48rem;
+      flex-shrink: 0;
+    }
+    .benchmark-card {
+      padding: 1.6rem;
+      overflow: hidden;
+      position: relative;
+    }
+    .benchmark-board {
+      margin-top: 1.25rem;
+      display: grid;
+      gap: 0.85rem;
+    }
+    .benchmark-row {
+      display: grid;
+      grid-template-columns: minmax(112px, 0.7fr) 1.5fr;
+      gap: 0.85rem;
+      align-items: center;
+    }
+    .benchmark-row .metric {
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 800;
+      line-height: 1.25;
+    }
+    .benchmark-row .metric span {
+      display: block;
+      margin-top: 0.2rem;
+      color: var(--text-mute);
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .benchmark-track {
+      position: relative;
+      height: 34px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: linear-gradient(90deg, #F8FAFC 0%, #EFF6FF 42%, #FEF3C7 72%, #D1FAE5 100%);
+      overflow: hidden;
+    }
+    .benchmark-track::selection { background: transparent; }
+    .benchmark-track::before,
+    .benchmark-track::after {
+      content: "";
+      position: absolute; top: 0; bottom: 0;
+      width: 1px; background: rgba(15, 23, 42, 0.12);
+    }
+    .benchmark-track::before { left: 45%; }
+    .benchmark-track::after { left: 74%; }
+    .benchmark-marker {
+      position: absolute;
+      top: 50%;
+      left: var(--pos);
+      transform: translate(-50%, -50%);
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--navy);
+      border: 3px solid #FFF;
+      box-shadow: 0 0 0 1px rgba(11, 20, 55, 0.2), 0 6px 16px rgba(11, 20, 55, 0.18);
+    }
+    .benchmark-marker.target {
+      background: var(--emerald);
+      left: var(--target);
+    }
+    .reveal-up.in .benchmark-marker {
+      animation: marker-land 820ms var(--spring) both;
+    }
+    .reveal-up.in .benchmark-marker.target { animation-delay: 160ms; }
+    @keyframes marker-land {
+      from { transform: translate(-50%, -50%) scale(0.72); opacity: 0; }
+      to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+    .benchmark-legend {
+      margin-top: 0.9rem;
+      display: flex; flex-wrap: wrap;
+      gap: 0.5rem 0.8rem;
+      color: var(--text-mute);
+      font-size: 11.5px;
+      font-family: var(--mono);
+    }
+    .legend-dot {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+    }
+    .legend-dot::before {
+      content: ""; width: 8px; height: 8px;
+      border-radius: 50%; background: var(--navy);
+    }
+    .legend-dot.target::before { background: var(--emerald); }
+    .phase-strip {
+      margin-top: 1.25rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      position: relative;
+    }
+    .timeline-progress {
+      margin-top: 2rem;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(203, 213, 225, 0.68);
+      overflow: hidden;
+      position: relative;
+      box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.08);
+    }
+    .timeline-progress span {
+      display: block;
+      height: 100%;
+      width: 100%;
+      transform: scaleX(var(--phase-progress, 0));
+      transform-origin: left;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: inherit;
+      box-shadow: 0 0 22px rgba(245, 158, 11, 0.26);
+    }
+    @media (min-width: 900px) { .phase-strip { grid-template-columns: repeat(3, 1fr); } }
+    .phase-card {
+      padding: 1.25rem;
+      min-height: 230px;
+      display: flex;
+      flex-direction: column;
+    }
+    .phase-card .stamp {
+      font-family: var(--mono);
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 0.85rem;
+    }
+    .phase-card .title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+    .phase-card p {
+      font-size: 13.5px;
+      color: var(--text-soft);
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+    .phase-card .deliverable {
+      margin-top: auto;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--line-soft);
+      font-size: 12px;
+      color: var(--text-mute);
+      line-height: 1.45;
+    }
+    .phase-card .deliverable strong {
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    /* ============================================================
+       SLIDE · COMPARISON (the same job, three ways)
+       ============================================================ */
+    .compare-wrap { margin-top: 2.6rem; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 16px; }
+    .compare-table {
+      width: 100%; min-width: 780px;
+      border-collapse: separate; border-spacing: 0;
+      background: var(--bg-card, #fff);
+      border: 1px solid var(--border); border-radius: 16px;
+      overflow: hidden;
+    }
+    .compare-table th, .compare-table td {
+      padding: 1rem 1.15rem; text-align: left;
+      font-size: 0.94rem; color: var(--text-soft);
+      border-top: 1px solid var(--line-soft); vertical-align: top;
+    }
+    .compare-table thead th {
+      border-top: none;
+      font-family: var(--mono); font-size: 11.5px; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--text-mute); background: var(--bg-soft);
+    }
+    .compare-table tbody th { font-weight: 700; color: var(--text); width: 18%; }
+    .compare-table td.kw { background: var(--primary-tint); color: var(--text); font-weight: 600; border-left: 1px solid var(--primary-light); }
+    .compare-table thead th.kw { background: var(--primary-tint); color: var(--primary); border-left: 1px solid var(--primary-light); }
+    .compare-note { margin-top: 1.4rem; font-size: 0.95rem; color: var(--text-soft); max-width: 72ch; }
+    .compare-note strong { color: var(--text); }
+
+    /* ============================================================
+       SLIDE · CONTROL (we operate, you approve)
+       ============================================================ */
+    .control-grid { margin-top: 2.6rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+    @media (max-width: 900px) { .control-grid { grid-template-columns: 1fr; } }
+    .control-card {
+      background: var(--bg-card, #fff);
+      border: 1px solid var(--border); border-radius: 16px;
+      padding: 1.5rem 1.6rem;
+      display: flex; flex-direction: column;
+    }
+    .control-card .gate {
+      align-self: flex-start;
+      font-family: var(--mono); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      border-radius: 999px; padding: 4px 11px; margin-bottom: 1rem;
+    }
+    .control-card .gate.amber { background: var(--accent-light); color: var(--accent-deep); border: 1px solid #FDE68A; }
+    .control-card .gate.green { background: var(--emerald-light); color: var(--emerald); border: 1px solid #A7F3D0; }
+    .control-card .gate.blue { background: var(--primary-tint); color: var(--primary); border: 1px solid var(--primary-light); }
+    .control-card .title { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 0.9rem; }
+    .control-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; margin: 0 0 1.1rem; padding: 0; }
+    .control-card li { font-size: 0.93rem; color: var(--text-soft); padding-left: 1.1rem; position: relative; }
+    .control-card li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 6px; height: 6px; border-radius: 50%; background: var(--border-strong); }
+    .control-card .foot { margin-top: auto; font-size: 0.85rem; color: var(--text-mute); border-top: 1px solid var(--line-soft); padding-top: 0.9rem; }
+
+    /* ============================================================
+       SLIDE 10 · PRICING
+       ============================================================ */
+    .slide-11 {}
+    .slide-11 h2 {
+      font-size: clamp(2.2rem, 4.8vw, 3.8rem);
+      max-width: 22ch;
+    }
+    .slide-11 h2 .h { color: var(--primary); }
+    .slide-11 .lede { margin-top: 1.25rem; max-width: 60ch; }
+
+    .audit-band {
+      margin-top: 2rem;
+      display: flex; align-items: baseline; gap: 0.9rem; flex-wrap: wrap;
+      background: var(--accent-light);
+      border: 1px solid #FDE68A;
+      border-radius: 14px;
+      padding: 0.95rem 1.2rem;
+    }
+    .audit-band .step {
+      font-family: var(--mono);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent-deep); white-space: nowrap;
+    }
+    .audit-band p { font-size: 0.98rem; color: var(--text-soft); margin: 0; }
+    .audit-band p strong { color: var(--text); }
+
+    .rate-tiers {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.9rem;
+    }
+    .rate-tiers .tier {
+      background: var(--bg-card, #fff);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.05rem 1.2rem;
+      transition: border-color 0.3s var(--ease), background 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    }
+    .rate-tiers .tier .range {
+      font-family: var(--mono);
+      font-size: 11.5px; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--text-mute);
+    }
+    .rate-tiers .tier .rate {
+      font-size: 2.1rem; font-weight: 800;
+      letter-spacing: -0.03em; line-height: 1.1;
+      color: var(--text); margin: 0.3rem 0 0.15rem;
+    }
+    .rate-tiers .tier .hint { font-size: 0.85rem; color: var(--text-soft); }
+    .rate-tiers .tier.active {
+      border-color: var(--primary);
+      background: var(--primary-tint);
+      box-shadow: 0 12px 32px -20px rgba(30, 64, 175, 0.5);
+    }
+    .rate-tiers .tier.active .rate { color: var(--primary); }
+    @media (max-width: 680px) { .rate-tiers { grid-template-columns: 1fr; } }
+
+    .applied-rate {
+      font-family: var(--mono); font-size: 12px; font-weight: 600;
+      color: var(--primary); background: var(--primary-tint);
+      border: 1px solid var(--primary-light); border-radius: 999px;
+      padding: 2px 9px; margin-left: 0.5rem; vertical-align: middle;
+      white-space: nowrap;
+    }
+    .gmv-note {
+      margin-top: 1.6rem;
+      font-size: 0.9rem; line-height: 1.55;
+      color: var(--text-soft); max-width: 78ch;
+      border-left: 3px solid var(--primary-light);
+      padding-left: 1rem;
+    }
+    .gmv-note strong { color: var(--text); }
+
+    .price-flow {
+      margin-top: 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      align-items: stretch;
+      padding: 1.5rem;
+      border: 1px solid rgba(226, 232, 240, 0.72);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(30,64,175,0.08), transparent 34%),
+        rgba(248, 250, 252, 0.72);
+      box-shadow: 0 28px 80px -48px rgba(11, 20, 55, 0.36);
+    }
+    @media (min-width: 960px) { .price-flow { grid-template-columns: 0.9fr 1.1fr; } }
+    @media (max-width: 768px) {
+      .price-flow { grid-template-columns: 1fr; }
+      .price-arrow { transform: rotate(90deg); margin: 0 auto; }
+    }
+    .gmv-control {
+      padding: 1.75rem;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(226, 232, 240, 0.82);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+    }
+    .gmv-control .kicker,
+    .gmv-control .range-labels {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-mute);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .gmv-control .gmv-value {
+      margin-top: 0.7rem;
+      font-size: clamp(2rem, 4vw, 3.35rem);
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      color: var(--primary);
+      line-height: 1;
+    }
+    .gmv-control input[type="range"] {
+      width: 100%;
+      margin-top: 2rem;
+      appearance: none;
+      -webkit-appearance: none;
+      height: 9px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) var(--fill, 11%), rgba(203,213,225,0.72) var(--fill, 11%));
+      outline: none;
+      cursor: pointer;
+    }
+    .gmv-control input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      border: 4px solid #FFF;
+      background: var(--navy);
+      box-shadow: 0 10px 24px rgba(11, 20, 55, 0.28);
+      cursor: grab;
+    }
+    .gmv-control input[type="range"]::-moz-range-thumb {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 4px solid #FFF;
+      background: var(--navy);
+      box-shadow: 0 10px 24px rgba(11, 20, 55, 0.28);
+      cursor: grab;
+    }
+    .gmv-control .range-labels {
+      margin-top: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .price-results {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 700px) { .price-results { grid-template-columns: 1fr 1fr; } }
+    .price-card {
+      padding: 2rem; border-radius: 14px;
+      border: 1px solid var(--border); background: var(--bg);
+      display: flex; flex-direction: column; justify-content: space-between;
+      min-height: 240px;
+      box-shadow: 0 24px 70px -48px rgba(11, 20, 55, 0.36);
+    }
+    .price-card.after {
+      background: var(--navy); color: #FFF; border-color: var(--navy);
+    }
+    .price-card .label {
+      font-size: 11.5px; letter-spacing: 0.16em;
+      text-transform: uppercase; font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+    .price-card.before .label { color: var(--text-mute); }
+    .price-card.after .label { color: rgba(255, 255, 255, 0.62); }
+    .price-card .price {
+      font-size: clamp(2.4rem, 4.6vw, 3.5rem);
+      font-weight: 800; letter-spacing: -0.04em;
+      line-height: 1; margin-bottom: 0.5rem;
+    }
+    .price-card.before .price {
+      color: var(--text-mute);
+      text-decoration: line-through;
+      text-decoration-color: var(--rose);
+      text-decoration-thickness: 2px;
+    }
+    .price-card.after .price { color: var(--accent); }
+    .price-card .note {
+      font-size: 14px; line-height: 1.45; font-weight: 500;
+    }
+    .price-card.before .note { color: var(--text-mute); }
+    .price-card.after .note { color: rgba(255, 255, 255, 0.78); }
+    .savings-band {
+      margin-top: 1rem;
+      grid-column: 1 / -1;
+      padding: 1rem 1.15rem;
+      border-radius: 12px;
+      background: rgba(209, 250, 229, 0.64);
+      border: 1px solid rgba(5, 150, 105, 0.18);
+      color: #064E3B;
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .savings-band span {
+      font-weight: 800;
+      color: var(--emerald);
+    }
+    .price-arrow {
+      align-self: center;
+      width: 56px; height: 2px;
+      background: var(--text); position: relative;
+    }
+    .price-arrow::after {
+      content: ""; position: absolute;
+      right: -1px; top: -7px;
+      width: 0; height: 0;
+      border-left: 12px solid var(--text);
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+    }
+
+    .included {
+      margin-top: 3rem;
+      padding: 1.75rem 2rem;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+    .included .head {
+      display: flex; align-items: baseline;
+      justify-content: space-between; flex-wrap: wrap;
+      gap: 0.5rem 1.5rem; margin-bottom: 1.25rem;
+    }
+    .included .label {
+      font-size: 12.5px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--primary);
+    }
+    .included .head .price-callout {
+      font-size: 14.5px; color: var(--text-soft);
+      font-weight: 500;
+    }
+    .included .head .price-callout strong {
+      color: var(--accent); font-weight: 700;
+    }
+    .included .items {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.6rem 1rem;
+    }
+    @media (min-width: 700px) { .included .items { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .included .items { grid-template-columns: 1fr 1fr 1fr; } }
+    .included .item {
+      font-size: 14.5px; color: var(--text);
+      display: flex; align-items: start; gap: 0.55rem;
+      line-height: 1.4;
+    }
+    .included .item::before {
+      content: "✓"; color: var(--emerald);
+      font-weight: 800; flex-shrink: 0;
+    }
+
+    /* ============================================================
+       SLIDE 11 · CLOSE
+       ============================================================ */
+    .slide-12 {
+      background: var(--navy); color: #FFF;
+      overflow: hidden;
+    }
+    .slide-12::before {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(140deg, rgba(11, 20, 55, 0.42), rgba(11, 20, 55, 0.08));
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    .slide-12 .wrap { position: relative; z-index: 1; }
+    .slide-12 h2 {
+      color: #FFF;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 0.98;
+      margin-top: 1.5rem;
+      max-width: 22ch;
+    }
+    .slide-12 h2 .accent { color: var(--accent); }
+    .slide-12 .sub {
+      margin-top: 2rem;
+      font-size: clamp(1.2rem, 1.7vw, 1.4rem);
+      color: rgba(255, 255, 255, 0.78);
+      max-width: 56ch; line-height: 1.5;
+    }
+    .slide-12 .cta-row { margin-top: 3rem; }
+
+    /* ---------- footer ---------- */
+    footer {
+      background: #050B22;
+      color: rgba(255, 255, 255, 0.55);
+      padding: 2.25rem var(--pad);
+      font-size: 13px;
+      display: flex; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    footer strong { color: #FFF; font-weight: 700; }
+
+    /* ---------- animations ---------- */
+    .reveal-up {
+      opacity: 0;
+      transform: translateY(28px) scale(0.985);
+      filter: blur(8px);
+      transition:
+        opacity 900ms var(--spring-soft),
+        transform 900ms var(--spring-soft),
+        filter 900ms var(--spring-soft);
+      transition-delay: var(--d, 0ms);
+      will-change: transform, opacity, filter;
+    }
+    .reveal-up.in { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    .stagger > * { transition-delay: var(--d, 0ms); }
+
+    .kinetic-heading {
+      opacity: 1;
+      transform-style: preserve-3d;
+      perspective: 900px;
+    }
+    .kt-mask {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+      padding-bottom: 0.2em;
+      margin-bottom: -0.14em;
+    }
+    .kt-word {
+      display: inline-block;
+      transform-origin: 50% 100%;
+      will-change: transform, opacity, filter;
+      backface-visibility: hidden;
+      line-height: 1.08;
+    }
+    .kinetic-heading.is-revealed .kt-mask { overflow: visible; }
+
+    ::selection { background: var(--accent); color: var(--navy); }
+
+    /* ============================================================
+       SLIDE 2 · COORDINATION STORY (five agencies vs one team)
+       ============================================================ */
+    .coord-stage { display: flex; flex-direction: column; gap: 1.35rem; margin-top: 2.75rem; }
+
+    .coord-controls {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap;
+    }
+    .coord-toggle {
+      display: inline-flex; gap: 3px;
+      background: var(--bg-elev); border: 1px solid var(--border);
+      border-radius: 11px; padding: 4px;
+    }
+    .coord-tab {
+      font-family: var(--font); font-weight: 600; font-size: 14px;
+      letter-spacing: -0.005em; color: var(--text-mute);
+      padding: 0.55rem 1.05rem; border: 0; border-radius: 8px;
+      background: transparent; cursor: pointer;
+      transition: background 0.22s var(--ease), color 0.22s var(--ease);
+    }
+    .coord-tab:hover { color: var(--text-soft); }
+    .coord-tab.active { background: var(--navy); color: #FFF; }
+    .coord-tab:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .coord-replay {
+      font-family: var(--font); font-weight: 600; font-size: 13.5px;
+      color: var(--text-soft); background: transparent;
+      border: 1px solid var(--border-strong); border-radius: 9px;
+      padding: 0.55rem 0.95rem; cursor: pointer;
+      transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+    }
+    .coord-replay:hover { background: var(--bg-elev); border-color: var(--text-mute); }
+    .coord-replay:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+    .coord-canvas {
+      position: relative; border-radius: 20px; overflow: hidden;
+      background: radial-gradient(125% 130% at 50% -10%, #16224E 0%, #0B1437 58%, #060A1E 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 28px 70px -30px rgba(11, 20, 55, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    .coord-canvas > svg { display: block; width: 100%; height: auto; }
+
+    /* act group visibility */
+    .coord-stage[data-act="today"] #coordActKwik,
+    .coord-stage[data-act="kwik"] #coordActToday { display: none; }
+    .coord-stage[data-act="today"] .coord-chiprow[data-for="kwik"],
+    .coord-stage[data-act="kwik"] .coord-chiprow[data-for="today"] { display: none; }
+    .coord-stage[data-act="kwik"] .coord-salebar { display: none; }
+
+    /* nodes */
+    .coord-node {
+      display: flex; flex-direction: column; justify-content: center;
+      align-items: center; text-align: center;
+      height: 100%; box-sizing: border-box;
+      padding: 0.4rem 0.6rem; border-radius: 13px;
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #FFF;
+      opacity: 0; transform: translateY(12px) scale(0.92);
+      transition: opacity 0.5s var(--ease-out), transform 0.55s var(--spring-soft), filter 0.4s var(--ease);
+      transition-delay: calc(var(--i, 0) * 90ms);
+      backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    }
+    .coord-act.is-nodes .coord-node { opacity: 1; transform: none; }
+    .coord-act.is-nodes .coord-node.is-dim { opacity: 0.32; filter: grayscale(0.75); }
+    .coord-node .coord-role { font-size: 14.5px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.12; }
+    .coord-node .coord-sub { font-size: 10.5px; font-weight: 500; color: rgba(255, 255, 255, 0.62); margin-top: 3px; font-family: var(--mono); letter-spacing: 0.01em; line-height: 1.2; }
+    .coord-node.coord-you {
+      background: linear-gradient(158deg, rgba(245, 158, 11, 0.24), rgba(245, 158, 11, 0.07));
+      border-color: rgba(245, 158, 11, 0.42);
+    }
+    .coord-node.coord-you .coord-role { font-size: 17px; }
+    .coord-node.coord-hub {
+      background: linear-gradient(158deg, rgba(30, 64, 175, 0.5), rgba(30, 64, 175, 0.16));
+      border-color: rgba(120, 160, 255, 0.55);
+      box-shadow: 0 0 34px -6px rgba(59, 110, 240, 0.55);
+    }
+    .coord-node.coord-hub .coord-role { font-size: 20px; }
+    .coord-node.coord-hub .coord-sub { color: rgba(190, 210, 255, 0.78); }
+
+    /* connectors */
+    .coord-line, .coord-wire {
+      opacity: 0; transition: opacity 0.6s var(--ease-out);
+      transition-delay: calc(var(--i, 0) * 80ms);
+    }
+    .coord-act.is-lines .coord-line, .coord-act.is-lines .coord-wire { opacity: 1; }
+    .coord-line { stroke: rgba(255, 255, 255, 0.24); stroke-width: 1.4; stroke-dasharray: 5 7; }
+    .coord-act.is-lines .coord-line { animation: coord-march 24s linear infinite; }
+    .coord-wire { stroke: rgba(96, 140, 240, 0.5); stroke-width: 1.5; }
+    .coord-wire.main { stroke: rgba(130, 170, 255, 0.9); stroke-width: 2.4; }
+    @keyframes coord-march { to { stroke-dashoffset: -240; } }
+
+    /* pulse ring */
+    .coord-pulse {
+      fill: none; stroke: var(--accent); stroke-width: 2.5; opacity: 0;
+      transform-box: fill-box; transform-origin: center;
+    }
+    .coord-pulse.is-pulse { animation: coord-ping 1.5s var(--ease-out) 2; }
+    @keyframes coord-ping {
+      0% { opacity: 0.55; transform: scale(0.5); }
+      70% { opacity: 0; }
+      100% { opacity: 0; transform: scale(1.95); }
+    }
+
+    /* badges */
+    .coord-canvas foreignObject { overflow: visible; }
+    .coord-badge-wrap { text-align: center; }
+    .coord-badge {
+      display: inline-block; white-space: nowrap;
+      font-family: var(--mono); font-size: 10.5px; font-weight: 600;
+      padding: 3px 8px; border-radius: 6px; line-height: 1.2;
+      opacity: 0; transform: translateY(6px) scale(0.82);
+      transition: opacity 0.35s var(--ease-out), transform 0.45s var(--spring);
+    }
+    .coord-badge.on { opacity: 1; transform: none; }
+    .coord-badge.sale { background: rgba(245, 158, 11, 0.16); color: #FCD34D; border: 1px solid rgba(245, 158, 11, 0.42); }
+    .coord-badge.miss { background: rgba(225, 29, 72, 0.14); color: #FDA4AF; border: 1px dashed rgba(225, 29, 72, 0.5); }
+    .coord-badge.live { background: rgba(5, 150, 105, 0.2); color: #6EE7B7; border: 1px solid rgba(16, 185, 129, 0.5); }
+
+    /* sale window bar */
+    .coord-salebar {
+      position: absolute; left: 24px; right: 24px; bottom: 16px;
+      opacity: 0; transition: opacity 0.4s var(--ease);
+    }
+    .coord-salebar.show { opacity: 1; }
+    .coord-salebar .lbl {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-family: var(--mono); font-size: 10.5px; color: rgba(255, 255, 255, 0.58);
+      margin-bottom: 5px; letter-spacing: 0.02em;
+    }
+    .coord-salebar .track { height: 4px; border-radius: 3px; background: rgba(255, 255, 255, 0.12); overflow: hidden; }
+    .coord-salebar .fill {
+      height: 100%; width: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--rose));
+      transform-origin: left; transition: width 4200ms linear;
+    }
+    .coord-salebar.is-depleting .fill { width: 0; }
+    .coord-salebar.is-empty .fill { width: 0; transition: none; }
+
+    /* caption + chips */
+    .coord-caption {
+      min-height: 1.6em; text-align: center; margin: 0;
+      font-size: clamp(1.05rem, 1.7vw, 1.25rem); font-weight: 600;
+      letter-spacing: -0.015em; color: var(--text);
+      transition: opacity 0.3s var(--ease);
+    }
+    .coord-caption.warn { color: var(--rose); }
+    .coord-caption.good { color: var(--primary); }
+    .coord-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+    .coord-chiprow { display: contents; }
+    .coord-chip {
+      font-family: var(--mono); font-size: 12.5px; font-weight: 500;
+      color: var(--text-soft); background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: 999px;
+      padding: 0.4rem 0.85rem;
+      opacity: 0; transform: translateY(6px);
+      transition: opacity 0.4s var(--ease-out), transform 0.4s var(--spring-soft);
+    }
+    .coord-chip.on { opacity: 1; transform: none; }
+
+    @media (max-width: 680px) {
+      .coord-stage { gap: 1rem; margin-top: 1.75rem; }
+      .coord-controls { justify-content: center; }
+      .coord-tab { padding: 0.5rem 0.85rem; font-size: 13px; }
+      .coord-salebar { left: 14px; right: 14px; bottom: 10px; }
+      .coord-chip { font-size: 11.5px; padding: 0.35rem 0.7rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      .reveal-up { opacity: 1; transform: none; filter: none; }
+      .kt-word { transform: none !important; opacity: 1 !important; filter: none !important; }
+      .ambient-canvas { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav class="top">
+  <span class="brand-mark"><span class="logo">K</span> KwikShop</span>
+  <span class="by">prepared for Nashira</span>
+</nav>
+
+<!-- ============================================================ -->
+<!-- SLIDE 1 · POSITIONING -->
+<!-- ============================================================ -->
+<section class="slide slide-1" id="s1">
+  <span class="slide-num">01 / 15 · Positioning</span>
+  <div class="wrap">
+    <div class="grid">
+      <div class="reveal-up in">
+        <p class="eyebrow">For the Nashira team</p>
+        <h1 style="margin-top: 1.5rem;">
+          Founders know the <span class="underline">product</span>.<br>
+          <span class="accent">We know the market.</span>
+        </h1>
+      </div>
+      <div class="right reveal-up" style="--d: 280ms;">
+        <p class="lede" style="margin: 0;">
+          You know your designs, your charms, and the customers who wear a story rather than a
+          trend. We know what converts in Indian D2C — across <strong>15,000+ brands</strong> and
+          <strong>200M+ shoppers on the GoKwik network</strong>. Nashira reaches more of those
+          buyers, keeps more of the orders it already wins, and sells a stack instead of a single piece.
+        </p>
+        <div class="pills">
+          <span class="pill live">Your designs</span>
+          <span class="pill live">Your customers</span>
+          <span class="pill live">Your brand</span>
+          <span class="pill">Our data</span>
+          <span class="pill">Our AI agents</span>
+        </div>
+        <div class="cta-row">
+          <a href="#s2" class="btn btn-primary">
+            See the proof first
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#s8" class="btn btn-ghost">Skip to pricing</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2 · THE REAL PROBLEM (animated coordination story) -->
+<!-- ============================================================ -->
+<section class="slide soft" id="s2-coord">
+  <div class="slide-num">02 / 15 · The real problem</div>
+  <div class="wrap">
+    <span class="eyebrow muted reveal-up">The part nobody prices in</span>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">Five agencies. Zero rooms.</h2>
+    <p class="lede reveal-up" style="--d: 220ms;">Every growth lever lives with a different agency — and they never
+    sit in the same room. Ads doesn't know what the site changed. Retention doesn't know what
+    checkout is offering. You carry the context between them. That coordination is
+    unpaid, full-time work — and it lands on your team.</p>
+    <div class="coord-stage reveal-up" style="--d: 340ms;" id="coordStage" data-act="today">
+      <div class="coord-controls">
+        <div class="coord-toggle" role="tablist" aria-label="Coordination scenario">
+          <button class="coord-tab active" data-act="today" role="tab" aria-selected="true">Today</button>
+          <button class="coord-tab" data-act="kwik" role="tab" aria-selected="false">With KwikShop</button>
+        </div>
+        <button class="coord-replay" aria-label="Replay animation">↻ Replay</button>
+      </div>
+      <div class="coord-canvas">
+        <svg viewBox="0 0 960 540" role="img" aria-label="Diagram comparing five disconnected agencies today versus one KwikShop point of contact">
+          <!-- ============ ACT: TODAY ============ -->
+          <g id="coordActToday" class="coord-act">
+            <line class="coord-line" style="--i:0" x1="480" y1="270" x2="480" y2="95"/>
+            <line class="coord-line" style="--i:1" x1="480" y1="270" x2="822" y2="216"/>
+            <line class="coord-line" style="--i:2" x1="480" y1="270" x2="692" y2="412"/>
+            <line class="coord-line" style="--i:3" x1="480" y1="270" x2="268" y2="412"/>
+            <line class="coord-line" style="--i:4" x1="480" y1="270" x2="138" y2="216"/>
+            <circle class="coord-pulse" cx="480" cy="270" r="56"/>
+            <foreignObject x="396" y="65" width="168" height="60"><div class="coord-node" style="--i:1"><span class="coord-role">SEO agency</span></div></foreignObject>
+            <foreignObject x="738" y="186" width="168" height="60"><div class="coord-node" style="--i:2"><span class="coord-role">Ads agency</span></div></foreignObject>
+            <foreignObject x="608" y="382" width="168" height="60"><div class="coord-node" style="--i:3"><span class="coord-role">Checkout partner</span></div></foreignObject>
+            <foreignObject x="184" y="382" width="168" height="60"><div class="coord-node" data-dim style="--i:4"><span class="coord-role">Retention / CRM agency</span></div></foreignObject>
+            <foreignObject x="54" y="186" width="168" height="60"><div class="coord-node" style="--i:5"><span class="coord-role">Design freelancer</span></div></foreignObject>
+            <foreignObject x="396" y="238" width="168" height="64"><div class="coord-node coord-you" style="--i:0"><span class="coord-role">You</span></div></foreignObject>
+            <foreignObject x="747" y="250" width="150" height="30"><div class="coord-badge-wrap"><span class="coord-badge sale" data-delay="3600">Ads live · Day 1</span></div></foreignObject>
+            <foreignObject x="405" y="129" width="150" height="30"><div class="coord-badge-wrap"><span class="coord-badge sale" data-delay="4600">SEO updated · Day 4</span></div></foreignObject>
+            <foreignObject x="597" y="446" width="190" height="30"><div class="coord-badge-wrap"><span class="coord-badge sale" data-delay="5600">Checkout discount · Day 6</span></div></foreignObject>
+            <foreignObject x="63" y="250" width="150" height="30"><div class="coord-badge-wrap"><span class="coord-badge sale" data-delay="6600">PDP banner · Day 9</span></div></foreignObject>
+            <foreignObject x="178" y="446" width="190" height="30"><div class="coord-badge-wrap"><span class="coord-badge miss" data-delay="7000">…didn't hear about it</span></div></foreignObject>
+          </g>
+          <!-- ============ ACT: WITH KWIKSHOP ============ -->
+          <g id="coordActKwik" class="coord-act">
+            <line class="coord-wire main" style="--i:0" x1="234" y1="270" x2="352" y2="270"/>
+            <line class="coord-wire" style="--i:1" x1="548" y1="270" x2="685" y2="70"/>
+            <line class="coord-wire" style="--i:1" x1="548" y1="270" x2="685" y2="158"/>
+            <line class="coord-wire" style="--i:1" x1="548" y1="270" x2="685" y2="246"/>
+            <line class="coord-wire" style="--i:1" x1="548" y1="270" x2="685" y2="334"/>
+            <line class="coord-wire" style="--i:1" x1="548" y1="270" x2="685" y2="422"/>
+            <circle class="coord-pulse" cx="150" cy="270" r="50"/>
+            <foreignObject x="66" y="238" width="168" height="64"><div class="coord-node coord-you" style="--i:0"><span class="coord-role">You</span></div></foreignObject>
+            <foreignObject x="352" y="224" width="196" height="92"><div class="coord-node coord-hub" style="--i:0"><span class="coord-role">KwikShop</span><span class="coord-sub">One point of contact</span></div></foreignObject>
+            <foreignObject x="685" y="42" width="150" height="56"><div class="coord-node" style="--i:0"><span class="coord-role">SEO</span></div></foreignObject>
+            <foreignObject x="685" y="130" width="150" height="56"><div class="coord-node" style="--i:0"><span class="coord-role">Ads</span></div></foreignObject>
+            <foreignObject x="685" y="218" width="150" height="56"><div class="coord-node" style="--i:0"><span class="coord-role">Checkout</span></div></foreignObject>
+            <foreignObject x="685" y="306" width="150" height="56"><div class="coord-node" style="--i:0"><span class="coord-role">PDP &amp; homepage</span></div></foreignObject>
+            <foreignObject x="685" y="394" width="150" height="56"><div class="coord-node" style="--i:0"><span class="coord-role">Retention</span></div></foreignObject>
+            <foreignObject x="843" y="57" width="104" height="26"><div class="coord-badge-wrap"><span class="coord-badge live" data-delay="3600">Live · Day 1</span></div></foreignObject>
+            <foreignObject x="843" y="145" width="104" height="26"><div class="coord-badge-wrap"><span class="coord-badge live" data-delay="3600">Live · Day 1</span></div></foreignObject>
+            <foreignObject x="843" y="233" width="104" height="26"><div class="coord-badge-wrap"><span class="coord-badge live" data-delay="3600">Live · Day 1</span></div></foreignObject>
+            <foreignObject x="843" y="321" width="104" height="26"><div class="coord-badge-wrap"><span class="coord-badge live" data-delay="3600">Live · Day 1</span></div></foreignObject>
+            <foreignObject x="843" y="409" width="104" height="26"><div class="coord-badge-wrap"><span class="coord-badge live" data-delay="3600">Live · Day 1</span></div></foreignObject>
+          </g>
+        </svg>
+        <div class="coord-salebar">
+          <div class="lbl"><span>Sale window</span><span>closing…</span></div>
+          <div class="track"><div class="fill"></div></div>
+        </div>
+      </div>
+      <p class="coord-caption" id="coordCaption" aria-live="polite"></p>
+      <div class="coord-chips" id="coordChips">
+        <div class="coord-chiprow" data-for="today">
+          <span class="coord-chip" data-delay="1000">5 retainers</span>
+          <span class="coord-chip" data-delay="1400">5 weekly calls</span>
+          <span class="coord-chip" data-delay="1800">5 versions of the truth</span>
+          <span class="coord-chip" data-delay="2200">1 project manager: you</span>
+        </div>
+        <div class="coord-chiprow" data-for="kwik">
+          <span class="coord-chip" data-delay="1000">1 point of contact</span>
+          <span class="coord-chip" data-delay="1400">1 weekly call</span>
+          <span class="coord-chip" data-delay="1800">1 shared plan</span>
+          <span class="coord-chip" data-delay="2200">0 coordination on your desk</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3 · PROOF -->
+<!-- ============================================================ -->
+<section class="slide slide-2 dark" id="s2">
+  <canvas class="ambient-canvas" data-ambient="proof-particles"></canvas>
+  <div class="dot-grid"></div>
+  <span class="slide-num">03 / 15 · Proof</span>
+  <div class="wrap">
+    <div class="proof-hero-grid">
+      <div>
+        <p class="eyebrow cream no-line reveal-up"><span class="dot"></span>The ground we stand on</p>
+        <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+          <span class="accent">15,000+ brands.</span><br>
+          Already running on what we know.
+        </h2>
+        <p class="lede reveal-up" style="--d: 220ms;">
+          The network gives us the pattern library before Nashira spends a rupee testing it.
+        </p>
+      </div>
+    </div>
+
+    <div class="proof-stats stagger">
+      <div class="proof-stat reveal-up" style="--d: 320ms;">
+        <p class="num" data-count="15000" data-suffix="+">0</p>
+        <p class="lbl">D2C brands</p>
+        <p class="sub">Already running on the engine</p>
+      </div>
+      <div class="proof-stat reveal-up" style="--d: 400ms;">
+        <p class="num" data-count="200" data-suffix="M+">0</p>
+        <p class="lbl">Shoppers on the GoKwik network</p>
+        <p class="sub">Pre-filled, recognised, retargetable</p>
+      </div>
+      <div class="proof-stat reveal-up" style="--d: 480ms;">
+        <p class="num" data-count="40" data-prefix="+" data-suffix="%">0</p>
+        <p class="lbl">Conversion uplift</p>
+        <p class="sub">vs standard Shopify checkout</p>
+      </div>
+      <div class="proof-stat reveal-up" style="--d: 560ms;">
+        <p class="num" data-count="40" data-prefix="−" data-suffix="%">0</p>
+        <p class="lbl">RTO reduction</p>
+        <p class="sub">via 200+ signal scoring</p>
+      </div>
+    </div>
+
+    <div class="category-proof reveal-up" style="--d: 680ms;">
+      <p class="heading">Growth proof from COD-heavy, occasion-driven Indian brands on GoKwik</p>
+      <div class="proof-row">
+        <div class="case">
+          <div class="brand-line">
+            <span class="brand-logo text-logo">SF</span>
+            <p class="brand">Sanfe</p>
+          </div>
+          <p class="category">COD-heavy D2C</p>
+          <p class="metric-big">34% &rarr; 10%</p>
+          <p class="metric-label">RTO reduction</p>
+        </div>
+        <div class="case">
+          <div class="brand-line">
+            <span class="brand-logo text-logo">SM</span>
+            <p class="brand">Sam &amp; Marshall</p>
+          </div>
+          <p class="category">Lifestyle &amp; accessories</p>
+          <p class="metric-big">61%</p>
+          <p class="metric-label">orders paid upfront</p>
+        </div>
+        <div class="case">
+          <div class="brand-line">
+            <span class="brand-logo text-logo">DH</span>
+            <p class="brand">Divine Hindu</p>
+          </div>
+          <p class="category">Occasion-led</p>
+          <p class="metric-big">4&times;</p>
+          <p class="metric-label">upfront-paid orders</p>
+        </div>
+        <div class="case">
+          <div class="brand-line">
+            <span class="brand-logo text-logo">FC</span>
+            <p class="brand">FanCode</p>
+          </div>
+          <p class="category">Consumer, at scale</p>
+          <p class="metric-big">&minus;15.5%</p>
+          <p class="metric-label">RTO decrease</p>
+        </div>
+        <div class="case">
+          <div class="brand-line">
+            <span class="brand-logo text-logo">SN</span>
+            <p class="brand">Snitch</p>
+          </div>
+          <p class="category">Fashion</p>
+          <p class="metric-big">+40%</p>
+          <p class="metric-label">conversion increase</p>
+        </div>
+        <div class="case">
+          <div class="brand-line">
+            <span class="brand-logo text-logo">AE</span>
+            <p class="brand">Aegte</p>
+          </div>
+          <p class="category">D2C, low-AOV basket</p>
+          <p class="metric-big">+33.8%</p>
+          <p class="metric-label">conversion growth</p>
+        </div>
+      </div>
+      <p class="source-note">Public GoKwik case studies. Brands chosen for the closest structural match to Nashira &mdash; heavy COD mix, occasion-driven demand, and a basket in the same range.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4 · WHERE NASHIRA STANDS (real network data) -->
+<!-- ============================================================ -->
+<section class="slide slide-4" id="s-stand">
+  <span class="slide-num">04 / 15 · Where you stand</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">What our data already says about Nashira</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      The hard part <span class="h">is already working.</span>
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms;">
+      Most brands we meet have a checkout that leaks. Nashira doesn't. Sessions turn into orders
+      faster than the peer median, the payment rails run better than benchmark, and every single
+      prepaid order placed in July reached its customer. The demand is real and the plumbing is
+      sound — which is exactly what makes the next slide worth your time.
+    </p>
+
+    <div class="know-grid stagger">
+
+      <div class="know-card k2 reveal-up" style="--d: 320ms;">
+        <p class="num">01</p>
+        <p class="q">Sessions become orders</p>
+        <div class="answer">
+          <span class="num-callout">61.1%</span> of checkout sessions became orders in July,
+          against a peer median of <span class="num-callout">58.2%</span> for merchants in the
+          same category and basket range. Nashira is ahead of most of that peer set.
+        </div>
+        <p class="meta">+2.9pp vs peer median · July 2026</p>
+      </div>
+
+      <div class="know-card k1 reveal-up" style="--d: 380ms;">
+        <p class="num">02</p>
+        <p class="q">The payment rails are excellent</p>
+        <div class="answer">
+          UPI succeeds <span class="num-callout">96.4%</span> of the time it is attempted, against
+          a normal band of <span class="num-callout">65–75%</span>. OTP delivery is at
+          <span class="num-callout">100%</span> and OTP success at 99.5%. Nothing in the
+          infrastructure is holding this business back.
+        </div>
+        <p class="meta">Payment + login performance · last 30 days</p>
+      </div>
+
+      <div class="know-card k6 reveal-up" style="--d: 440ms;">
+        <p class="num">03</p>
+        <p class="q">Every prepaid order sticks</p>
+        <div class="answer">
+          <span class="num-callout">Zero</span> prepaid orders came back in July — not one.
+          Whatever Nashira sells to a customer who pays upfront, that customer keeps. That single
+          fact is the strongest argument for the opportunity on the next slide.
+        </div>
+        <p class="meta">0 prepaid RTOs of 49 total · July 2026</p>
+      </div>
+
+      <div class="know-card k3 reveal-up" style="--d: 500ms;">
+        <p class="num">04</p>
+        <p class="q">The paid channel is doing its job</p>
+        <div class="answer">
+          Paid clicks are both the largest source of checkout traffic
+          (<span class="num-callout">591</span> sessions) and the best-converting one at
+          <span class="num-callout">30.5%</span> — ahead of every other medium. New shoppers
+          convert at <span class="num-callout">39.1%</span>. Acquisition is not the weak link.
+        </div>
+        <p class="meta">Checkout funnel by medium · last 30 days</p>
+      </div>
+
+      <div class="know-card k5 reveal-up" style="--d: 560ms;">
+        <p class="num">05</p>
+        <p class="q">The stack is already designed</p>
+        <div class="answer">
+          Charm Station, the DIY chains, birthstone and alphabet charms — Nashira has already
+          built the architecture for a customer to buy three pieces instead of one. Most brands
+          in this category are years away from that. It is built; it just isn't merchandised
+          as a bundle yet.
+        </div>
+        <p class="meta">Storefront review · 424 products, 74 collections</p>
+      </div>
+
+      <div class="know-card k4 reveal-up" style="--d: 620ms;">
+        <p class="num">06</p>
+        <p class="q">Customers are already speaking</p>
+        <div class="answer">
+          Reviews are live and rendering on product pages, with structured data attached — so
+          ratings are visible to Google and to AI shopping agents. The reviews say the same thing
+          the data does: shoppers love the customisation, and they talk about delivery.
+        </div>
+        <p class="meta">Public storefront crawl · 25 Aug 2026</p>
+      </div>
+
+    </div>
+
+    <p class="work-closer reveal-up" style="--d: 700ms;">
+      <strong>Where that puts Nashira:</strong> a brand with real demand, a checkout that
+      converts, and a catalogue built for a bigger basket than it is currently selling. Nothing
+      here needs rebuilding. The whole opportunity sits <em>after</em> the order is placed —
+      and in what goes into the bag before it.
+    </p>
+
+    <div class="diagnostic-board reveal-up" style="--d: 780ms; max-width: 640px;">
+      <div class="diagnostic-row">
+        <b>Session-to-order rate</b>
+        <span class="diagnostic-track"><i style="--w: 88%"></i></span>
+        <span>Above peer median</span>
+      </div>
+      <div class="diagnostic-row">
+        <b>Payment success (UPI)</b>
+        <span class="diagnostic-track"><i style="--w: 96%"></i></span>
+        <span>Well ahead of benchmark</span>
+      </div>
+      <div class="diagnostic-row">
+        <b>Login infrastructure</b>
+        <span class="diagnostic-track"><i style="--w: 100%"></i></span>
+        <span>100% OTP delivery</span>
+      </div>
+      <div class="diagnostic-row">
+        <b>Prepaid order quality</b>
+        <span class="diagnostic-track"><i style="--w: 100%"></i></span>
+        <span>Zero returns in July</span>
+      </div>
+    </div>
+
+    <p class="know-footnote reveal-up" style="--d: 860ms;">
+      <em>Source:</em> GoKwik network data for Nashira. Checkout, payment and channel figures
+      cover 26 Jul – 24 Aug 2026; post-purchase figures cover July 2026, the most recently
+      settled month. Peer median is drawn from merchants in the same category and the same
+      ₹1,000–₹1,500 order-value band. Storefront facts from a public crawl on 25 Aug 2026.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5 · WHERE THE HEADROOM IS (real network data) -->
+<!-- ============================================================ -->
+<section class="slide slide-4 soft" id="s-headroom">
+  <span class="slide-num">05 / 15 · Where the headroom is</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">Six numbers worth a closer look</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      You win the order. <span class="h">The opportunity is keeping it.</span>
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms;">
+      Nashira converts well and then ships almost everything cash-on-delivery — and a large share
+      of those parcels turn around before they reach anyone. This is the most fixable problem in
+      Indian D2C, it is the specific thing GoKwik's network was built to solve, and none of it
+      requires one extra rupee of ad spend.
+    </p>
+
+    <div class="know-grid stagger">
+
+      <div class="know-card k6 reveal-up" style="--d: 320ms;">
+        <p class="num">01</p>
+        <p class="q">The return rate is the whole story</p>
+        <div class="answer">
+          Of every 100 orders that reached a settled outcome in July,
+          <span class="num-callout">36</span> came back. For merchants in the same category and
+          basket range, the median is <span class="num-callout">7</span>. In absolute terms:
+          <span class="num-callout">49</span> parcels went out and returned in a single month.
+        </div>
+        <p class="meta">July 2026 · settled orders only</p>
+      </div>
+
+      <div class="know-card k5 reveal-up" style="--d: 380ms;">
+        <p class="num">02</p>
+        <p class="q">And the cause is a single dial</p>
+        <div class="answer">
+          <span class="num-callout">84.6%</span> of orders are cash-on-delivery against a category
+          norm of <span class="num-callout">40.1%</span> — and that share has climbed every month
+          since June. Every one of July's returns was a COD order. <strong>Not a single prepaid
+          order came back.</strong>
+        </div>
+        <p class="meta">Payment mix · last 30 days · trend since June</p>
+      </div>
+
+      <div class="know-card k1 reveal-up" style="--d: 440ms;">
+        <p class="num">03</p>
+        <p class="q">The safety net exists but isn't switched on</p>
+        <div class="answer">
+          GoKwik's risk engine already scores every Nashira shopper, and it is scoring them
+          correctly. But the rules that act on that score are new and narrow — between them they
+          have touched <span class="num-callout">6 orders</span>. The segment carrying
+          <span class="num-callout">40%</span> of traffic and a 47% return rate has effectively
+          nothing on it.
+        </div>
+        <p class="meta">Live intervention rules · reviewed 25 Aug 2026</p>
+      </div>
+
+      <div class="know-card k2 reveal-up" style="--d: 500ms;">
+        <p class="num">04</p>
+        <p class="q">249 shoppers a month never get started</p>
+        <div class="answer">
+          <span class="num-callout">28%</span> of checkout sessions reach the login step and never
+          enter a number. They convert at zero. Recovering even half of them at Nashira's own
+          returning-customer rate is roughly <span class="num-callout">59 orders</span> — about
+          <span class="num-callout">₹74,000</span> a month — from traffic already paid for.
+        </div>
+        <p class="meta">Login analysis · last 30 days · arithmetic on current volume</p>
+      </div>
+
+      <div class="know-card k4 reveal-up" style="--d: 560ms;">
+        <p class="num">05</p>
+        <p class="q">The basket is capped by design, not by demand</p>
+        <div class="answer">
+          <span class="num-callout">91.5%</span> of orders land in one narrow ₹1,000–₹2,000 band,
+          and free shipping starts at <span class="num-callout">₹1,000</span> — below the average
+          order. The threshold is cleared by a single piece, so it never asks for a second one.
+          Nashira's own best week this quarter was <span class="num-callout">₹1,421</span>;
+          today it is ₹1,248.
+        </div>
+        <p class="meta">Basket bands + weekly AOV trend · last 90 days</p>
+      </div>
+
+      <div class="know-card k3 reveal-up" style="--d: 620ms;">
+        <p class="num">06</p>
+        <p class="q">Discounting is carrying weight the offer should carry</p>
+        <div class="answer">
+          <span class="num-callout">82.6%</span> of orders carry a discount averaging
+          <span class="num-callout">18.4%</span> — roughly <span class="num-callout">₹42,000</span>
+          a month, and the depth is rising while order volume falls. A threshold ladder and a
+          charm attach do the same job at a better margin.
+        </div>
+        <p class="meta">Discount spend · last 30 days vs prior 30 days</p>
+      </div>
+
+    </div>
+
+    <p class="work-closer reveal-up" style="--d: 700ms;">
+      <strong>One honest caveat, stated up front:</strong> only about a third of Nashira's
+      shipments currently report a final delivery status back to us. That means the return rate
+      above is a <em>floor</em>, not a ceiling — and it means the first thing we do is fix
+      tracking, so every decision after it stands on solid ground.
+    </p>
+
+    <p class="know-footnote reveal-up" style="--d: 800ms;">
+      <em>Source:</em> GoKwik network data for Nashira. Checkout, payment, login, basket and
+      discount figures cover 26 Jul – 24 Aug 2026. Post-purchase figures cover July 2026, the
+      most recently settled month; August is excluded because it has not settled. Return rate is
+      measured against orders that reached a settled outcome, and is understated while shipment
+      tracking is incomplete. The ₹74,000 figure is arithmetic on current order volume, not a
+      forecast. Free-shipping threshold and catalogue facts from a public storefront crawl on
+      25 Aug 2026.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6 · TWO KINDS OF WORK -->
+<!-- ============================================================ -->
+<section class="slide slide-3" id="s3">
+  <span class="slide-num">06 / 15 · Two kinds of work</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">A different way to split the work</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      What only you know. <span class="h">What we know.</span>
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms;">
+      You own the design, the taste, and the reason someone picks one charm over another. We bring
+      the market patterns from 15,000 brands — including the ones in your category you will never
+      get to see.
+    </p>
+
+    <div class="work-grid stagger">
+      <div class="work-card you reveal-up" style="--d: 320ms;">
+        <span class="label">Yours · always</span>
+        <h3>What only you know</h3>
+        <p class="tag">Brand-led, trusted, irreplaceable.</p>
+        <ul>
+          <li>Design, materials, and every call about what Nashira makes</li>
+          <li>The brand voice and story only Nashira has built</li>
+          <li>Customer trust earned order by order</li>
+        </ul>
+      </div>
+      <div class="work-card us reveal-up" style="--d: 440ms;">
+        <span class="label">Ours · gladly</span>
+        <h3>What we know</h3>
+        <p class="tag">Cross-merchant, data-tested, evolving weekly.</p>
+        <ul>
+          <li>Creative, ROAS, and which offers hold margin</li>
+          <li>Bundle and price ladders that lift the basket</li>
+          <li>Which shoppers to trust with cash-on-delivery, and which to nudge upfront</li>
+          <li>Lifecycle timing and WhatsApp journeys that turn buyers into repeat buyers</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="work-closer reveal-up" style="--d: 580ms;">
+      <strong>Your product instinct + our market intelligence.</strong> Less guessing. More buyers served.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7 · WHAT WE KNOW (6 questions, Nashira's category) -->
+<!-- ============================================================ -->
+<section class="slide slide-4" id="s4">
+  <span class="slide-num">07 / 15 · What we know</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">The data founders don't have</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      Six questions <span class="h">we already answer</span> — for Nashira.
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms;">
+      Benchmarks before spend. Category patterns before experiments.
+    </p>
+
+    <div class="know-grid stagger">
+
+      <div class="know-card k1 reveal-up" style="--d: 320ms;">
+        <p class="num">01</p>
+        <p class="q">Where is the category moving?</p>
+        <div class="answer">
+          Fashion jewellery in India is moving from single statement pieces toward personalised,
+          stackable, everyday-wear collections — charms, initials, birthstones — where the
+          customer assembles the piece. Durability claims like anti-tarnish have become the
+          baseline expectation rather than the differentiator. Nashira is already positioned
+          exactly here.
+        </div>
+        <p class="meta">Public industry research</p>
+      </div>
+
+      <div class="know-card k2 reveal-up" style="--d: 380ms;">
+        <p class="num">02</p>
+        <p class="q">Who is Nashira compared against?</p>
+        <div class="answer">
+          Brands in this category win on the number of pieces per order, not the price of one
+          piece. Nashira's own data shows <span class="num-callout">91.5%</span> of orders sitting
+          in a single ₹1,000–₹2,000 band, with nothing above ₹5,000 in thirty days — one piece per
+          bag, from a catalogue explicitly designed to be stacked.
+        </div>
+        <p class="meta">Basket composition · last 30 days</p>
+      </div>
+
+      <div class="know-card k3 reveal-up" style="--d: 440ms;">
+        <p class="num">03</p>
+        <p class="q">Which creatives convert in accessories?</p>
+        <div class="answer">
+          Styling-in-use and personalisation demonstrations — showing the stack being built —
+          typically outperform product stills in this category. Worth knowing: Nashira's paid
+          traffic is both the biggest and the best-converting source at
+          <span class="num-callout">30.5%</span>, so the creative is working. The question is what
+          it costs, and that is the one number this data can't see.
+        </div>
+        <p class="meta">Checkout funnel by medium · last 30 days</p>
+      </div>
+
+      <div class="know-card k4 reveal-up" style="--d: 500ms;">
+        <p class="num">04</p>
+        <p class="q">What conversion should you expect?</p>
+        <div class="answer">
+          Category median checkout conversion is <span class="num-callout">29.0%</span>; Nashira
+          is at <span class="num-callout">27.4%</span>. But that figure carries
+          <span class="num-callout">249</span> sessions a month that never enter a phone number and
+          convert at zero. Take those out and the checkout is performing better than the headline
+          suggests — which is why we'd fix the entry point, not the checkout.
+        </div>
+        <p class="meta">"Others" cohort · last 30 days</p>
+      </div>
+
+      <div class="know-card k5 reveal-up" style="--d: 560ms;">
+        <p class="num">05</p>
+        <p class="q">Which offers preserve margin?</p>
+        <div class="answer">
+          Threshold ladders and attach beat blanket percentage-off, every time. Today
+          <span class="num-callout">82.6%</span> of Nashira's orders carry a discount averaging
+          <span class="num-callout">18.4%</span>, and the depth is deepening while volume falls —
+          the classic signal that shoppers have learned to wait. A shipping threshold set above
+          the basket, plus a charm attach at the cart, buys the same lift without training that habit.
+        </div>
+        <p class="meta">Tested across 15,000 brands + Nashira's own data</p>
+      </div>
+
+      <div class="know-card k6 reveal-up" style="--d: 620ms;">
+        <p class="num">06</p>
+        <p class="q">Who should be allowed to pay on delivery?</p>
+        <div class="answer">
+          This is the question our network answers better than anyone. GoKwik scores every shopper
+          on <span class="num-callout">200+</span> signals and already ranks Nashira's traffic
+          correctly — the riskiest fifth returns at four times the rate of the safest. Right now
+          almost nothing acts on that score. Brands that switch it on typically move a large share
+          of orders to upfront payment and cut returns sharply.
+        </div>
+        <p class="meta">Risk scoring live on Nashira today · July 2026</p>
+      </div>
+
+    </div>
+
+    <p class="know-footnote reveal-up" style="--d: 740ms;">
+      <em>Note:</em> category-trend statements come from public industry research. Conversion,
+      channel, basket, discount and risk figures are Nashira's own, from GoKwik network data for
+      26 Jul – 24 Aug 2026, with post-purchase figures from July 2026.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8 · WHAT GROWS (4 levers) -->
+<!-- ============================================================ -->
+<section class="slide slide-7" id="s5">
+  <div class="wrap pinning-header">
+    <span class="slide-num">08 / 15 · What grows</span>
+    <p class="eyebrow muted gsap-fade">What changes for the brand</p>
+    <h2 class="gsap-title" style="margin-top: 1.25rem;">
+      Same Nashira. <span class="h">Four ways it grows.</span>
+    </h2>
+    <p class="lede gsap-fade">
+      More reach. More buyers. More repeats. More per order.
+    </p>
+  </div>
+
+  <div class="horizontal-scroll-container" aria-label="Four growth levers">
+    <div class="levers-wrapper">
+      <div class="lever l1">
+        <div class="head"><span class="role">Reach</span><span class="num">01</span></div>
+        <h3>More of the buyers who <span class="h">actually keep the parcel</span>, not just more clicks.</h3>
+        <ul>
+          <li>Meta, Google and WhatsApp planned in one place</li>
+          <li>Spend steered toward the states and segments that convert and stay converted</li>
+        </ul>
+      </div>
+
+      <div class="lever l2">
+        <div class="head"><span class="role">Conversion</span><span class="num">02</span></div>
+        <h3>Start with the <span class="h">249 who never begin</span>.</h3>
+        <ul>
+          <li>Close the zero-converting gap at the checkout entry point</li>
+          <li>Recover the UPI shoppers who choose a method and never reach the bank</li>
+        </ul>
+      </div>
+
+      <div class="lever l3">
+        <div class="head"><span class="role">Retention</span><span class="num">03</span></div>
+        <h3>Keep the order <span class="h">you have already won</span>.</h3>
+        <ul>
+          <li>Fix shipment tracking first, then set risk-based payment rules on every segment</li>
+          <li>Turn on the lifecycle messaging that doesn't exist on this store yet</li>
+        </ul>
+      </div>
+
+      <div class="lever l4">
+        <div class="head"><span class="role">AOV</span><span class="num">04</span></div>
+        <h3>Sell the <span class="h">stack</span>, not the single piece.</h3>
+        <ul>
+          <li>A charm attach at the cart — the catalogue is already built for it</li>
+          <li>A shipping threshold that sits above the basket instead of below it</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9 · THE ENGINE (SCALE) -->
+<!-- ============================================================ -->
+<section class="slide" id="s-engine">
+  <span class="slide-num">09 / 15 · One engine</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">What we run for you — end to end</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      Five dimensions. <span class="h">One engine. One fee.</span>
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms; margin-top: 1.25rem;">
+      The five agencies you would otherwise juggle — under one roof. Every lever that moves a D2C
+      store, operated by one team. No separate retainers, no tool sprawl, no finger-pointing
+      between vendors.
+    </p>
+    <div class="reveal-up" style="--d: 340ms; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 1rem; margin-top: 2rem;">
+      <div style="background: var(--bg-card, #fff); border: 1px solid var(--border); border-radius: 16px; padding: 1.4rem 1.5rem;">
+        <span style="display:inline-flex;align-items:center;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;padding:.28rem .6rem;border-radius:999px;border:1px solid var(--border-strong);color:var(--text-mute);">S · Source</span>
+        <h3 style="margin:.8rem 0 .4rem;">Traffic &amp; performance marketing</h3>
+        <p style="font-size:.92rem;color:var(--text-soft);">Meta, Google and AI-discoverability in concert — steering spend toward the states and segments whose orders actually stay sold.</p>
+      </div>
+      <div style="background: var(--bg-card, #fff); border: 1px solid var(--border); border-radius: 16px; padding: 1.4rem 1.5rem;">
+        <span style="display:inline-flex;align-items:center;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;padding:.28rem .6rem;border-radius:999px;border:1px solid var(--border-strong);color:var(--text-mute);">C · Convert</span>
+        <h3 style="margin:.8rem 0 .4rem;">Website &amp; conversion</h3>
+        <p style="font-size:.92rem;color:var(--text-soft);">Storefront fixes, reviews on the pages where they decide, and closing the checkout entry gap that costs 249 sessions a month.</p>
+      </div>
+      <div style="background: var(--bg-card, #fff); border: 1px solid var(--border); border-radius: 16px; padding: 1.4rem 1.5rem;">
+        <span style="display:inline-flex;align-items:center;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;padding:.28rem .6rem;border-radius:999px;border:1px solid var(--border-strong);color:var(--text-mute);">A · Average up</span>
+        <h3 style="margin:.8rem 0 .4rem;">Order value</h3>
+        <p style="font-size:.92rem;color:var(--text-soft);">A charm attach at the cart and a shipping threshold set above the basket, not below it — on a catalogue already built to be stacked.</p>
+      </div>
+      <div style="background: var(--bg-card, #fff); border: 1px solid var(--border); border-radius: 16px; padding: 1.4rem 1.5rem;">
+        <span style="display:inline-flex;align-items:center;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;padding:.28rem .6rem;border-radius:999px;border:1px solid var(--border-strong);color:var(--text-mute);">L · Loop back</span>
+        <h3 style="margin:.8rem 0 .4rem;">Retention &amp; WhatsApp</h3>
+        <p style="font-size:.92rem;color:var(--text-soft);">Risk-based payment rules so the order you won stays sold — plus the lifecycle messaging this store does not have yet. The biggest single lever for Nashira.</p>
+      </div>
+      <div style="background: var(--bg-card, #fff); border: 1px solid var(--border); border-radius: 16px; padding: 1.4rem 1.5rem;">
+        <span style="display:inline-flex;align-items:center;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;padding:.28rem .6rem;border-radius:999px;border:1px solid var(--border-strong);color:var(--text-mute);">E · Evangelism</span>
+        <h3 style="margin:.8rem 0 .4rem;">Advocacy</h3>
+        <p style="font-size:.92rem;color:var(--text-soft);">Reviews already render on the product pages — the job is asking for them systematically and putting them where they change a decision.</p>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--text-mute);margin-top:1.5rem;font-family:var(--mono);--d: 500ms;" class="reveal-up">S · C · A · L · E — Source · Convert · Average up · Loop back · Evangelism</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10 · COMPARISON -->
+<!-- ============================================================ -->
+<section class="slide" id="s-compare">
+  <span class="slide-num">10 / 15 · The comparison</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">Three ways to run growth</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      The same job, <span class="h">three ways.</span>
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms;">
+      Five agencies, an in-house team, or one growth partner. The honest comparison.
+    </p>
+    <div class="compare-wrap reveal-up" style="--d: 320ms;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Five agencies</th>
+            <th>In-house team</th>
+            <th class="kw">KwikShop</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>What it costs</th>
+            <td>Five retainers + tools + gateway fees</td>
+            <td>Salaries + tools + months of ramp-up</td>
+            <td class="kw">One rate on monthly GMV — 6.5–8%, gateway included</td>
+          </tr>
+          <tr>
+            <th>Who coordinates</th>
+            <td>You — between five vendors</td>
+            <td>You — hiring, managing, reviewing</td>
+            <td class="kw">We do. One point of contact.</td>
+          </tr>
+          <tr>
+            <th>Data behind decisions</th>
+            <td>Each agency's own client list</td>
+            <td>Nashira's own store history only</td>
+            <td class="kw">15,000+ brands · 200M+ shoppers</td>
+          </tr>
+          <tr>
+            <th>Speed when a sale drops</th>
+            <td>Days of handoffs and follow-ups</td>
+            <td>Depends who's free that week</td>
+            <td class="kw">Every lever moves the same day</td>
+          </tr>
+          <tr>
+            <th>Accountability</th>
+            <td>Split five ways — easy to point fingers</td>
+            <td>Diffuse — no single owner of growth</td>
+            <td class="kw">One partner. One number: your GMV.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="compare-note reveal-up" style="--d: 420ms;">
+      <strong>The incentive difference:</strong> retainers and salaries get paid whether you grow or not.
+      Our fee is a share of your GMV — if you don't grow, neither do we.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11 · 90 DAYS -->
+<!-- ============================================================ -->
+<section class="slide slide-10" id="s6">
+  <span class="slide-num">11 / 15 · The first 90 days</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">Benchmark first, then move fast</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      The first 90 days: <span class="h">audit, benchmark, implement, compound.</span>
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms; margin-top: 1.25rem;">
+      Day 30 is the consulting-grade diagnosis. Days 60 and 90 turn it into orders that stay sold.
+    </p>
+    <div class="timeline stagger">
+      <div class="timeline-line" aria-hidden="true"><span></span><i class="mid-node"></i></div>
+      <div class="phase phase-diagnostic reveal-up" style="--d: 260ms;">
+        <span class="stamp">Day 30 · Audit + benchmark report</span>
+        <p class="title">Consulting-grade diagnosis.</p>
+        <p class="diagnostic-copy">
+          First 15 days: get shipment tracking reporting properly, then re-baseline the true
+          return rate on clean data. Alongside it, audit the catalogue and price ladder, the
+          discount structure, the checkout entry point, and the traffic mix. Next 15: the
+          benchmark report, the payment-mix plan, and the first fixes live.
+        </p>
+        <div class="diagnostic-board" aria-label="Day 30 audit outputs">
+          <div class="diagnostic-row">
+            <b>Shipment tracking</b>
+            <span class="diagnostic-track"><i style="--w: 100%"></i></span>
+            <span>Fix first — everything depends on it</span>
+          </div>
+          <div class="diagnostic-row">
+            <b>Payment mix &amp; returns</b>
+            <span class="diagnostic-track"><i style="--w: 95%"></i></span>
+            <span>The largest single lever</span>
+          </div>
+          <div class="diagnostic-row">
+            <b>Checkout entry point</b>
+            <span class="diagnostic-track"><i style="--w: 80%"></i></span>
+            <span>249 sessions/month at zero</span>
+          </div>
+          <div class="diagnostic-row">
+            <b>Basket &amp; offer ladder</b>
+            <span class="diagnostic-track"><i style="--w: 70%"></i></span>
+            <span>Threshold sits below the basket</span>
+          </div>
+          <div class="diagnostic-row">
+            <b>Checkout conversion</b>
+            <span class="diagnostic-track"><i style="--w: 20%"></i></span>
+            <span>Already near benchmark</span>
+          </div>
+        </div>
+        <div class="report-pills">
+          <span>Benchmark delta</span>
+          <span>Best practices</span>
+          <span>Potential uplifts</span>
+        </div>
+        <p class="deliverable"><strong>Report:</strong> where Nashira stands, what can move, and the priority action plan.</p>
+      </div>
+      <div class="phase reveal-up" style="--d: 380ms;">
+        <span class="stamp">Day 60 · Implement</span>
+        <p class="title">Growth system live.</p>
+        <ul>
+          <li>Risk-based payment rules covering every segment, not two of them</li>
+          <li>Prepaid incentive live, so paying upfront is visibly worth it</li>
+          <li>Charm attach at the cart and a shipping threshold above the basket</li>
+          <li>The zero-converting checkout entry gap closed</li>
+        </ul>
+      </div>
+      <div class="phase reveal-up" style="--d: 500ms;">
+        <span class="stamp">Day 90 · Compound</span>
+        <p class="title">Compounding engine ready.</p>
+        <ul>
+          <li>Return rate re-measured on clean tracking and held there</li>
+          <li>Lifecycle messaging switched on for a repeat base that has none today</li>
+          <li>Discount depth traded down as the offer ladder takes over</li>
+          <li>Reach, Conversion, Retention, AOV together — plus the next 90-day plan</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12 · DASHBOARD -->
+<!-- ============================================================ -->
+<section class="slide slide-9" id="s7">
+  <span class="slide-num">12 / 15 · Your dashboard</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">One place, everything visible</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      One place. <span class="h">Everything visible.</span>
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms;">
+      What is running. What needs approval. What changed this week.
+    </p>
+
+    <div class="dashboard reveal-up" style="--d: 360ms;">
+      <div class="dash-chrome">
+        <span class="dash-dot"></span>
+        <span class="dash-dot"></span>
+        <span class="dash-dot"></span>
+        <span class="dash-url">app.kwikshop.in / nashira</span>
+      </div>
+      <div class="dash-body">
+        <div class="dash-header">
+          <div>
+            <div class="brand-name">Nashira <span>· Owner view</span></div>
+          </div>
+          <div class="period">This week</div>
+        </div>
+
+        <div class="dash-stats">
+          <div class="stat-tile">
+            <p class="lbl">GMV</p>
+            <p class="num">₹3.6L</p>
+            <p class="delta">+6% wow</p>
+          </div>
+          <div class="stat-tile">
+            <p class="lbl">AOV</p>
+            <p class="num">₹1,395</p>
+            <p class="delta">+2% wow</p>
+          </div>
+          <div class="stat-tile">
+            <p class="lbl">Checkout CR</p>
+            <p class="num">33%</p>
+            <p class="delta">+1pp wow</p>
+          </div>
+          <div class="stat-tile">
+            <p class="lbl">Prepaid share</p>
+            <p class="num">31%</p>
+            <p class="delta">+4pp wow</p>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="head">
+            <h4>Today's activity</h4>
+            <span class="meta live-feed-meta"><span class="notification-dot"></span>Live · all AI</span>
+          </div>
+          <div class="feed" data-live-feed>
+            <div class="feed-item">
+              <span class="t">07:42</span>
+              <span class="body"><span class="agent ads">ads</span> Paused delivery to the two states with the highest return rate.</span>
+            </div>
+            <div class="feed-item">
+              <span class="t">09:14</span>
+              <span class="body"><span class="agent site">site</span> Charm attach block added to the top 20 chain pages.</span>
+            </div>
+            <div class="feed-item">
+              <span class="t">11:18</span>
+              <span class="body"><span class="agent support">support</span> 18 WhatsApp "where is my order" queries resolved by AI.</span>
+            </div>
+            <div class="feed-item">
+              <span class="t">12:48</span>
+              <span class="body"><span class="agent ops">ops</span> Free-shipping threshold moved ₹1,000 → ₹1,499.</span>
+            </div>
+            <div class="feed-item">
+              <span class="t">14:15</span>
+              <span class="body"><span class="agent ads">ads</span> Rakhi charm-stack campaign sent for approval.</span>
+            </div>
+            <div class="feed-item">
+              <span class="t">22:11</span>
+              <span class="body"><span class="agent ops">ops</span> Prepaid incentive applied to 41 medium-risk carts.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="head">
+            <h4>Waiting on you</h4>
+            <span class="meta" data-approval-count>3 approvals</span>
+          </div>
+          <div class="approval">
+            <p class="title">Build-your-stack bundle — chain + two charms at ₹1,499</p>
+            <p class="sub">Lifts the basket above the new shipping threshold. Holds margin against the current 18.4% average discount.</p>
+            <div class="row">
+              <button class="btn-mini" type="button">Approve</button>
+              <button class="btn-mini ghost" type="button">Modify</button>
+              <span class="by">margin · 2h ago</span>
+            </div>
+          </div>
+          <div class="approval">
+            <p class="title">Cash-on-delivery rules — medium-risk segment, prepaid nudge first</p>
+            <p class="sub">Covers the 40% of traffic that currently has no rule on it. Sized inside the safety guardrails.</p>
+            <div class="row">
+              <button class="btn-mini" type="button">Approve</button>
+              <button class="btn-mini ghost" type="button">Modify</button>
+              <span class="by">retention · 5h ago</span>
+            </div>
+          </div>
+          <div class="approval">
+            <p class="title">Anti-tarnish and water-resistant claim copy — reviewed against spec</p>
+            <p class="sub">Durability and materials claims never ship without your sign-off.</p>
+            <div class="row">
+              <button class="btn-mini" type="button">Approve</button>
+              <button class="btn-mini ghost" type="button">Modify</button>
+              <span class="by">site · yesterday</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="head">
+            <h4>Weekly digest</h4>
+            <span class="meta">Mon → today</span>
+          </div>
+          <div class="digest">
+            <div class="item">
+              <span class="marker"></span>
+              <span class="text"><span class="label">AOV win.</span> Charm attach: 96 orders crossed the new ₹1,499 threshold.</span>
+            </div>
+            <div class="item">
+              <span class="marker"></span>
+              <span class="text"><span class="label">Returns win.</span> Medium-risk rules live — prepaid share up 4pp this week.</span>
+            </div>
+            <div class="item">
+              <span class="marker"></span>
+              <span class="text"><span class="label">AI win.</span> 140 shopper questions resolved by AI.</span>
+            </div>
+            <div class="item warn">
+              <span class="marker"></span>
+              <span class="text"><span class="label">Watch.</span> Two states still running double the average return rate.</span>
+            </div>
+            <div class="item warn">
+              <span class="marker"></span>
+              <span class="text"><span class="label">Watch.</span> Shipment tracking now reporting on 88% of orders, up from ~35%.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-card dash-harmony">
+          <div class="head">
+            <h4>Network effects — this week</h4>
+            <span class="meta">Compound impact</span>
+          </div>
+          <div style="padding: 1rem 1.25rem; display: grid; gap: 0.5rem; font-size: 13.5px; color: var(--text-soft); line-height: 1.55;">
+            <div>· 940 high-intent shoppers captured</div>
+            <div>· 96 bundle orders at a higher basket</div>
+            <div>· 60 repeat-buyer journeys triggered</div>
+            <div>· Net result: <strong style="color: var(--text);">₹1.1L incremental GMV this week.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="footer-note reveal-up" style="--d: 460ms; margin-top: 1rem; font-family: var(--mono); font-size: 12px; color: var(--text-mute);">Illustrative dashboard — the layout is real, the weekly numbers shown are representative, not a live read of your store.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 13 · CONTROL -->
+<!-- ============================================================ -->
+<section class="slide" id="s-control">
+  <span class="slide-num">13 / 15 · Control</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">The operating agreement</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      We operate. <span class="h">You approve.</span>
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms;">
+      Every change is either queued for your sign-off or logged where you can see it.
+      Nashira never moves without you — and where a change touches what a customer pays or how
+      much friction they meet at checkout, that matters.
+    </p>
+    <div class="control-grid">
+      <div class="control-card reveal-up" style="--d: 300ms;">
+        <span class="gate amber">Needs your yes</span>
+        <p class="title">Always your call</p>
+        <ul>
+          <li>Pricing, discounts, and bundle economics</li>
+          <li>Any durability, materials, or delivery-promise claim</li>
+          <li>Campaign launches and budget jumps</li>
+          <li>Brand voice and creative direction</li>
+        </ul>
+        <p class="foot">Queued in your approvals. Nothing ships without your yes.</p>
+      </div>
+      <div class="control-card reveal-up" style="--d: 400ms;">
+        <span class="gate green">Handled quietly</span>
+        <p class="title">Never on your desk</p>
+        <ul>
+          <li>Technical SEO and schema hygiene</li>
+          <li>Image alt-text, meta tags, speed fixes</li>
+          <li>Broken links and tracking gaps</li>
+          <li>Every fix logged in your weekly digest</li>
+        </ul>
+        <p class="foot">Safe, reversible housekeeping — done and reported.</p>
+      </div>
+      <div class="control-card reveal-up" style="--d: 500ms;">
+        <span class="gate blue">Your side of the deal</span>
+        <p class="title">What we need from you</p>
+        <ul>
+          <li>Store and ad-account access at kickoff</li>
+          <li>One weekly call — 30 minutes</li>
+          <li>Approvals as they queue — minutes, not meetings</li>
+          <li>Your read on the product when we ask</li>
+        </ul>
+        <p class="foot">That's the whole job. The coordination stays with us.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 14 · PRICING -->
+<!-- ============================================================ -->
+<section class="slide slide-11" id="s8">
+  <span class="slide-num">14 / 15 · The deal</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">The math, simply</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      <span class="h">One rate on monthly GMV.</span> Everything in.
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms;">
+      The rate drops as you grow — 8% early, 6.5% at scale. Payment gateway included. Benchmarks included.
+    </p>
+
+    <div class="audit-band reveal-up" style="--d: 260ms;">
+      <span class="step">Step 1 · One-time</span>
+      <p><strong>30-day audit + benchmark report — ₹10,000.</strong> The revenue share below applies once the growth channels go live.</p>
+    </div>
+
+    <div class="rate-tiers reveal-up" style="--d: 300ms;" id="rateTiers">
+      <div class="tier">
+        <p class="range">Monthly GMV up to ₹10L</p>
+        <p class="rate">8%</p>
+        <p class="hint">on your full monthly GMV</p>
+      </div>
+      <div class="tier">
+        <p class="range">₹10L – ₹50L a month</p>
+        <p class="rate">7%</p>
+        <p class="hint">on your full monthly GMV</p>
+      </div>
+      <div class="tier">
+        <p class="range">Above ₹50L a month</p>
+        <p class="rate">6.5%</p>
+        <p class="hint">on your full monthly GMV</p>
+      </div>
+    </div>
+
+    <div class="price-flow reveal-up" style="--d: 380ms;">
+      <div class="gmv-control">
+        <div>
+          <p class="kicker">Drag your monthly GMV</p>
+          <p class="gmv-value" id="gmvLabel">₹3L</p>
+        </div>
+        <div>
+          <input id="gmvSlider" type="range" min="2" max="100" step="1" value="3" aria-label="Monthly GMV in lakhs">
+          <div class="range-labels"><span>₹2L</span><span>₹1Cr</span></div>
+        </div>
+      </div>
+      <div class="price-results">
+        <div class="price-card before">
+          <div>
+            <p class="label">Today’s cost / month</p>
+            <p class="price" id="todayCost">₹42,000+</p>
+          </div>
+          <p class="note">Five agency retainers, tools, gateway fees — and your time coordinating them.</p>
+        </div>
+        <div class="price-card after">
+          <div>
+            <p class="label">KwikShop revenue share<span class="applied-rate" id="appliedRate">@ 7%</span></p>
+            <p class="price" id="kwikshopFee">₹1.4L</p>
+          </div>
+          <p class="note">Agents, functions, gateway, benchmarks. One bill.</p>
+        </div>
+        <p class="savings-band">Estimated gap: <span id="savingsValue">₹1.4L</span> a month back into growth, margin, or product.</p>
+      </div>
+    </div>
+
+    <div class="included reveal-up" style="--d: 460ms;">
+      <div class="head">
+        <p class="label">Included in the revenue share</p>
+        <p class="price-callout">Including <strong>payment-gateway fees</strong> (worth ~2% on its own)</p>
+      </div>
+      <div class="items">
+        <span class="item">Payment-gateway fees covered</span>
+        <span class="item">Performance marketing &amp; daily ad optimisation</span>
+        <span class="item">Website conversion optimisation &amp; checkout</span>
+        <span class="item">Retention &amp; WhatsApp management</span>
+        <span class="item">Search &amp; AI discoverability</span>
+        <span class="item">Setup &amp; configuration of whatever's required</span>
+        <span class="item">Dashboard + Monday digest</span>
+        <span class="item">Weekly category benchmarks · approvals queue</span>
+      </div>
+    </div>
+
+    <p class="gmv-note reveal-up" style="--d: 540ms;">
+      <strong>How GMV is counted:</strong> the aggregate delivered order value — net of returns and
+      cancellations — in a calendar month, as reported in your Shopify dashboard. The revenue share
+      applies to GMV generated through the GoKwik-managed growth channels, and your whole month is
+      billed at the single rate of the slab it lands in. At Nashira's current run-rate —
+      around ₹20L a month — that is the <strong>7% slab</strong> — and the rate improves again
+      past ₹50L a month.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 15 · CLOSE -->
+<!-- ============================================================ -->
+<section class="slide slide-12 dark" id="s9">
+  <canvas class="ambient-canvas" data-ambient="mesh"></canvas>
+  <div class="dot-grid"></div>
+  <span class="slide-num">15 / 15 · Close</span>
+  <div class="wrap">
+    <p class="eyebrow cream no-line reveal-up"><span class="dot"></span>One last thing</p>
+    <h2 class="reveal-up" style="--d: 200ms;">
+      Stop guessing.<br>
+      <span class="accent">Start with what works.</span>
+    </h2>
+    <p class="sub reveal-up" style="--d: 500ms;">
+      Same Nashira, same jewellery that people wear to say something about themselves. The
+      market intelligence of 15,000 brands behind every other decision — and one point of contact
+      running it.
+    </p>
+    <div class="cta-row reveal-up" style="--d: 700ms;">
+      <a href="#" class="btn btn-light">
+        Start with the ₹10,000 audit
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#s1" class="btn btn-light-ghost">Walk me through it again</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span><strong>KwikShop</strong> &nbsp;by GoKwik · prepared for Nashira</span>
+  <span>Confidential · 15 slides · for the Nashira team</span>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasGSAP = Boolean(window.gsap && window.ScrollTrigger);
+  if (hasGSAP) gsap.registerPlugin(ScrollTrigger);
+
+  function clamp(n, min = 0, max = 1) { return Math.max(min, Math.min(max, n)); }
+
+  function splitTextNode(node) {
+    const parts = node.textContent.split(/(\s+)/);
+    const frag = document.createDocumentFragment();
+    parts.forEach(part => {
+      if (!part) return;
+      if (/^\s+$/.test(part)) {
+        frag.appendChild(document.createTextNode(part));
+        return;
+      }
+      const mask = document.createElement('span');
+      const word = document.createElement('span');
+      mask.className = 'kt-mask';
+      word.className = 'kt-word';
+      word.textContent = part;
+      mask.appendChild(word);
+      frag.appendChild(mask);
+    });
+    node.replaceWith(frag);
+  }
+
+  function splitHeadingNode(node) {
+    Array.from(node.childNodes).forEach(child => {
+      if (child.nodeType === Node.TEXT_NODE) splitTextNode(child);
+      if (child.nodeType === Node.ELEMENT_NODE && !child.matches('script, style, svg, .kt-mask')) {
+        splitHeadingNode(child);
+      }
+    });
+  }
+
+  function initKineticType() {
+    document.querySelectorAll('h1, h2').forEach(heading => {
+      if (heading.dataset.kineticReady) return;
+      heading.dataset.kineticReady = '1';
+      heading.classList.add('kinetic-heading');
+      splitHeadingNode(heading);
+      if (hasGSAP && !prefersReduced) {
+        heading.classList.add('in');
+        const words = heading.querySelectorAll('.kt-word');
+        gsap.set(words, { yPercent: 112, rotateX: -34, opacity: 0, filter: 'blur(9px)' });
+        ScrollTrigger.create({
+          trigger: heading,
+          start: 'top 88%',
+          once: true,
+          onEnter: () => {
+            gsap.to(words, {
+              yPercent: 0,
+              rotateX: 0,
+              opacity: 1,
+              filter: 'blur(0px)',
+              duration: 1.08,
+              ease: 'power4.out',
+              stagger: { each: 0.035, from: 'start' },
+              onComplete: () => heading.classList.add('is-revealed')
+            });
+          }
+        });
+      }
+    });
+  }
+  initKineticType();
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('in');
+      if (entry.target.classList.contains('proof-stat')) {
+        const n = entry.target.querySelector('[data-count]');
+        if (n && !n.dataset.done) { animateCount(n); n.dataset.done = "1"; }
+      }
+      io.unobserve(entry.target);
+    });
+  }, { threshold: 0.14, rootMargin: "0px 0px -6% 0px" });
+  document.querySelectorAll('.reveal-up:not(.in)').forEach(el => io.observe(el));
+
+  function animateCount(el) {
+    const target = parseFloat(el.dataset.count);
+    const suffix = el.dataset.suffix || "";
+    const prefix = el.dataset.prefix || "";
+    const dur = prefersReduced ? 1 : 1300;
+    const start = performance.now();
+    const fmt = (v) => target >= 1000 ? Math.round(v).toLocaleString('en-IN') : Math.round(v);
+    function tick(now) {
+      const t = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = prefix + fmt(target * eased) + suffix;
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const bar = document.getElementById('progress');
+  const darkGrids = Array.from(document.querySelectorAll('section.slide.dark .dot-grid'));
+  const timelineSection = document.getElementById('s6');
+  let ticking = false;
+
+  function updateScrollEffects() {
+    const root = document.documentElement;
+    const max = root.scrollHeight - root.clientHeight;
+    bar.style.width = (max > 0 ? (root.scrollTop / max) * 100 : 0) + '%';
+
+    if (!prefersReduced) {
+      darkGrids.forEach(grid => {
+        const section = grid.closest('section.slide');
+        const rect = section.getBoundingClientRect();
+        const offset = (rect.top + rect.height * 0.5 - window.innerHeight * 0.5) * -0.045;
+        grid.style.setProperty('--parallax-y', `${offset}px`);
+      });
+    }
+
+    if (timelineSection && (!hasGSAP || prefersReduced)) {
+      const rect = timelineSection.getBoundingClientRect();
+      const travel = Math.max(1, rect.height * 0.86);
+      const progress = clamp((window.innerHeight * 0.76 - rect.top) / travel);
+      timelineSection.style.setProperty('--phase-progress', progress.toFixed(3));
+      timelineSection.style.setProperty('--line-progress', progress.toFixed(3));
+    }
+
+    ticking = false;
+  }
+
+  function requestScrollUpdate() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(updateScrollEffects);
+  }
+  document.addEventListener('scroll', requestScrollUpdate, { passive: true });
+  window.addEventListener('resize', requestScrollUpdate);
+  updateScrollEffects();
+
+  function initScrollScenes() {
+    if (!hasGSAP || prefersReduced) return;
+
+    const mm = gsap.matchMedia();
+
+    mm.add('(min-width: 900px)', () => {
+      const slide = document.querySelector('#s5');
+      const container = document.querySelector('#s5 .horizontal-scroll-container');
+      const wrapper = document.querySelector('#s5 .levers-wrapper');
+      const cards = gsap.utils.toArray('#s5 .levers-wrapper .lever');
+      const headerBits = gsap.utils.toArray('#s5 .gsap-fade');
+      if (!slide || !container || !wrapper || !cards.length) return;
+
+      cards[0]?.classList.add('is-active');
+      gsap.set(headerBits, { autoAlpha: 1 });
+      gsap.set(cards, { autoAlpha: 0, y: 28, scale: 0.96 });
+
+      const setActive = (progress) => {
+        const activeIndex = Math.min(cards.length - 1, Math.floor(progress * cards.length));
+        cards.forEach((card, i) => card.classList.toggle('is-active', i === activeIndex));
+      };
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: slide,
+          start: 'top 72%',
+          end: 'bottom 38%',
+          scrub: 0.65,
+          invalidateOnRefresh: true,
+          onUpdate: self => setActive(self.progress),
+          onLeave: () => cards[cards.length - 1]?.classList.add('is-active'),
+          onEnterBack: self => setActive(self.progress)
+        }
+      });
+
+      tl.from(headerBits, {
+        autoAlpha: 0,
+        y: 18,
+        duration: 0.22,
+        stagger: 0.04,
+        ease: 'power2.out'
+      }, 0)
+      .to(cards, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 1,
+        ease: 'none',
+        stagger: 0.08
+      }, 0.08);
+
+      return () => {
+        cards.forEach(card => card.classList.remove('is-active'));
+        gsap.set(cards, { clearProps: 'all' });
+        gsap.set(headerBits, { clearProps: 'all' });
+      };
+    });
+
+    const phaseCards = gsap.utils.toArray('#s6 .phase');
+    const phaseSlide = document.querySelector('#s6');
+    if (phaseSlide && phaseCards.length) {
+      const setPhaseState = (progress) => {
+        const fill = clamp(progress * 1.08);
+        phaseSlide.style.setProperty('--line-progress', fill.toFixed(3));
+        const thresholds = [0, 0.42, 0.74];
+        phaseCards.forEach((card, i) => {
+          card.classList.toggle('is-lit', progress >= thresholds[i]);
+        });
+      };
+      phaseCards[0]?.classList.add('is-lit');
+      gsap.set(phaseCards, { y: 24 });
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: phaseSlide,
+          start: 'top 72%',
+          end: 'bottom 34%',
+          scrub: 0.75,
+          onUpdate: self => setPhaseState(self.progress),
+          onEnter: () => setPhaseState(0),
+          onLeave: () => setPhaseState(1),
+          onEnterBack: self => setPhaseState(self.progress),
+          onLeaveBack: () => setPhaseState(0)
+        }
+      })
+      .to(phaseCards, { y: 0, duration: 0.7, ease: 'none', stagger: 0.08 }, 0);
+    }
+  }
+
+  function buildSparklinePath(values, w = 160, h = 56, pad = 10) {
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const range = max - min || 1;
+    return values.map((v, i) => {
+      const x = pad + (i / (values.length - 1)) * (w - pad * 2);
+      const y = h - pad - ((v - min) / range) * (h - pad * 2);
+      return `${i === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)}`;
+    }).join(' ');
+  }
+
+  function injectSparklines() {
+    const sets = [
+      { points: [4, 6, 5, 8, 7, 10, 14], color: '#1E40AF' },
+      { points: [2.1, 2.3, 2.6, 2.4, 2.9, 3.1, 3.4], color: '#059669' },
+      { points: [1600, 1720, 1810, 1780, 1960, 2050, 2140], color: '#F59E0B' },
+      { points: [18, 19, 21, 22, 23, 26, 28], color: '#0891B2' }
+    ];
+
+    document.querySelectorAll('.stat-tile').forEach((tile, i) => {
+      if (tile.querySelector('.sparkline')) return;
+      const cfg = sets[i % sets.length];
+      const line = buildSparklinePath(cfg.points);
+      const area = `${line} L150 56 L10 56 Z`;
+      tile.style.setProperty('--spark', cfg.color);
+      tile.insertAdjacentHTML('afterbegin', `
+        <svg class="sparkline" viewBox="0 0 160 56" aria-hidden="true" preserveAspectRatio="none">
+          <path class="area" d="${area}"></path>
+          <path class="spark-path" d="${line}"></path>
+        </svg>
+      `);
+    });
+  }
+
+  function initSparklineAnimations() {
+    injectSparklines();
+    const paths = Array.from(document.querySelectorAll('.spark-path'));
+    if (!paths.length) return;
+    paths.forEach(path => {
+      const len = path.getTotalLength();
+      path.style.strokeDasharray = len;
+      path.style.strokeDashoffset = prefersReduced ? 0 : len;
+    });
+    if (!hasGSAP || prefersReduced) return;
+    gsap.to(paths, {
+      strokeDashoffset: 0,
+      duration: 1.8,
+      ease: 'power3.out',
+      stagger: 0.12,
+      scrollTrigger: {
+        trigger: '#s7 .dashboard',
+        start: 'top 78%',
+        once: true
+      }
+    });
+  }
+
+  function initAmbientCanvases() {
+    if (prefersReduced) return;
+    const canvases = Array.from(document.querySelectorAll('.ambient-canvas'));
+    if (!canvases.length) return;
+    const pointer = { x: -9999, y: -9999, active: false };
+    window.addEventListener('pointermove', (e) => {
+      pointer.x = e.clientX;
+      pointer.y = e.clientY;
+      pointer.active = true;
+    }, { passive: true });
+    window.addEventListener('pointerleave', () => { pointer.active = false; }, { passive: true });
+
+    canvases.forEach(canvas => {
+      const ctx = canvas.getContext('2d', { alpha: true });
+      const type = canvas.dataset.ambient || 'mesh';
+      let w = 0, h = 0, dpr = 1;
+      const particles = Array.from({ length: type === 'proof-particles' ? 34 : 0 }, (_, i) => ({
+        x: 0.6 + (((i * 37) % 100) / 100) * 0.34,
+        y: 0.14 + (((i * 53) % 100) / 100) * 0.72,
+        vx: ((((i * 29) % 100) / 100) - 0.5) * 0.34,
+        vy: ((((i * 47) % 100) / 100) - 0.5) * 0.34,
+        r: 1.4 + (((i * 17) % 100) / 100) * 2.8,
+        glow: 0.28 + (((i * 23) % 100) / 100) * 0.5
+      }));
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        dpr = Math.min(window.devicePixelRatio || 1, 1.7);
+        w = Math.max(1, Math.floor(rect.width));
+        h = Math.max(1, Math.floor(rect.height));
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function drawBlob(x, y, radius, color) {
+        const g = ctx.createRadialGradient(x, y, 0, x, y, radius);
+        g.addColorStop(0, color);
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function drawMesh(t) {
+        ctx.clearRect(0, 0, w, h);
+        ctx.globalCompositeOperation = 'lighter';
+        drawBlob(w * (0.22 + Math.sin(t * 0.00022) * 0.04), h * 0.32, w * 0.44, 'rgba(30,64,175,0.28)');
+        drawBlob(w * (0.72 + Math.cos(t * 0.00018) * 0.05), h * (0.28 + Math.sin(t * 0.00016) * 0.05), w * 0.38, 'rgba(245,158,11,0.20)');
+        drawBlob(w * (0.46 + Math.sin(t * 0.00014) * 0.08), h * 0.78, w * 0.48, 'rgba(8,145,178,0.18)');
+        ctx.globalCompositeOperation = 'source-over';
+      }
+
+      function drawProofParticles(t) {
+        ctx.clearRect(0, 0, w, h);
+        ctx.globalCompositeOperation = 'lighter';
+        drawBlob(w * 0.82, h * 0.35, w * 0.28, 'rgba(30,64,175,0.13)');
+        drawBlob(w * 0.78, h * 0.58, w * 0.22, 'rgba(245,158,11,0.1)');
+        ctx.globalCompositeOperation = 'source-over';
+
+        const bounds = { l: w * 0.55, r: w * 0.985, t: h * 0.1, b: h * 0.82 };
+        const rect = canvas.getBoundingClientRect();
+        const px = pointer.x - rect.left;
+        const py = pointer.y - rect.top;
+        const pointerInField = pointer.active && px > bounds.l && px < bounds.r && py > bounds.t && py < bounds.b;
+        const driftX = Math.sin(t * 0.00035) * 0.018;
+        const driftY = Math.cos(t * 0.00029) * 0.018;
+
+        ctx.globalCompositeOperation = 'lighter';
+        particles.forEach((p, i) => {
+          const x = p.x * w;
+          const y = p.y * h;
+
+          p.vx += driftX * (0.3 + p.glow);
+          p.vy += driftY * (0.24 + p.glow);
+
+          if (pointerInField) {
+            const dx = px - x;
+            const dy = py - y;
+            const dist = Math.max(40, Math.hypot(dx, dy));
+            const force = clamp(1 - dist / 260, 0, 1) * 0.018;
+            p.vx += (dx / dist) * force;
+            p.vy += (dy / dist) * force;
+          }
+
+          p.vx *= 0.965;
+          p.vy *= 0.965;
+          p.x += p.vx / w;
+          p.y += p.vy / h;
+
+          if (p.x * w < bounds.l || p.x * w > bounds.r) p.vx *= -0.92;
+          if (p.y * h < bounds.t || p.y * h > bounds.b) p.vy *= -0.92;
+          p.x = clamp(p.x, bounds.l / w, bounds.r / w);
+          p.y = clamp(p.y, bounds.t / h, bounds.b / h);
+
+          const pulse = 0.72 + Math.sin(t * 0.002 + i) * 0.18;
+          const drawX = p.x * w;
+          const drawY = p.y * h;
+          const halo = p.r * (8 + p.glow * 8) * pulse;
+          const g = ctx.createRadialGradient(drawX, drawY, 0, drawX, drawY, halo);
+          g.addColorStop(0, `rgba(255,236,190,${0.42 * p.glow})`);
+          g.addColorStop(0.35, `rgba(245,158,11,${0.16 * p.glow})`);
+          g.addColorStop(1, 'rgba(245,158,11,0)');
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(drawX, drawY, halo, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = `rgba(255,255,255,${0.46 + p.glow * 0.22})`;
+          ctx.beginPath();
+          ctx.arc(drawX, drawY, p.r * pulse, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.globalCompositeOperation = 'source-over';
+      }
+
+      function frame(t) {
+        const rect = canvas.getBoundingClientRect();
+        if (rect.bottom > -100 && rect.top < window.innerHeight + 100) {
+          type === 'proof-particles' ? drawProofParticles(t) : drawMesh(t);
+        }
+        requestAnimationFrame(frame);
+      }
+
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+      requestAnimationFrame(frame);
+    });
+  }
+
+  const initialHash = window.location.hash;
+  if (initialHash === '#s5' && hasGSAP && !prefersReduced) {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+  initScrollScenes();
+  initSparklineAnimations();
+  initAmbientCanvases();
+  if (hasGSAP) {
+    window.addEventListener('load', () => {
+      const settleHashScroll = () => {
+        ScrollTrigger.refresh();
+        if (!window.location.hash) return;
+        if (window.location.hash === '#s5') {
+          const st = ScrollTrigger.getById('s5-horizontal');
+          if (st) {
+            window.scrollTo({ top: st.start + 2, behavior: 'auto' });
+          } else {
+            document.querySelector(window.location.hash)?.scrollIntoView({ block: 'start' });
+          }
+        } else {
+          document.querySelector(window.location.hash)?.scrollIntoView({ block: 'start' });
+        }
+        ScrollTrigger.update();
+      };
+      settleHashScroll();
+      [180, 520, 980].forEach(delay => window.setTimeout(settleHashScroll, delay));
+    });
+  }
+
+  document.querySelectorAll('.agents-grid .agent, .levers-wrapper .lever, .proof-stat, .category-proof .case, .work-card, .stat-tile').forEach(card => {
+    card.addEventListener('pointermove', (e) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--glow-x', `${((e.clientX - r.left) / r.width) * 100}%`);
+      card.style.setProperty('--glow-y', `${((e.clientY - r.top) / r.height) * 100}%`);
+      if (card.matches('.proof-stat, .category-proof .case, .work-card, .stat-tile')) {
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.setProperty('--tilt-x', `${(-y * 4).toFixed(2)}deg`);
+        card.style.setProperty('--tilt-y', `${(x * 5).toFixed(2)}deg`);
+      }
+    });
+    card.addEventListener('pointerleave', () => {
+      card.style.setProperty('--tilt-x', '0deg');
+      card.style.setProperty('--tilt-y', '0deg');
+    });
+  });
+
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('pointermove', (e) => {
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - r.left;
+      const y = e.clientY - r.top;
+      btn.style.setProperty('--rx', `${(x / r.width) * 100}%`);
+      btn.style.setProperty('--ry', `${(y / r.height) * 100}%`);
+      btn.style.setProperty('--mx', `${(x - r.width / 2) / 12}px`);
+      btn.style.setProperty('--my', `${(y - r.height / 2) / 16}px`);
+    });
+    btn.addEventListener('pointerleave', () => {
+      btn.style.setProperty('--mx', '0px');
+      btn.style.setProperty('--my', '0px');
+    });
+    btn.addEventListener('click', (e) => {
+      if (prefersReduced) return;
+      const r = btn.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.left = `${e.clientX - r.left}px`;
+      ripple.style.top = `${e.clientY - r.top}px`;
+      btn.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
+    });
+  });
+
+  const gmvSlider = document.getElementById('gmvSlider');
+  const gmvLabel = document.getElementById('gmvLabel');
+  const todayCost = document.getElementById('todayCost');
+  const kwikshopFee = document.getElementById('kwikshopFee');
+  const savingsValue = document.getElementById('savingsValue');
+
+  function formatLakh(lakh, plus = false) {
+    const rounded = Math.round(lakh * 10) / 10;
+    let value;
+    if (rounded >= 100) {
+      const cr = rounded / 100;
+      value = `₹${Number.isInteger(cr) ? cr.toFixed(0) : cr.toFixed(1)}Cr`;
+    } else {
+      value = `₹${Number.isInteger(rounded) ? rounded.toFixed(0) : rounded.toFixed(1)}L`;
+    }
+    return plus ? `${value}+` : value;
+  }
+
+  const appliedRate = document.getElementById('appliedRate');
+  const rateTiers = document.querySelectorAll('#rateTiers .tier');
+
+  // Bracket-rate revenue share: the entire month's GMV is billed at the
+  // single rate of the slab it lands in (gmv in lakhs / month).
+  function kwikTier(gmv) {
+    if (gmv <= 10) return 0;
+    if (gmv <= 50) return 1;
+    return 2;
+  }
+  const TIER_RATES = [0.08, 0.07, 0.065];
+
+  function updatePricing() {
+    if (!gmvSlider) return;
+    const gmv = Number(gmvSlider.value);
+    const fill = ((gmv - Number(gmvSlider.min)) / (Number(gmvSlider.max) - Number(gmvSlider.min))) * 100;
+    gmvSlider.style.setProperty('--fill', `${fill}%`);
+    const tier = kwikTier(gmv);
+    const rate = TIER_RATES[tier];
+    gmvLabel.textContent = formatLakh(gmv);
+    todayCost.textContent = formatLakh(gmv * 0.14, true);
+    kwikshopFee.textContent = formatLakh(gmv * rate);
+    savingsValue.textContent = formatLakh(gmv * (0.14 - rate));
+    const pct = Math.round(rate * 1000) / 10;
+    if (appliedRate) appliedRate.textContent = `@ ${pct % 1 ? pct.toFixed(1) : pct.toFixed(0)}%`;
+    rateTiers.forEach((t, i) => t.classList.toggle('active', i === tier));
+  }
+  gmvSlider?.addEventListener('input', updatePricing);
+  updatePricing();
+
+  const feed = document.querySelector('[data-live-feed]');
+  const notificationDot = document.querySelector('.notification-dot');
+  const feedTemplates = [
+    { cls: 'ads', agent: 'ads', text: 'New trust-led creative in test.' },
+    { cls: 'site', agent: 'site', text: 'Mobile decision flow improving.' },
+    { cls: 'ops', agent: 'ops', text: 'Two returns routed to exchange.' },
+    { cls: 'margin', agent: 'margin', text: 'Bundle band updated.' },
+    { cls: 'ads', agent: 'ads', text: 'High-intent nudges queued.' },
+    { cls: 'ops', agent: 'ops', text: 'Risky orders verified by AI.' }
+  ];
+  let feedIndex = 0;
+
+  function currentTime() {
+    return new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: false });
+  }
+
+  function addFeedItem() {
+    if (!feed) return;
+    const item = feedTemplates[feedIndex % feedTemplates.length];
+    feedIndex += 1;
+    const row = document.createElement('div');
+    row.className = 'feed-item feed-new';
+    row.innerHTML = `<span class="t">${currentTime()}</span><span class="body"><span class="agent ${item.cls}">${item.agent}</span> ${item.text}</span>`;
+    feed.prepend(row);
+    Array.from(feed.querySelectorAll('.feed-item')).slice(10).forEach(old => old.remove());
+    if (notificationDot) {
+      notificationDot.classList.remove('pulse');
+      void notificationDot.offsetWidth;
+      notificationDot.classList.add('pulse');
+    }
+  }
+  if (!prefersReduced && feed) setInterval(addFeedItem, 6200);
+
+  function updateApprovalCount() {
+    const meta = document.querySelector('[data-approval-count]');
+    if (!meta) return;
+    const count = document.querySelectorAll('.approval:not(.is-approved)').length;
+    meta.textContent = count ? `${count} approval${count === 1 ? '' : 's'}` : 'All clear';
+  }
+
+  document.querySelectorAll('.approval .btn-mini:not(.ghost)').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.approval');
+      if (!card || card.classList.contains('is-approved')) return;
+      btn.textContent = 'Approved';
+      btn.classList.add('approved');
+      btn.disabled = true;
+      card.classList.add('is-approved');
+      setTimeout(() => {
+        card.remove();
+        updateApprovalCount();
+      }, prefersReduced ? 0 : 720);
+    });
+  });
+
+  const slides = Array.from(document.querySelectorAll('section.slide'));
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'PageDown' && e.key !== 'PageUp' && e.key !== ' ') return;
+    e.preventDefault();
+    const y = window.scrollY + window.innerHeight * 0.4;
+    let idx = 0;
+    slides.forEach((s, i) => { if (s.offsetTop <= y) idx = i; });
+    const dir = (e.key === 'ArrowUp' || e.key === 'PageUp') ? -1 : 1;
+    slides[Math.max(0, Math.min(slides.length - 1, idx + dir))].scrollIntoView({ behavior: 'smooth' });
+  });
+
+  /* ---------- Slide 2 · coordination story ---------- */
+  (function coordStory() {
+    const stage = document.getElementById('coordStage');
+    if (!stage) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const tabs = stage.querySelectorAll('.coord-tab');
+    const replay = stage.querySelector('.coord-replay');
+    const caption = stage.querySelector('#coordCaption');
+    const salebar = stage.querySelector('.coord-salebar');
+    const groups = {
+      today: stage.querySelector('#coordActToday'),
+      kwik: stage.querySelector('#coordActKwik')
+    };
+    const CAP = {
+      sale: 'You announce a sale.',
+      todayVerdict: 'The sale ended before every lever was live.',
+      kwikVerdict: 'One point of contact. Every lever moves at once. Coordination is our job, not yours.'
+    };
+
+    let timers = [];
+    let current = 'today';
+    let played = false; // observer autoplay guard
+
+    const clearTimers = () => { timers.forEach(clearTimeout); timers = []; };
+    const at = (ms, fn) => { timers.push(setTimeout(fn, ms)); };
+
+    function reset() {
+      Object.values(groups).forEach(g => {
+        if (!g) return;
+        g.classList.remove('is-nodes', 'is-lines');
+        g.querySelectorAll('.coord-badge').forEach(b => b.classList.remove('on'));
+        g.querySelectorAll('.coord-node').forEach(n => n.classList.remove('is-dim'));
+        const p = g.querySelector('.coord-pulse');
+        if (p) p.classList.remove('is-pulse');
+      });
+      stage.querySelectorAll('.coord-chip').forEach(c => c.classList.remove('on'));
+      if (salebar) salebar.classList.remove('show', 'is-depleting', 'is-empty');
+      if (caption) { caption.textContent = ''; caption.className = 'coord-caption'; }
+    }
+
+    function setTabs(act) {
+      tabs.forEach(t => {
+        const on = t.dataset.act === act;
+        t.classList.toggle('active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+    }
+
+    function jumpToEnd(act) {
+      const g = groups[act];
+      g.classList.add('is-nodes', 'is-lines');
+      g.querySelectorAll('.coord-badge').forEach(b => b.classList.add('on'));
+      g.querySelectorAll('.coord-node[data-dim]').forEach(n => n.classList.add('is-dim'));
+      stage.querySelectorAll('.coord-chiprow[data-for="' + act + '"] .coord-chip').forEach(c => c.classList.add('on'));
+      if (act === 'today') {
+        if (salebar) salebar.classList.add('show', 'is-empty');
+        caption.textContent = CAP.todayVerdict;
+        caption.classList.add('warn');
+      } else {
+        caption.textContent = CAP.kwikVerdict;
+        caption.classList.add('good');
+      }
+    }
+
+    function playAct(act, auto) {
+      clearTimers();
+      reset();
+      current = act;
+      stage.dataset.act = act;
+      setTabs(act);
+      const g = groups[act];
+
+      if (reduce) { jumpToEnd(act); return; }
+
+      const chips = stage.querySelectorAll('.coord-chiprow[data-for="' + act + '"] .coord-chip');
+      const pulse = g.querySelector('.coord-pulse');
+
+      at(0, () => g.classList.add('is-nodes'));
+      at(400, () => g.classList.add('is-lines'));
+      chips.forEach(c => at(parseInt(c.dataset.delay, 10) || 1000, () => c.classList.add('on')));
+
+      at(3000, () => {
+        if (pulse) pulse.classList.add('is-pulse');
+        caption.textContent = CAP.sale;
+        if (act === 'today') {
+          if (salebar) {
+            salebar.classList.add('show');
+            requestAnimationFrame(() => salebar.classList.add('is-depleting'));
+          }
+          g.querySelectorAll('.coord-node[data-dim]').forEach(n => n.classList.add('is-dim'));
+        }
+      });
+
+      g.querySelectorAll('.coord-badge').forEach(b => {
+        at(parseInt(b.dataset.delay, 10) || 3600, () => b.classList.add('on'));
+      });
+
+      if (act === 'today') {
+        at(7200, () => {
+          caption.textContent = CAP.todayVerdict;
+          caption.classList.add('warn');
+          if (pulse) pulse.classList.remove('is-pulse');
+        });
+        if (auto) at(9700, () => playAct('kwik', false));
+      } else {
+        at(4400, () => {
+          caption.textContent = CAP.kwikVerdict;
+          caption.classList.add('good');
+          if (pulse) pulse.classList.remove('is-pulse');
+        });
+      }
+    }
+
+    tabs.forEach(t => t.addEventListener('click', () => { played = true; playAct(t.dataset.act, false); }));
+    replay.addEventListener('click', () => { played = true; playAct(current, false); });
+
+    if (reduce) {
+      setTabs('today');
+      stage.dataset.act = 'today';
+      jumpToEnd('today');
+      return;
+    }
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !played) {
+          played = true;
+          playAct('today', true);
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.35 });
+    io.observe(stage);
+  })();
+</script>
+
+</body>
+</html>
