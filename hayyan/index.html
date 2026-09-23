@@ -1,0 +1,4491 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KwikShop &times; Hayyan Farms</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B1437'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Arial' font-size='16' font-weight='700' fill='%23F59E0B'%3EK%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #FFFFFF;
+      --bg-soft: #F8FAFC;
+      --bg-elev: #F1F5F9;
+      --bg-card: #FFFFFF;
+
+      --navy: #0B1437;
+      --navy-mid: #1E2A5C;
+      --navy-soft: #1E293B;
+
+      --primary: #1E40AF;
+      --primary-deep: #1E3A8A;
+      --primary-tint: #EFF6FF;
+      --primary-light: #DBEAFE;
+
+      --accent: #F59E0B;
+      --accent-light: #FEF3C7;
+      --accent-deep: #B45309;
+
+      --emerald: #059669;
+      --emerald-light: #D1FAE5;
+      --rose: #E11D48;
+      --rose-light: #FFE4E6;
+      --cyan: #0891B2;
+      --cyan-light: #CFFAFE;
+      --violet: #7C3AED;
+      --violet-light: #EDE9FE;
+
+      --border: #E2E8F0;
+      --border-strong: #CBD5E1;
+      --line-soft: #F1F5F9;
+
+      --text: #0F172A;
+      --text-soft: #334155;
+      --text-mute: #64748B;
+
+      --font: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, monospace;
+
+      --max: 1280px;
+      --pad: clamp(1.25rem, 4vw, 4rem);
+      --ease: cubic-bezier(.2, .7, .2, 1);
+      --ease-out: cubic-bezier(.16, 1, .3, 1);
+      --spring: cubic-bezier(.18, .89, .32, 1.12);
+      --spring-soft: cubic-bezier(.2, .82, .22, 1);
+      --glass: rgba(255, 255, 255, 0.72);
+      --glass-border: rgba(255, 255, 255, 0.42);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      font-size: 18px;
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* ---------- Type ---------- */
+    h1, h2, h3, h4 {
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      color: var(--text);
+    }
+    h1 { font-weight: 800; letter-spacing: -0.045em; }
+    h2 { font-weight: 800; letter-spacing: -0.04em; }
+
+    .eyebrow {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .eyebrow.muted { color: var(--text-mute); }
+    .eyebrow.cream { color: rgba(255, 255, 255, 0.72); }
+    .eyebrow::before {
+      content: ""; display: inline-block;
+      width: 28px; height: 2px; background: currentColor;
+      flex-shrink: 0;
+    }
+    .eyebrow.no-line::before { display: none; }
+    .eyebrow.no-line { gap: 0; }
+    .eyebrow.no-line .dot {
+      display: inline-block; width: 8px; height: 8px;
+      background: currentColor; border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .lede {
+      font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+      line-height: 1.5;
+      color: var(--text-soft);
+      max-width: 60ch;
+      font-weight: 400;
+    }
+
+    section.slide {
+      position: relative;
+      min-height: 88vh;
+      padding: clamp(5rem, 10vh, 7rem) var(--pad) clamp(4rem, 8vh, 6rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .wrap { max-width: var(--max); margin: 0 auto; width: 100%; }
+
+    .slide-num {
+      position: absolute;
+      top: 5.5rem; right: var(--pad);
+      width: max-content;
+      max-width: calc(100vw - (var(--pad) * 2));
+      text-align: right;
+      font-family: var(--mono);
+      font-size: 12px; font-weight: 600;
+      color: var(--text-mute); letter-spacing: 0.04em;
+      z-index: 5;
+    }
+    section.slide.dark .slide-num { color: rgba(255, 255, 255, 0.5); }
+    @media (max-width: 899px) {
+      .slide-num {
+        position: static;
+        top: auto; right: auto;
+        display: block;
+        width: auto;
+        max-width: 100%;
+        text-align: left;
+        margin-bottom: 1.1rem;
+      }
+    }
+
+    /* ---------- nav ---------- */
+    nav.top {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 1rem var(--pad);
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 50;
+      background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.64));
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.62);
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+    }
+    nav.top .brand-mark {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-weight: 700; font-size: 17px; color: var(--text);
+    }
+    nav.top .brand-mark .logo {
+      width: 28px; height: 28px;
+      background: var(--navy); border-radius: 7px;
+      display: grid; place-items: center;
+      color: var(--accent); font-weight: 800; font-size: 13px;
+    }
+    nav.top .by {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-mute);
+    }
+    .progress {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      width: 0%; z-index: 60;
+      transition: width 0.1s linear;
+    }
+
+    /* ---------- buttons ---------- */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.95rem 1.5rem; border-radius: 8px;
+      font-family: var(--font); font-weight: 600; font-size: 15px;
+      letter-spacing: -0.005em; cursor: pointer; text-decoration: none;
+      border: 1px solid transparent;
+      position: relative; overflow: hidden; isolation: isolate;
+      transform: translate3d(var(--mx, 0), var(--my, 0), 0);
+      transition: transform 0.22s var(--spring-soft), background 0.2s var(--ease), box-shadow 0.24s var(--ease), border-color 0.2s var(--ease);
+      will-change: transform;
+    }
+    .btn::before {
+      content: "";
+      position: absolute; inset: -1px;
+      border-radius: inherit;
+      background: radial-gradient(circle at var(--rx, 50%) var(--ry, 50%), rgba(245, 158, 11, 0.34), transparent 34%);
+      opacity: 0;
+      transition: opacity 0.22s var(--ease);
+      z-index: -1;
+    }
+    .btn:hover::before { opacity: 1; }
+    .btn:hover { transform: translate3d(var(--mx, 0), var(--my, 0), 0) translateY(-1px); }
+    .btn .ripple {
+      position: absolute;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.42);
+      transform: translate(-50%, -50%) scale(0);
+      animation: ripple 650ms var(--ease-out);
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes ripple {
+      to { transform: translate(-50%, -50%) scale(24); opacity: 0; }
+    }
+    .btn-primary {
+      background: var(--navy); color: #FFF; border-color: var(--navy);
+    }
+    .btn-primary:hover {
+      background: var(--navy-mid); transform: translateY(-1px);
+      box-shadow: 0 8px 16px -4px rgba(11, 20, 55, 0.3);
+    }
+    .btn-ghost { background: transparent; color: var(--text); border-color: var(--border-strong); }
+    .btn-ghost:hover { background: var(--bg-elev); }
+    .btn-light { background: #FFF; color: var(--navy); border-color: #FFF; }
+    .btn-light:hover { transform: translateY(-1px); box-shadow: 0 8px 16px -4px rgba(0,0,0,0.2); }
+    .btn-light-ghost { background: transparent; color: #FFF; border-color: rgba(255,255,255,0.32); }
+    .btn-light-ghost:hover { background: rgba(255,255,255,0.08); border-color: #FFF; }
+    .btn svg { width: 16px; height: 16px; }
+
+    /* ---------- dot grid pattern for dark sections ---------- */
+    .dot-grid {
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+      -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+      transform: translate3d(0, var(--parallax-y, 0), 0);
+      transition: transform 0.2s linear;
+      will-change: transform;
+    }
+    .ambient-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.72;
+      mix-blend-mode: screen;
+    }
+    .ambient-canvas[data-ambient="proof-particles"] {
+      opacity: 0.5;
+      mix-blend-mode: screen;
+    }
+    section.slide.dark > *:not(.dot-grid):not(.ambient-canvas):not(.slide-num) { position: relative; z-index: 1; }
+    section.slide.dark::after {
+      content: "";
+      position: absolute; inset: 0;
+      pointer-events: none;
+      opacity: 0.13;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.46'/%3E%3C/svg%3E");
+      animation: grain-shift 9s steps(3, end) infinite;
+      z-index: 0;
+    }
+    @keyframes grain-shift {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      33% { transform: translate3d(-1.5%, 1%, 0); }
+      66% { transform: translate3d(1%, -1.5%, 0); }
+    }
+
+    /* ============================================================
+       SLIDE 1 · POSITIONING
+       ============================================================ */
+    .slide-1 {
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+      overflow: hidden;
+    }
+    .slide-1::before {
+      content: ""; position: absolute;
+      top: -250px; right: -250px;
+      width: 750px; height: 750px;
+      background: radial-gradient(circle, rgba(30, 64, 175, 0.07), transparent 70%);
+      pointer-events: none;
+    }
+    .slide-1 .grid {
+      display: grid; grid-template-columns: 1fr; gap: 3rem;
+      align-items: end; position: relative; z-index: 1;
+    }
+    @media (min-width: 1024px) { .slide-1 .grid { grid-template-columns: 1.25fr 1fr; gap: 5rem; } }
+
+    .slide-1 h1 {
+      font-size: clamp(2.6rem, 6.5vw, 5.6rem);
+      max-width: 18ch;
+    }
+    .slide-1 h1 .accent { color: var(--primary); }
+    .slide-1 h1 .underline {
+      position: relative; white-space: nowrap; display: inline-block;
+    }
+    .slide-1 h1 .underline::after {
+      content: "";
+      position: absolute; bottom: 0.06em; left: 0; right: 0;
+      height: 0.18em; background: var(--accent);
+      z-index: -1; opacity: 0.6;
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 1.2s var(--ease-out) 0.6s;
+    }
+    .slide-1 .reveal-up.in h1 .underline::after { transform: scaleX(1); }
+
+    /* --- Revenue-first opener (slide 1) --- */
+    .rev-arc { margin-top: 1.75rem; }
+    .rev-lab {
+      display: block;
+      font-family: var(--mono);
+      font-size: clamp(0.66rem, 1.1vw, 0.76rem);
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-mute);
+    }
+    .rev-now {
+      display: flex; align-items: baseline; gap: 0.45rem;
+      margin-top: 0.55rem;
+      font-weight: 700; line-height: 1;
+      font-size: clamp(1.9rem, 4vw, 2.9rem);
+      color: var(--text);
+    }
+    .rev-figure {
+      display: inline-flex; align-items: baseline;
+      cursor: text; padding-bottom: 0.1em;
+      border-bottom: 2px dashed var(--border-strong);
+      transition: border-color 0.25s var(--ease);
+    }
+    .rev-figure:hover, .rev-figure:focus-within { border-bottom-color: var(--accent); }
+    .rev-cur { color: var(--text-mute); font-weight: 600; }
+    .rev-input {
+      font: inherit; color: inherit;
+      background: none; border: 0; padding: 0; margin: 0;
+      width: 2ch; text-align: left;
+      margin-right: -0.09em;
+      font-variant-numeric: tabular-nums;
+    }
+    .rev-input:focus { outline: none; }
+    .rev-unit { font-weight: 600; }
+    .rev-per {
+      font-size: 0.3em; font-weight: 600; white-space: nowrap;
+      color: var(--text-mute); letter-spacing: 0.02em;
+    }
+    .rev-slider {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; max-width: 15rem;
+      height: 4px; margin: 1.1rem 0 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent) var(--fill, 24%), var(--border) var(--fill, 24%));
+      cursor: pointer;
+    }
+    .rev-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--bg); border: 3px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(11, 20, 55, 0.18);
+      cursor: grab;
+    }
+    .rev-slider::-moz-range-thumb {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--bg); border: 3px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(11, 20, 55, 0.18);
+      cursor: grab;
+    }
+    .rev-hint {
+      margin: 0.5rem 0 0;
+      font-family: var(--mono);
+      font-size: 0.66rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text-mute);
+      opacity: 0.72;
+    }
+
+    .rev-link {
+      height: clamp(1.75rem, 3.5vw, 2.75rem);
+      margin: 1rem 0 0.9rem;
+      display: flex; align-items: stretch;
+    }
+    .rev-link span {
+      display: block; width: 2px; margin-left: 0.55rem;
+      background: linear-gradient(180deg, var(--border-strong), var(--accent));
+      border-radius: 999px;
+      transform-origin: top; transform: scaleY(0);
+      animation: revDrop 0.75s var(--ease-out) 0.35s forwards;
+    }
+    @keyframes revDrop { to { transform: scaleY(1); } }
+
+    .slide-1 h1.rev-head {
+      font-size: inherit; max-width: none;
+      margin: 0; display: block;
+    }
+    .rev-big {
+      display: block; margin-top: 0.45rem;
+      font-size: clamp(3.4rem, 9vw, 7rem);
+      font-weight: 800; line-height: 0.92;
+      letter-spacing: -0.03em;
+      color: var(--primary);
+      font-variant-numeric: tabular-nums;
+    }
+    .rev-band {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem;
+      margin: 1.1rem 0 0;
+    }
+    .rev-mult {
+      font-family: var(--mono); font-weight: 700;
+      font-size: 0.78rem; letter-spacing: 0.08em;
+      padding: 0.35rem 0.7rem; border-radius: 999px;
+      background: var(--accent-light); color: var(--accent-deep);
+    }
+    .rev-range {
+      font-family: var(--mono);
+      font-size: 0.74rem; letter-spacing: 0.05em;
+      color: var(--text-mute);
+      font-variant-numeric: tabular-nums;
+    }
+    .rev-sub {
+      margin: 1.5rem 0 0; max-width: 34ch;
+      font-size: clamp(0.98rem, 1.6vw, 1.12rem);
+      line-height: 1.55; color: var(--text-soft);
+    }
+    .rev-sub strong { color: var(--text); font-weight: 700; }
+
+    .rev-kicker {
+      margin: 0; font-weight: 700;
+      font-size: clamp(1.15rem, 2vw, 1.5rem);
+      line-height: 1.3; letter-spacing: -0.01em;
+      color: var(--text);
+    }
+    .rev-kicker .accent { color: var(--primary); }
+    .rev-kicker .underline { position: relative; white-space: nowrap; display: inline-block; }
+    .rev-kicker .underline::after {
+      content: ""; position: absolute;
+      bottom: 0.06em; left: 0; right: 0; height: 0.3em;
+      background: var(--accent); z-index: -1; opacity: 0.55;
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 1.1s var(--ease-out) 0.7s;
+    }
+    .slide-1 .right.in .rev-kicker .underline::after { transform: scaleX(1); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rev-link span { animation: none; transform: scaleY(1); }
+      .rev-kicker .underline::after { transition: none; transform: scaleX(1); }
+    }
+
+    .slide-1 .right {
+      padding-top: 2rem;
+      border-top: 2px solid var(--text);
+      display: grid;
+      gap: 1.5rem;
+    }
+    .slide-1 .right p strong { color: var(--text); font-weight: 700; }
+
+    .pills {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .pill {
+      padding: 0.45rem 0.85rem;
+      font-size: 12.5px; font-weight: 600;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      background: var(--bg-elev); color: var(--text-soft);
+      border-radius: 8px; border: 1px solid var(--border);
+    }
+    .pill.live {
+      background: var(--navy); color: #FFF; border-color: var(--navy);
+    }
+
+    .cta-row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+
+    /* ============================================================
+       SLIDE 2 · PROOF (moved early — authority bias)
+       ============================================================ */
+    .slide-2 {
+      background: var(--navy); color: #FFF;
+      overflow: hidden;
+    }
+    .slide-2::before {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(125deg, rgba(11, 20, 55, 0.52), rgba(11, 20, 55, 0.12));
+      opacity: 0.62;
+      pointer-events: none;
+    }
+    .slide-2 .wrap { position: relative; z-index: 1; }
+    .proof-hero-grid {
+      max-width: 760px;
+    }
+    .slide-2 h2 {
+      color: #FFF;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      max-width: 22ch;
+    }
+    .slide-2 h2 .accent { color: var(--accent); }
+    .slide-2 .lede {
+      color: rgba(255, 255, 255, 0.78);
+      max-width: 56ch; margin-top: 1.25rem;
+    }
+
+    .proof-stats {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    @media (min-width: 1024px) { .proof-stats { grid-template-columns: repeat(4, 1fr); gap: 1rem; } }
+
+    .proof-stat {
+      padding: 1.85rem 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      --lift: 0px;
+      transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(var(--lift));
+      transition: background 0.3s var(--ease), border-color 0.3s var(--ease), transform 0.35s var(--spring-soft), box-shadow 0.35s var(--ease);
+    }
+    .proof-stat::after,
+    .category-proof .case::after,
+    .work-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(245, 158, 11, 0.18), transparent 36%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s var(--ease);
+      z-index: 0;
+    }
+    .proof-stat:hover::after,
+    .category-proof .case:hover::after,
+    .work-card:hover::after { opacity: 1; }
+    .proof-stat > *,
+    .category-proof .case > *,
+    .work-card > * { position: relative; z-index: 1; }
+    .proof-stat:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(245, 158, 11, 0.3);
+      --lift: -4px;
+      box-shadow: 0 22px 48px -32px rgba(245, 158, 11, 0.34);
+    }
+    .proof-stat .num {
+      font-size: clamp(2.4rem, 4.4vw, 3.4rem);
+      font-weight: 800; letter-spacing: -0.04em;
+      color: var(--accent);
+      line-height: 1; margin-bottom: 0.5rem;
+    }
+    .proof-stat .lbl {
+      font-size: 14.5px; color: #FFF;
+      font-weight: 600; margin-bottom: 0.2rem; line-height: 1.35;
+    }
+    .proof-stat .sub {
+      font-size: 12.5px; color: rgba(255, 255, 255, 0.6);
+    }
+
+    .category-proof {
+      margin-top: 1.25rem;
+      padding: 1.35rem 1.5rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+    }
+    .category-proof .heading {
+      font-size: 12.5px; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .category-proof .heading::before {
+      content: ""; width: 8px; height: 8px;
+      background: var(--accent); border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .category-proof .proof-row {
+      display: grid; grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+    @media (min-width: 760px) {
+      .category-proof .proof-row { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    }
+    @media (min-width: 1120px) {
+      .category-proof .proof-row { grid-template-columns: repeat(6, 1fr); }
+    }
+    .category-proof .case {
+      padding: 0.85rem 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      --lift: 0px;
+      transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(var(--lift));
+      transition: background 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.3s var(--spring-soft);
+    }
+    .category-proof .case:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(245, 158, 11, 0.35);
+      --lift: -3px;
+    }
+    .category-proof .case .brand-line {
+      display: flex; align-items: center; gap: 0.75rem;
+      min-height: 36px; margin-bottom: 0.55rem;
+    }
+    .category-proof .case .brand-logo {
+      width: 64px; height: 32px; border-radius: 8px;
+      background: rgba(255, 255, 255, 0.92);
+      display: grid; place-items: center; flex-shrink: 0;
+      overflow: hidden; padding: 0.35rem;
+    }
+    .category-proof .case .brand-logo img {
+      max-width: 100%; max-height: 100%; object-fit: contain;
+      filter: saturate(0.96) contrast(1.03);
+    }
+    .category-proof .case .brand-logo.text-logo {
+      color: var(--navy); font-weight: 800; font-size: 12px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .category-proof .case .brand {
+      font-size: 13px; font-weight: 700;
+      color: #FFF; margin-bottom: 0;
+      letter-spacing: -0.01em;
+    }
+    .category-proof .case .category {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 0.65rem;
+    }
+    .category-proof .case .metric-big {
+      font-size: clamp(1.2rem, 2vw, 1.45rem); font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.03em; line-height: 1;
+    }
+    .category-proof .case .metric-label {
+      font-size: 11.5px; color: rgba(255, 255, 255, 0.75);
+      margin-top: 0.35rem; line-height: 1.4;
+    }
+    .category-proof .source-note {
+      margin-top: 1.1rem; color: rgba(255, 255, 255, 0.5);
+      font-size: 12px; line-height: 1.45;
+    }
+
+    /* ============================================================
+       SLIDE 3 · TWO KINDS OF WORK (REFRAMED)
+       ============================================================ */
+    .slide-3 {}
+    .slide-3 h2 {
+      font-size: clamp(2.2rem, 4.8vw, 3.6rem);
+      max-width: 22ch;
+    }
+    .slide-3 h2 .h { background: var(--accent-light); padding: 0 0.12em; }
+    .slide-3 .lede { margin-top: 1.25rem; max-width: 60ch; }
+
+    .work-grid {
+      margin-top: 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    @media (min-width: 900px) { .work-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; } }
+
+    .work-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      --lift: 0px;
+      transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(var(--lift));
+      transition: transform 0.35s var(--spring-soft), box-shadow 0.3s var(--ease), border-color 0.25s var(--ease);
+    }
+    .work-card:hover {
+      --lift: -3px;
+      box-shadow: 0 18px 36px -12px rgba(15, 23, 42, 0.14);
+    }
+    .work-card.you {
+      background: var(--navy); color: #FFF; border-color: var(--navy);
+    }
+    .work-card.you h3 { color: #FFF; }
+    .work-card .label {
+      display: inline-block;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 0.3rem 0.7rem; border-radius: 6px;
+      margin-bottom: 1.5rem;
+    }
+    .work-card.you .label {
+      background: rgba(245, 158, 11, 0.18); color: var(--accent);
+    }
+    .work-card.us .label {
+      background: var(--primary-tint); color: var(--primary);
+    }
+    .work-card h3 {
+      font-size: clamp(1.5rem, 2.4vw, 1.85rem);
+      margin-bottom: 0.6rem;
+    }
+    .work-card .tag {
+      font-size: 16px; font-weight: 500; margin-bottom: 1.5rem;
+    }
+    .work-card.you .tag { color: rgba(255, 255, 255, 0.72); }
+    .work-card.us .tag { color: var(--text-mute); }
+    .work-card ul { list-style: none; }
+    .work-card li {
+      padding: 0.7rem 0; border-bottom: 1px solid;
+      font-size: 14.5px; display: flex; gap: 0.6rem; line-height: 1.45;
+    }
+    .work-card.you li { border-bottom-color: rgba(255, 255, 255, 0.1); }
+    .work-card.us li { border-bottom-color: var(--line-soft); }
+    .work-card li:last-child { border-bottom: 0; }
+    .work-card.you li::before { content: "✓"; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .work-card.us li::before { content: "→"; color: var(--primary); font-weight: 700; flex-shrink: 0; }
+
+    .work-closer {
+      margin-top: 2.5rem;
+      padding: 1.25rem 1.75rem;
+      background: var(--accent-light);
+      border-radius: 10px;
+      font-size: 16px; font-weight: 600;
+      max-width: 70ch; line-height: 1.45;
+    }
+
+    /* ============================================================
+       SLIDE 4 · WHAT WE KNOW (the 6 questions)
+       ============================================================ */
+    .slide-4 { background: var(--bg-soft); }
+    .slide-4 h2 {
+      font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+      max-width: 24ch;
+    }
+    .slide-4 h2 .h {
+      background: var(--accent-light); padding: 0 0.12em;
+    }
+    .slide-4 .lede { margin-top: 1.25rem; max-width: 60ch; }
+
+    .know-grid {
+      margin-top: 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 700px) { .know-grid { grid-template-columns: 1fr 1fr; gap: 1.25rem; } }
+    @media (min-width: 1100px) { .know-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .know-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.6rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    }
+    .know-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 40px -16px rgba(15, 23, 42, 0.15);
+    }
+    .know-card::before {
+      content: ""; position: absolute;
+      top: 0; left: 0; width: 4px; height: 100%;
+      background: var(--accent-c, var(--primary));
+    }
+    .know-card.k1 { --accent-c: var(--primary); }
+    .know-card.k2 { --accent-c: var(--emerald); }
+    .know-card.k3 { --accent-c: var(--cyan); }
+    .know-card.k4 { --accent-c: var(--accent); }
+    .know-card.k5 { --accent-c: var(--violet); }
+    .know-card.k6 { --accent-c: var(--rose); }
+
+    .know-card .num {
+      font-family: var(--mono); font-size: 11.5px;
+      color: var(--text-mute); font-weight: 600;
+      letter-spacing: 0.04em; margin-bottom: 0.85rem;
+    }
+    .know-card .q {
+      font-size: 1.05rem; font-weight: 700;
+      letter-spacing: -0.015em; margin-bottom: 0.85rem; line-height: 1.3;
+    }
+    .know-card .answer {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      font-size: 13.5px; line-height: 1.5;
+      color: var(--text-soft);
+    }
+    .know-card .answer .num-callout {
+      font-weight: 700; color: var(--accent-c);
+    }
+    .know-card .meta {
+      margin-top: 0.85rem; font-size: 11.5px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-mute); font-weight: 600;
+    }
+
+    .know-footnote {
+      margin-top: 2.25rem;
+      font-size: 13px; color: var(--text-mute);
+      max-width: 70ch; line-height: 1.5;
+    }
+    .know-footnote em { font-style: normal; color: var(--text-soft); font-weight: 600; }
+
+    /* ============================================================
+       SLIDE 5 · FOUR AGENTS
+       ============================================================ */
+    .slide-5 {}
+    .slide-5 h2 {
+      font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+      max-width: 26ch;
+    }
+    .slide-5 .lede { margin-top: 1.25rem; max-width: 60ch; }
+
+    .agents-grid {
+      margin-top: 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 700px) { .agents-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1200px) { .agents-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    .agent {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem 1.5rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s var(--spring-soft), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease), background 0.3s var(--ease);
+      display: flex; flex-direction: column;
+      isolation: isolate;
+    }
+    .agent:hover {
+      transform: translateY(-6px);
+      border-color: color-mix(in srgb, var(--accent-color, var(--primary)) 45%, var(--border));
+      box-shadow: 0 24px 54px -20px rgba(15, 23, 42, 0.24);
+    }
+    .agent::before {
+      content: ""; position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: var(--accent-color, var(--primary));
+      z-index: 2;
+    }
+    .agent::after {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%), color-mix(in srgb, var(--accent-color, var(--primary)) 20%, transparent), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,0.42), transparent 52%);
+      opacity: 0;
+      transition: opacity 0.24s var(--ease);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .agent:hover::after { opacity: 1; }
+    .agent > * { position: relative; z-index: 1; }
+
+    .agent .num {
+      font-size: 13px; font-weight: 700;
+      color: var(--text-mute); font-family: var(--mono);
+      margin-bottom: 1rem;
+    }
+    .agent .role {
+      display: inline-block;
+      font-size: 11.5px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 0.3rem 0.65rem; border-radius: 6px;
+      margin-bottom: 1rem;
+      background: var(--accent-color); color: #FFF;
+    }
+    .agent h3 {
+      font-size: 1.5rem; margin-bottom: 0.5rem;
+      letter-spacing: -0.025em;
+    }
+    .agent .tag {
+      font-size: 14.5px; color: var(--text-soft);
+      margin-bottom: 1.5rem; line-height: 1.5;
+    }
+    .agent ul {
+      list-style: none;
+      border-top: 1px solid var(--line-soft);
+      margin-top: auto;
+    }
+    .agent li {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--line-soft);
+      font-size: 13.5px; color: var(--text-soft);
+      line-height: 1.45; display: flex; gap: 0.5rem;
+    }
+    .agent li:last-child { border-bottom: 0; }
+    .agent li::before {
+      content: "+"; color: var(--accent-color);
+      font-weight: 700; flex-shrink: 0;
+    }
+
+    /* ============================================================
+       SLIDE 6 · ON AUTOPILOT (8 functions)
+       ============================================================ */
+    .slide-6 { background: var(--bg-soft); }
+    .stack-head {
+      display: grid; grid-template-columns: 1fr; gap: 1.5rem;
+      align-items: end;
+    }
+    @media (min-width: 900px) { .stack-head { grid-template-columns: 1.4fr 1fr; gap: 4rem; } }
+    .stack-head h2 {
+      font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+      max-width: 22ch;
+    }
+    .stack-head p {
+      font-size: 16.5px; color: var(--text-soft);
+      max-width: 36ch; line-height: 1.55;
+    }
+
+    .stack-grid {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    @media (min-width: 700px) { .stack-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    .stack-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: transform 0.25s var(--ease), border-color 0.25s var(--ease);
+    }
+    .stack-item:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+    }
+    .stack-item .num {
+      font-size: 11.5px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--primary); margin-bottom: 1rem;
+    }
+    .stack-item h4 {
+      font-size: 1.05rem; font-weight: 700;
+      margin-bottom: 0.4rem; letter-spacing: -0.015em;
+    }
+    .stack-item p {
+      font-size: 13.5px; color: var(--text-mute);
+      line-height: 1.5;
+    }
+    .stack-item .tag-ai {
+      display: inline-block;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-top: 0.85rem;
+    }
+
+    /* ============================================================
+       SLIDE 7 · WHAT GROWS (4 levers — Reach/Convert/Retain/AOV)
+       ============================================================ */
+    .slide-7 {
+      overflow: clip;
+      min-height: 100vh;
+      justify-content: flex-start;
+      padding-top: clamp(4.35rem, 6.5vh, 5.25rem);
+      padding-bottom: clamp(2rem, 3vh, 3rem);
+    }
+    .slide-7 .pinning-header {
+      position: relative;
+      z-index: 2;
+    }
+    .slide-7 .pinning-header .slide-num {
+      top: 0.25rem;
+      right: 0;
+    }
+    .slide-7 h2 {
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      max-width: 20ch;
+    }
+    .slide-7 h2 .h {
+      background: var(--accent-light); padding: 0 0.1em;
+    }
+    .slide-7 .lede { margin-top: 0.9rem; max-width: 60ch; }
+
+    .horizontal-scroll-container {
+      width: min(var(--max), calc(100vw - (var(--pad) * 2)));
+      margin: clamp(1.5rem, 3.6vh, 2.35rem) auto 0;
+      overflow: hidden;
+      perspective: 1400px;
+      position: relative;
+      z-index: 1;
+      padding: 0.25rem 0 1.35rem;
+    }
+    .levers-wrapper {
+      display: flex;
+      gap: clamp(0.9rem, 1.4vw, 1.2rem);
+      width: max-content;
+      padding: 0;
+      will-change: transform;
+    }
+    .lever {
+      flex: 0 0 min(312px, calc(100vw - (var(--pad) * 2)));
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: clamp(1.25rem, 1.6vw, 1.55rem);
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      transition: transform 0.35s var(--spring-soft), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease), opacity 0.3s var(--ease), filter 0.3s var(--ease);
+      transform-style: preserve-3d;
+      min-height: clamp(236px, 29vh, 292px);
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+    }
+    .lever:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent-c, var(--primary));
+      box-shadow: 0 24px 54px -22px rgba(15, 23, 42, 0.22);
+    }
+    .lever::after {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%), color-mix(in srgb, var(--accent-c, var(--primary)) 18%, transparent), transparent 35%),
+        linear-gradient(180deg, rgba(255,255,255,0.48), transparent 56%);
+      opacity: 0;
+      transition: opacity 0.24s var(--ease);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .lever:hover::after { opacity: 1; }
+    .lever > * { position: relative; z-index: 1; }
+    .lever.l1 { --accent-c: var(--primary); }
+    .lever.l2 { --accent-c: var(--emerald); }
+    .lever.l3 { --accent-c: var(--cyan); }
+    .lever.l4 { --accent-c: var(--accent); }
+
+    .lever .head {
+      display: flex; align-items: baseline;
+      justify-content: space-between; margin-bottom: 1rem;
+    }
+    .lever .role {
+      font-size: 11.5px; font-weight: 800;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent-c);
+    }
+    .lever .num {
+      font-size: 12px; font-family: var(--mono); color: var(--text-mute);
+    }
+    .lever h3 {
+      font-size: clamp(1.34rem, 1.85vw, 1.7rem);
+      margin-bottom: 1.15rem; letter-spacing: -0.03em;
+      max-width: 14ch;
+    }
+    .lever h3 .h { color: var(--accent-c); }
+    .lever p {
+      font-size: 15px; color: var(--text-soft);
+      margin-bottom: 1.25rem; line-height: 1.55; max-width: 42ch;
+    }
+    .lever ul {
+      list-style: none;
+      border-top: 1px solid var(--line-soft);
+      margin-top: auto;
+    }
+    .lever li {
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--line-soft);
+      font-size: 13.25px; color: var(--text-soft);
+      display: flex; gap: 0.55rem;
+      line-height: 1.4;
+    }
+    .lever li:last-child { border-bottom: 0; }
+    .lever li::before {
+      content: "+"; color: var(--accent-c);
+      font-weight: 700; flex-shrink: 0;
+    }
+    @media (min-width: 900px) {
+      .horizontal-scroll-container { overflow: visible; }
+      .levers-wrapper {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+      .lever {
+        flex: 1 1 auto;
+        min-height: clamp(248px, 29vh, 292px);
+      }
+    }
+
+    .slide-7.is-pinned .lever {
+      opacity: 0.58;
+      filter: saturate(0.72);
+      box-shadow: 0 34px 84px -48px rgba(15, 23, 42, 0.46);
+    }
+    .slide-7.is-pinned .lever.is-active {
+      opacity: 1;
+      filter: saturate(1);
+      border-color: var(--accent-c);
+      box-shadow: 0 34px 86px -44px color-mix(in srgb, var(--accent-c) 38%, transparent);
+    }
+    @media (max-width: 899px) {
+      .slide-7 .pinning-header .slide-num {
+        position: static;
+        display: block;
+        margin-bottom: 1rem;
+        text-align: left;
+      }
+      .horizontal-scroll-container {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 0.5rem;
+      }
+      .levers-wrapper { padding-right: var(--pad); }
+    }
+
+    /* ============================================================
+       SLIDE 8 · DASHBOARD
+       ============================================================ */
+    .slide-9 {}
+    .slide-9 h2 {
+      font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+      max-width: 22ch;
+    }
+    .slide-9 h2 .h { color: var(--primary); }
+    .slide-9 .lede { margin-top: 1.25rem; max-width: 60ch; }
+
+    .dashboard {
+      margin-top: 3rem;
+      border: 1px solid rgba(226, 232, 240, 0.72);
+      border-radius: 18px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.82), rgba(248,250,252,0.58)),
+        radial-gradient(circle at 12% 0%, rgba(30,64,175,0.08), transparent 42%);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      overflow: hidden;
+      box-shadow: 0 50px 110px -34px rgba(11, 20, 55, 0.26), 0 4px 16px rgba(11, 20, 55, 0.05);
+    }
+    .dash-chrome {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: rgba(241, 245, 249, 0.68);
+      backdrop-filter: blur(18px) saturate(180%);
+      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.78);
+    }
+    .dash-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dash-dot:nth-child(1) { background: #E5484D; }
+    .dash-dot:nth-child(2) { background: #F0BC4B; }
+    .dash-dot:nth-child(3) { background: #36B37E; }
+    .dash-url {
+      margin-left: 0.75rem;
+      font-family: var(--mono); font-size: 11.5px;
+      color: var(--text-mute);
+      padding: 0.3rem 0.85rem;
+      background: rgba(255, 255, 255, 0.78);
+      border-radius: 999px;
+      border: 1px solid rgba(226, 232, 240, 0.74);
+      flex: 1; max-width: 380px;
+    }
+
+    .dash-body {
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 1024px) {
+      .dash-body { grid-template-columns: 1fr 1fr; }
+      .dash-header, .dash-stats, .dash-harmony { grid-column: 1 / -1; }
+    }
+    .dash-header {
+      display: flex; align-items: end; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap;
+      padding-bottom: 1rem; border-bottom: 1px solid var(--border);
+    }
+    .dash-header .brand-name {
+      font-size: 1.15rem; font-weight: 700;
+    }
+    .dash-header .brand-name span {
+      color: var(--text-mute); font-size: 0.85rem;
+      font-weight: 500; margin-left: 0.5rem;
+    }
+    .dash-header .period {
+      font-family: var(--mono); font-size: 11.5px;
+      color: var(--text-mute);
+      padding: 0.4rem 0.8rem;
+      background: var(--bg);
+      border-radius: 999px;
+      border: 1px solid var(--border);
+    }
+
+    .dash-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+    @media (min-width: 700px) { .dash-stats { grid-template-columns: repeat(4, 1fr); } }
+    .stat-tile {
+      background: rgba(255, 255, 255, 0.74);
+      padding: 1.1rem 1.25rem;
+      border: 1px solid rgba(226, 232, 240, 0.72);
+      border-radius: 10px;
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      position: relative;
+      overflow: hidden;
+      min-height: 124px;
+      isolation: isolate;
+      --lift: 0px;
+      transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(var(--lift));
+      transition: transform 0.28s var(--spring-soft), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+    }
+    .stat-tile:hover {
+      --lift: -3px;
+      border-color: rgba(30, 64, 175, 0.26);
+      box-shadow: 0 20px 44px -32px rgba(30, 64, 175, 0.34);
+    }
+    .stat-tile::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.34), rgba(255,255,255,0));
+      pointer-events: none;
+      z-index: 0;
+    }
+    .stat-tile > *:not(.sparkline) {
+      position: relative;
+      z-index: 2;
+    }
+    .sparkline {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 74px;
+      opacity: 0.58;
+      z-index: 1;
+      transform: translateY(8px);
+    }
+    .sparkline path {
+      fill: none;
+      stroke: var(--spark, var(--primary));
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 8px 14px color-mix(in srgb, var(--spark, var(--primary)) 22%, transparent));
+    }
+    .sparkline .area {
+      stroke: none;
+      fill: color-mix(in srgb, var(--spark, var(--primary)) 11%, transparent);
+    }
+    .stat-tile .lbl {
+      font-size: 11px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text-mute);
+      font-weight: 700; margin-bottom: 0.4rem;
+    }
+    .stat-tile .num {
+      font-size: 1.55rem; font-weight: 800;
+      letter-spacing: -0.025em; color: var(--text);
+    }
+    .stat-tile .delta {
+      font-family: var(--mono); font-size: 11.5px;
+      margin-top: 0.2rem; color: var(--emerald); font-weight: 600;
+    }
+    .stat-tile .delta.down { color: var(--rose); }
+
+    .dash-card {
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(226, 232, 240, 0.72);
+      border-radius: 14px;
+      overflow: hidden;
+      backdrop-filter: blur(16px) saturate(165%);
+      -webkit-backdrop-filter: blur(16px) saturate(165%);
+      box-shadow: 0 18px 50px -34px rgba(11, 20, 55, 0.3);
+    }
+    .dash-card .head {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--line-soft);
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .dash-card .head h4 { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
+    .dash-card .head .meta {
+      font-size: 10.5px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text-mute); font-weight: 700;
+    }
+    .live-feed-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .notification-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.34);
+    }
+    .notification-dot.pulse { animation: notify-pulse 900ms var(--ease-out); }
+    @keyframes notify-pulse {
+      0% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.34); transform: scale(1); }
+      55% { box-shadow: 0 0 0 9px rgba(5, 150, 105, 0); transform: scale(1.35); }
+      100% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0); transform: scale(1); }
+    }
+
+    .feed { padding: 0.4rem 1.25rem; max-height: 360px; overflow: auto; }
+    .feed-item {
+      display: grid; grid-template-columns: 56px 1fr;
+      gap: 0.75rem; padding: 0.65rem 0;
+      border-bottom: 1px solid var(--line-soft);
+      align-items: start;
+    }
+    .feed-item.feed-new {
+      animation: feed-in 560ms var(--spring-soft);
+    }
+    @keyframes feed-in {
+      from { opacity: 0; transform: translateY(-12px) scale(0.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .feed-item:last-child { border-bottom: 0; }
+    .feed-item .t {
+      font-family: var(--mono); font-size: 10.5px;
+      color: var(--text-mute); padding-top: 1px; font-weight: 500;
+    }
+    .feed-item .body { font-size: 13px; color: var(--text); line-height: 1.45; }
+    .feed-item .body .agent {
+      display: inline-block;
+      padding: 0.1rem 0.4rem;
+      font-size: 9.5px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      border-radius: 4px; margin-right: 0.4rem;
+    }
+    .feed-item .body .agent.site { background: var(--primary-tint); color: var(--primary); }
+    .feed-item .body .agent.ads { background: var(--emerald-light); color: var(--emerald); }
+    .feed-item .body .agent.ops { background: var(--cyan-light); color: var(--cyan); }
+    .feed-item .body .agent.margin { background: var(--accent-light); color: var(--accent-deep); }
+    .feed-item .body .agent.support { background: var(--violet-light); color: var(--violet); }
+
+    .approval { padding: 1rem 1.25rem; border-bottom: 1px solid var(--line-soft); }
+    .approval:last-child { border-bottom: 0; }
+    .approval.is-approved { animation: approve-away 720ms var(--spring-soft) forwards; }
+    @keyframes approve-away {
+      0% { opacity: 1; transform: translateX(0); max-height: 180px; }
+      62% { opacity: 0; transform: translateX(18px); max-height: 180px; }
+      100% { opacity: 0; transform: translateX(18px); max-height: 0; padding-top: 0; padding-bottom: 0; border-bottom-color: transparent; }
+    }
+    .approval .title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .approval .sub { font-size: 12.5px; color: var(--text-mute); margin-bottom: 0.85rem; line-height: 1.45; }
+    .approval .row { display: flex; gap: 0.5rem; align-items: center; }
+    .approval .btn-mini {
+      padding: 0.3rem 0.7rem;
+      font-size: 11.5px; font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid var(--navy);
+      background: var(--navy); color: #FFF; cursor: pointer;
+      transition: transform 0.18s var(--spring-soft), background 0.2s var(--ease), border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+    }
+    .approval .btn-mini:hover { transform: translateY(-1px); box-shadow: 0 10px 20px -14px rgba(11, 20, 55, 0.48); }
+    .approval .btn-mini.approved {
+      background: var(--emerald);
+      border-color: var(--emerald);
+      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.12);
+    }
+    .approval .btn-mini.ghost {
+      background: transparent; color: var(--text);
+      border-color: var(--border-strong);
+    }
+    .approval .by {
+      font-family: var(--mono); font-size: 10.5px;
+      color: var(--text-mute); margin-left: auto; font-weight: 500;
+    }
+
+    .digest { padding: 1.25rem; display: grid; gap: 0.85rem; }
+    .digest .item {
+      display: grid; grid-template-columns: 14px 1fr;
+      gap: 0.75rem; align-items: start;
+    }
+    .digest .item .marker {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--emerald); margin-top: 0.5rem;
+    }
+    .digest .item.warn .marker { background: var(--rose); }
+    .digest .item .text { font-size: 13px; color: var(--text); line-height: 1.45; }
+    .digest .item .text .label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--emerald); margin-right: 0.4rem;
+    }
+    .digest .item.warn .text .label { color: var(--rose); }
+
+    /* ============================================================
+       SLIDE 9 · 90 DAYS
+       ============================================================ */
+    .slide-10 { background: var(--bg-soft); }
+    .slide-10 h2 {
+      font-size: clamp(2.15rem, 4.35vw, 3.45rem);
+      max-width: 24ch;
+    }
+    .slide-10 h2 .h { color: var(--primary); }
+
+    .timeline {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      position: relative;
+    }
+    @media (min-width: 900px) {
+      .timeline {
+        grid-template-columns: minmax(0, 1.38fr) minmax(0, 0.9fr) minmax(0, 0.9fr);
+        gap: 1.5rem;
+        padding-top: 2.8rem;
+      }
+    }
+    .timeline-line {
+      display: none;
+    }
+    @media (min-width: 900px) {
+      .timeline-line {
+        display: block;
+        position: absolute;
+        left: calc(100% / 6);
+        right: calc(100% / 6);
+        top: 1.05rem;
+        height: 3px;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.34);
+        overflow: visible;
+        z-index: 0;
+      }
+      .timeline-line::before,
+      .timeline-line::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: rgba(148, 163, 184, 0.58);
+        transform: translate(-50%, -50%);
+      }
+      .timeline-line::before { left: 0; }
+      .timeline-line::after { left: 100%; }
+      .timeline-line .mid-node {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: rgba(148, 163, 184, 0.58);
+        transform: translate(-50%, -50%);
+      }
+      .timeline-line span {
+        display: block;
+        height: 100%;
+        width: 100%;
+        transform: scaleX(var(--line-progress, 0));
+        transform-origin: left;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        box-shadow: 0 0 24px rgba(245, 158, 11, 0.32);
+      }
+    }
+
+    .phase {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem;
+      position: relative;
+      transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), opacity 0.3s var(--ease), filter 0.3s var(--ease), box-shadow 0.3s var(--ease);
+      z-index: 1;
+      overflow: visible;
+      opacity: 0.58;
+      filter: saturate(0.74);
+    }
+    .phase:hover { transform: translateY(-3px); border-color: var(--primary); }
+    @media (min-width: 900px) {
+      .phase::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: -2.18rem;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: rgba(148, 163, 184, 0.9);
+        border: 3px solid var(--bg-soft);
+        transform: translateX(-50%) scale(0.88);
+        box-shadow: 0 0 0 rgba(30, 64, 175, 0);
+        transition: background 0.28s var(--ease), box-shadow 0.28s var(--ease), transform 0.28s var(--ease);
+      }
+    }
+    .phase.is-lit {
+      opacity: 1;
+      filter: saturate(1);
+      border-color: color-mix(in srgb, var(--primary) 52%, var(--border));
+      box-shadow: 0 30px 76px -48px rgba(30, 64, 175, 0.5);
+      transform: translateY(-3px);
+    }
+    .phase.is-lit::before {
+      background: var(--accent);
+      transform: translateX(-50%) scale(1.1);
+      box-shadow: 0 0 0 8px rgba(245, 158, 11, 0.14), 0 0 30px rgba(245, 158, 11, 0.5);
+    }
+    .phase .stamp {
+      display: inline-block;
+      padding: 0.3rem 0.65rem;
+      background: var(--primary-tint); color: var(--primary);
+      font-size: 11.5px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      border-radius: 6px; margin-bottom: 1rem;
+    }
+    .phase .fee-chip {
+      display: inline-block;
+      padding: 0.3rem 0.65rem;
+      background: var(--accent-light); color: var(--accent-deep);
+      font-size: 11.5px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      border-radius: 6px; margin: 0 0 1rem 0.5rem;
+    }
+    .phase .title {
+      font-size: 1.4rem; font-weight: 700;
+      letter-spacing: -0.02em; margin-bottom: 1.25rem;
+    }
+    .phase ul { list-style: none; }
+    .phase li {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--line-soft);
+      font-size: 14px; color: var(--text-soft);
+      line-height: 1.5; display: flex; gap: 0.55rem;
+    }
+    .phase li:last-child { border-bottom: 0; }
+    .phase li::before {
+      content: "→"; color: var(--primary);
+      font-weight: 700; flex-shrink: 0;
+    }
+    /* Each .phase li is a flex row: [→] [bold lead-in] [body].
+       Pin the lead-in so it reads as a definition column instead of
+       collapsing to two words per line. */
+    .phase li > strong:first-child {
+      flex: 0 0 8.25em;
+      color: var(--text);
+    }
+    @media (max-width: 900px) {
+      .phase li { flex-wrap: wrap; }
+      .phase li > strong:first-child { flex-basis: 100%; }
+    }
+    .phase-diagnostic {
+      opacity: 1;
+      filter: saturate(1);
+      border-color: rgba(30, 64, 175, 0.28);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(30, 64, 175, 0.1), transparent 36%),
+        linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.94));
+      box-shadow: 0 34px 92px -56px rgba(30, 64, 175, 0.52);
+    }
+    .phase-diagnostic .title {
+      font-size: clamp(1.45rem, 2.2vw, 2rem);
+      max-width: 16ch;
+      margin-bottom: 0.8rem;
+    }
+    .phase-diagnostic .diagnostic-copy {
+      color: var(--text-soft);
+      font-size: 14px;
+      line-height: 1.45;
+      max-width: 52ch;
+      margin-bottom: 1rem;
+    }
+    .diagnostic-board {
+      display: grid;
+      gap: 0.65rem;
+      margin: 1rem 0;
+      padding: 0.95rem;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.74);
+    }
+    .diagnostic-row {
+      display: grid;
+      grid-template-columns: minmax(110px, 0.9fr) minmax(120px, 1.2fr) auto;
+      gap: 0.65rem;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+    .diagnostic-row b {
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .diagnostic-track {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(203, 213, 225, 0.55);
+      overflow: hidden;
+    }
+    .diagnostic-track i {
+      display: block;
+      height: 100%;
+      width: var(--w);
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.22);
+    }
+    .report-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.9rem;
+    }
+    .report-pills span {
+      padding: 0.35rem 0.55rem;
+      border-radius: 999px;
+      background: var(--primary-tint);
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .phase .deliverable {
+      margin-top: 1rem;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--line-soft);
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: var(--text-mute);
+    }
+    .phase .deliverable strong {
+      color: var(--text);
+      font-weight: 800;
+    }
+    .timeline-focus {
+      margin-top: 2.6rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+    @media (min-width: 980px) {
+      .timeline-focus {
+        grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.85fr);
+        grid-template-rows: 1fr 1fr;
+      }
+      .timeline-focus .phase-primary { grid-row: 1 / span 2; }
+    }
+    .timeline-focus .phase {
+      box-shadow: 0 20px 60px -42px rgba(11, 20, 55, 0.45);
+    }
+    .timeline-focus .phase-primary {
+      border-color: rgba(30, 64, 175, 0.22);
+      background:
+        radial-gradient(circle at 0 0, rgba(30, 64, 175, 0.08), transparent 38%),
+        var(--bg);
+      padding: clamp(1.5rem, 2vw, 2rem);
+    }
+    .phase-primary .title {
+      font-size: clamp(1.6rem, 2.4vw, 2rem);
+      max-width: 14ch;
+    }
+    .phase-primary .audit-split {
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 720px) {
+      .phase-primary .audit-split { grid-template-columns: 1fr 1fr; }
+    }
+    .phase-primary .baseline-mini {
+      margin-top: 1.25rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+    }
+    .baseline-mini span {
+      padding: 0.7rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg-soft);
+      color: var(--text-soft);
+      font-size: 12.5px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+    .timeline-focus .phase-secondary {
+      padding: 1.35rem;
+      min-height: 0;
+    }
+    .timeline-focus .phase-secondary .title {
+      font-size: 1.15rem;
+      margin-bottom: 0.8rem;
+    }
+    .timeline-focus .phase-secondary li {
+      padding: 0.45rem 0;
+      font-size: 13.5px;
+    }
+    .timeline-focus .deliverable {
+      margin-top: 1rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--line-soft);
+      color: var(--text-mute);
+      font-size: 12.5px;
+      line-height: 1.4;
+    }
+    .timeline-focus .deliverable strong {
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .framework-grid {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+    @media (min-width: 1024px) {
+      .framework-grid { grid-template-columns: 0.9fr 1.1fr; gap: 1.5rem; }
+    }
+    .month-one-card,
+    .benchmark-card,
+    .phase-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 20px 60px -42px rgba(11, 20, 55, 0.45);
+    }
+    .month-one-card { padding: 1.6rem; }
+    .framework-label {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.35rem 0.65rem;
+      background: var(--primary-tint); color: var(--primary);
+      border-radius: 6px;
+      font-size: 11px; font-weight: 800;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .month-one-card h3,
+    .benchmark-card h3 {
+      font-size: 1.35rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+    .month-one-card .copy,
+    .benchmark-card .copy {
+      color: var(--text-soft);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .audit-split {
+      margin-top: 1.35rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+    }
+    @media (min-width: 640px) { .audit-split { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .audit-split { grid-template-columns: 1fr; } }
+    .audit-box {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      background: var(--bg-soft);
+    }
+    .audit-box .day {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .audit-box .title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.55rem;
+    }
+    .audit-box ul { list-style: none; display: grid; gap: 0.45rem; }
+    .audit-box li {
+      color: var(--text-soft);
+      font-size: 13px;
+      line-height: 1.4;
+      display: flex;
+      gap: 0.45rem;
+    }
+    .audit-box li::before {
+      content: "";
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent);
+      margin-top: 0.48rem;
+      flex-shrink: 0;
+    }
+    .benchmark-card {
+      padding: 1.6rem;
+      overflow: hidden;
+      position: relative;
+    }
+    .benchmark-board {
+      margin-top: 1.25rem;
+      display: grid;
+      gap: 0.85rem;
+    }
+    .benchmark-row {
+      display: grid;
+      grid-template-columns: minmax(112px, 0.7fr) 1.5fr;
+      gap: 0.85rem;
+      align-items: center;
+    }
+    .benchmark-row .metric {
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 800;
+      line-height: 1.25;
+    }
+    .benchmark-row .metric span {
+      display: block;
+      margin-top: 0.2rem;
+      color: var(--text-mute);
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .benchmark-track {
+      position: relative;
+      height: 34px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: linear-gradient(90deg, #F8FAFC 0%, #EFF6FF 42%, #FEF3C7 72%, #D1FAE5 100%);
+      overflow: hidden;
+    }
+    .benchmark-track::selection { background: transparent; }
+    .benchmark-track::before,
+    .benchmark-track::after {
+      content: "";
+      position: absolute; top: 0; bottom: 0;
+      width: 1px; background: rgba(15, 23, 42, 0.12);
+    }
+    .benchmark-track::before { left: 45%; }
+    .benchmark-track::after { left: 74%; }
+    .benchmark-marker {
+      position: absolute;
+      top: 50%;
+      left: var(--pos);
+      transform: translate(-50%, -50%);
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--navy);
+      border: 3px solid #FFF;
+      box-shadow: 0 0 0 1px rgba(11, 20, 55, 0.2), 0 6px 16px rgba(11, 20, 55, 0.18);
+    }
+    .benchmark-marker.target {
+      background: var(--emerald);
+      left: var(--target);
+    }
+    .reveal-up.in .benchmark-marker {
+      animation: marker-land 820ms var(--spring) both;
+    }
+    .reveal-up.in .benchmark-marker.target { animation-delay: 160ms; }
+    @keyframes marker-land {
+      from { transform: translate(-50%, -50%) scale(0.72); opacity: 0; }
+      to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+    .benchmark-legend {
+      margin-top: 0.9rem;
+      display: flex; flex-wrap: wrap;
+      gap: 0.5rem 0.8rem;
+      color: var(--text-mute);
+      font-size: 11.5px;
+      font-family: var(--mono);
+    }
+    .legend-dot {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+    }
+    .legend-dot::before {
+      content: ""; width: 8px; height: 8px;
+      border-radius: 50%; background: var(--navy);
+    }
+    .legend-dot.target::before { background: var(--emerald); }
+    .phase-strip {
+      margin-top: 1.25rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      position: relative;
+    }
+    .timeline-progress {
+      margin-top: 2rem;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(203, 213, 225, 0.68);
+      overflow: hidden;
+      position: relative;
+      box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.08);
+    }
+    .timeline-progress span {
+      display: block;
+      height: 100%;
+      width: 100%;
+      transform: scaleX(var(--phase-progress, 0));
+      transform-origin: left;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: inherit;
+      box-shadow: 0 0 22px rgba(245, 158, 11, 0.26);
+    }
+    @media (min-width: 900px) { .phase-strip { grid-template-columns: repeat(3, 1fr); } }
+    .phase-card {
+      padding: 1.25rem;
+      min-height: 230px;
+      display: flex;
+      flex-direction: column;
+    }
+    .phase-card .stamp {
+      font-family: var(--mono);
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 0.85rem;
+    }
+    .phase-card .title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+    .phase-card p {
+      font-size: 13.5px;
+      color: var(--text-soft);
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+    .phase-card .deliverable {
+      margin-top: auto;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--line-soft);
+      font-size: 12px;
+      color: var(--text-mute);
+      line-height: 1.45;
+    }
+    .phase-card .deliverable strong {
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    /* ============================================================
+       SLIDE · CONTROL (we operate, you approve)
+       ============================================================ */
+    .control-grid { margin-top: 2.6rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+    @media (max-width: 900px) { .control-grid { grid-template-columns: 1fr; } }
+    .control-card {
+      background: var(--bg-card, #fff);
+      border: 1px solid var(--border); border-radius: 16px;
+      padding: 1.5rem 1.6rem;
+      display: flex; flex-direction: column;
+    }
+    .control-card .gate {
+      align-self: flex-start;
+      font-family: var(--mono); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      border-radius: 999px; padding: 4px 11px; margin-bottom: 1rem;
+    }
+    .control-card .gate.amber { background: var(--accent-light); color: var(--accent-deep); border: 1px solid #FDE68A; }
+    .control-card .gate.green { background: var(--emerald-light); color: var(--emerald); border: 1px solid #A7F3D0; }
+    .control-card .gate.blue { background: var(--primary-tint); color: var(--primary); border: 1px solid var(--primary-light); }
+    .control-card .title { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 0.9rem; }
+    .control-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; margin: 0 0 1.1rem; padding: 0; }
+    .control-card li { font-size: 0.93rem; color: var(--text-soft); padding-left: 1.1rem; position: relative; }
+    .control-card li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 6px; height: 6px; border-radius: 50%; background: var(--border-strong); }
+    .control-card .foot { margin-top: auto; font-size: 0.85rem; color: var(--text-mute); border-top: 1px solid var(--line-soft); padding-top: 0.9rem; }
+
+    /* ============================================================
+       SLIDE 10 · PRICING
+       ============================================================ */
+    .slide-11 {}
+    .slide-11 h2 {
+      font-size: clamp(2.2rem, 4.8vw, 3.8rem);
+      max-width: 22ch;
+    }
+    .slide-11 h2 .h { color: var(--primary); }
+    .slide-11 .lede { margin-top: 1.25rem; max-width: 60ch; }
+
+    .audit-band {
+      margin-top: 2rem;
+      display: flex; align-items: baseline; gap: 0.9rem; flex-wrap: wrap;
+      background: var(--accent-light);
+      border: 1px solid #FDE68A;
+      border-radius: 14px;
+      padding: 0.95rem 1.2rem;
+    }
+    .audit-band .step {
+      font-family: var(--mono);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent-deep); white-space: nowrap;
+    }
+    .audit-band p { font-size: 0.98rem; color: var(--text-soft); margin: 0; }
+    .audit-band p strong { color: var(--text); }
+
+    .rate-tiers {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.9rem;
+    }
+    .rate-tiers .tier {
+      background: var(--bg-card, #fff);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.05rem 1.2rem;
+      transition: border-color 0.3s var(--ease), background 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    }
+    .rate-tiers .tier .range {
+      font-family: var(--mono);
+      font-size: 11.5px; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--text-mute);
+    }
+    .rate-tiers .tier .rate {
+      font-size: 2.1rem; font-weight: 800;
+      letter-spacing: -0.03em; line-height: 1.1;
+      color: var(--text); margin: 0.3rem 0 0.15rem;
+    }
+    .rate-tiers .tier .hint { font-size: 0.85rem; color: var(--text-soft); }
+    .rate-tiers .tier.active {
+      border-color: var(--primary);
+      background: var(--primary-tint);
+      box-shadow: 0 12px 32px -20px rgba(30, 64, 175, 0.5);
+    }
+    .rate-tiers .tier.active .rate { color: var(--primary); }
+    @media (max-width: 680px) { .rate-tiers { grid-template-columns: 1fr; } }
+
+    .applied-rate {
+      font-family: var(--mono); font-size: 12px; font-weight: 600;
+      color: var(--primary); background: var(--primary-tint);
+      border: 1px solid var(--primary-light); border-radius: 999px;
+      padding: 2px 9px; margin-left: 0.5rem; vertical-align: middle;
+      white-space: nowrap;
+    }
+    .gmv-note {
+      margin-top: 1.6rem;
+      font-size: 0.9rem; line-height: 1.55;
+      color: var(--text-soft); max-width: 78ch;
+      border-left: 3px solid var(--primary-light);
+      padding-left: 1rem;
+    }
+    .gmv-note strong { color: var(--text); }
+
+    .price-flow {
+      margin-top: 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      align-items: stretch;
+      padding: 1.5rem;
+      border: 1px solid rgba(226, 232, 240, 0.72);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(30,64,175,0.08), transparent 34%),
+        rgba(248, 250, 252, 0.72);
+      box-shadow: 0 28px 80px -48px rgba(11, 20, 55, 0.36);
+    }
+    @media (min-width: 960px) { .price-flow { grid-template-columns: 0.9fr 1.1fr; } }
+    @media (max-width: 768px) {
+      .price-flow { grid-template-columns: 1fr; }
+      .price-arrow { transform: rotate(90deg); margin: 0 auto; }
+    }
+    .gmv-control {
+      padding: 1.75rem;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(226, 232, 240, 0.82);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+    }
+    .gmv-control .kicker,
+    .gmv-control .range-labels {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-mute);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .gmv-control .gmv-value {
+      margin-top: 0.7rem;
+      font-size: clamp(2rem, 4vw, 3.35rem);
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      color: var(--primary);
+      line-height: 1;
+    }
+    .gmv-control input[type="range"] {
+      width: 100%;
+      margin-top: 2rem;
+      appearance: none;
+      -webkit-appearance: none;
+      height: 9px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) var(--fill, 11%), rgba(203,213,225,0.72) var(--fill, 11%));
+      outline: none;
+      cursor: pointer;
+    }
+    .gmv-control input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      border: 4px solid #FFF;
+      background: var(--navy);
+      box-shadow: 0 10px 24px rgba(11, 20, 55, 0.28);
+      cursor: grab;
+    }
+    .gmv-control input[type="range"]::-moz-range-thumb {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 4px solid #FFF;
+      background: var(--navy);
+      box-shadow: 0 10px 24px rgba(11, 20, 55, 0.28);
+      cursor: grab;
+    }
+    .gmv-control .range-labels {
+      margin-top: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .price-results {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 700px) { .price-results { grid-template-columns: 1fr 1fr; } }
+    .price-card {
+      padding: 2rem; border-radius: 14px;
+      border: 1px solid var(--border); background: var(--bg);
+      display: flex; flex-direction: column; justify-content: space-between;
+      min-height: 240px;
+      box-shadow: 0 24px 70px -48px rgba(11, 20, 55, 0.36);
+    }
+    .price-card.after {
+      background: var(--navy); color: #FFF; border-color: var(--navy);
+    }
+    .price-card.scale { background: var(--bg-soft); border-color: var(--border-strong); }
+    .price-card.scale .label { color: var(--text-mute); }
+    .price-card.scale .price { color: var(--primary); }
+    .price-card.scale .note { color: var(--text-soft); }
+    .price-card .label {
+      font-size: 11.5px; letter-spacing: 0.16em;
+      text-transform: uppercase; font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+    .price-card.before .label { color: var(--text-mute); }
+    .price-card.after .label { color: rgba(255, 255, 255, 0.62); }
+    .price-card .price {
+      font-size: clamp(2.4rem, 4.6vw, 3.5rem);
+      font-weight: 800; letter-spacing: -0.04em;
+      line-height: 1; margin-bottom: 0.5rem;
+    }
+    .price-card.before .price {
+      color: var(--text-mute);
+      text-decoration: line-through;
+      text-decoration-color: var(--rose);
+      text-decoration-thickness: 2px;
+    }
+    .price-card.after .price { color: var(--accent); }
+    .price-card .note {
+      font-size: 14px; line-height: 1.45; font-weight: 500;
+    }
+    .price-card.before .note { color: var(--text-mute); }
+    .price-card.after .note { color: rgba(255, 255, 255, 0.78); }
+    .savings-band {
+      margin-top: 1rem;
+      grid-column: 1 / -1;
+      padding: 1rem 1.15rem;
+      border-radius: 12px;
+      background: rgba(209, 250, 229, 0.64);
+      border: 1px solid rgba(5, 150, 105, 0.18);
+      color: #064E3B;
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .savings-band span {
+      font-weight: 800;
+      color: var(--emerald);
+    }
+    .price-arrow {
+      align-self: center;
+      width: 56px; height: 2px;
+      background: var(--text); position: relative;
+    }
+    .price-arrow::after {
+      content: ""; position: absolute;
+      right: -1px; top: -7px;
+      width: 0; height: 0;
+      border-left: 12px solid var(--text);
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+    }
+
+    .included {
+      margin-top: 3rem;
+      padding: 1.75rem 2rem;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+    .included .head {
+      display: flex; align-items: baseline;
+      justify-content: space-between; flex-wrap: wrap;
+      gap: 0.5rem 1.5rem; margin-bottom: 1.25rem;
+    }
+    .included .label {
+      font-size: 12.5px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--primary);
+    }
+    .included .head .price-callout {
+      font-size: 14.5px; color: var(--text-soft);
+      font-weight: 500;
+    }
+    .included .head .price-callout strong {
+      color: var(--accent); font-weight: 700;
+    }
+    .included .items {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.6rem 1rem;
+    }
+    @media (min-width: 700px) { .included .items { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .included .items { grid-template-columns: 1fr 1fr 1fr; } }
+    .included .item {
+      font-size: 14.5px; color: var(--text);
+      display: flex; align-items: start; gap: 0.55rem;
+      line-height: 1.4;
+    }
+    .included .item::before {
+      content: "✓"; color: var(--emerald);
+      font-weight: 800; flex-shrink: 0;
+    }
+
+    /* ============================================================
+       SLIDE 11 · CLOSE
+       ============================================================ */
+    .slide-12 {
+      background: var(--navy); color: #FFF;
+      overflow: hidden;
+    }
+    .slide-12::before {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(140deg, rgba(11, 20, 55, 0.42), rgba(11, 20, 55, 0.08));
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    .slide-12 .wrap { position: relative; z-index: 1; }
+    .slide-12 h2 {
+      color: #FFF;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 0.98;
+      margin-top: 1.5rem;
+      max-width: 22ch;
+    }
+    .slide-12 h2 .accent { color: var(--accent); }
+    .slide-12 .sub {
+      margin-top: 2rem;
+      font-size: clamp(1.2rem, 1.7vw, 1.4rem);
+      color: rgba(255, 255, 255, 0.78);
+      max-width: 56ch; line-height: 1.5;
+    }
+    .slide-12 .cta-row { margin-top: 3rem; }
+
+    /* ---------- footer ---------- */
+    footer {
+      background: #050B22;
+      color: rgba(255, 255, 255, 0.55);
+      padding: 2.25rem var(--pad);
+      font-size: 13px;
+      display: flex; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    footer strong { color: #FFF; font-weight: 700; }
+
+    /* ---------- animations ---------- */
+    .reveal-up {
+      opacity: 0;
+      transform: translateY(28px) scale(0.985);
+      filter: blur(8px);
+      transition:
+        opacity 900ms var(--spring-soft),
+        transform 900ms var(--spring-soft),
+        filter 900ms var(--spring-soft);
+      transition-delay: var(--d, 0ms);
+      will-change: transform, opacity, filter;
+    }
+    .reveal-up.in { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    .stagger > * { transition-delay: var(--d, 0ms); }
+
+    .kinetic-heading {
+      opacity: 1;
+      transform-style: preserve-3d;
+      perspective: 900px;
+    }
+    .kt-mask {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+      padding-bottom: 0.2em;
+      margin-bottom: -0.14em;
+    }
+    .kt-word {
+      display: inline-block;
+      transform-origin: 50% 100%;
+      will-change: transform, opacity, filter;
+      backface-visibility: hidden;
+      line-height: 1.08;
+    }
+    .kinetic-heading.is-revealed .kt-mask { overflow: visible; }
+
+    ::selection { background: var(--accent); color: var(--navy); }
+
+    /* ============================================================
+       SLIDE 2 · THE CEILING (doing well vs doing what's possible)
+       ============================================================ */
+    .ceiling-scale { margin-top: 2.75rem; }
+    .ceiling-track {
+      position: relative; height: 76px;
+      border-radius: 14px; overflow: hidden;
+      background: linear-gradient(90deg, var(--bg-elev) 0%, var(--primary-light) 55%, var(--accent-light) 100%);
+      border: 1px solid var(--border);
+    }
+    .ceiling-band {
+      position: absolute; top: 0; bottom: 0; left: 50%; right: 8%;
+      left: 63%; right: 8%;
+      background: repeating-linear-gradient(135deg, rgba(245,158,11,0.16) 0 9px, rgba(245,158,11,0.05) 9px 18px);
+      border-left: 2px dashed var(--accent);
+    }
+    .ceiling-pin {
+      position: absolute; top: 0; bottom: 0; width: 2px; background: var(--navy);
+    }
+    .ceiling-pin::after {
+      content: ""; position: absolute; top: -5px; left: -4px;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--navy);
+    }
+    .ceiling-pin .tag {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      left: 10px; white-space: nowrap;
+      font-family: var(--mono); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      color: var(--navy); background: rgba(255,255,255,0.92);
+      border-radius: 999px; padding: 4px 9px;
+    }
+    .ceiling-pin.right .tag { left: auto; right: 10px; }
+    /* On narrow screens the in-bar tags get clipped, so swap them for a legend. */
+    .ceiling-legend { display: none; }
+    .ceiling-legend i {
+      display: inline-block; width: 9px; height: 9px; border-radius: 2px;
+      margin-right: 0.5rem; vertical-align: middle;
+    }
+    .ceiling-legend i.p1 { background: var(--navy); }
+    .ceiling-legend i.p2 { background: var(--accent); }
+    @media (max-width: 760px) {
+      .ceiling-pin .tag { display: none; }
+      .ceiling-track { height: 52px; }
+      .ceiling-legend {
+        display: flex; flex-direction: column; gap: 0.45rem;
+        margin-top: 0.8rem;
+        font-family: var(--mono); font-size: 11px;
+        letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-soft);
+      }
+      .ceiling-axis span:nth-child(2) { display: none; }
+    }
+    .ceiling-axis {
+      display: flex; justify-content: space-between;
+      margin-top: 0.7rem;
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-mute);
+    }
+    .ceiling-gap {
+      margin-top: 1.5rem; display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap;
+      border-top: 2px solid var(--text); padding-top: 1.1rem;
+    }
+    .ceiling-gap .n {
+      font-size: clamp(1.8rem, 3.6vw, 2.6rem); font-weight: 800;
+      letter-spacing: -0.02em; color: var(--primary);
+    }
+    .ceiling-gap .t { font-size: 1rem; color: var(--text-soft); max-width: 46ch; }
+
+    .ceiling-cards { margin-top: 2.6rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+    @media (max-width: 900px) { .ceiling-cards { grid-template-columns: 1fr; } }
+    .ceiling-card {
+      background: var(--bg-card, #fff);
+      border: 1px solid var(--border); border-radius: 16px;
+      padding: 1.5rem 1.6rem; display: flex; flex-direction: column;
+    }
+    .ceiling-card.hi { border-color: var(--accent); background: linear-gradient(180deg, #FFFDF7, #fff); }
+    .ceiling-card .k {
+      align-self: flex-start;
+      font-family: var(--mono); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      border-radius: 999px; padding: 4px 11px; margin-bottom: 1rem;
+      background: var(--bg-elev); color: var(--text-mute); border: 1px solid var(--border);
+    }
+    .ceiling-card.hi .k { background: var(--accent-light); color: var(--accent-deep); border-color: #FDE68A; }
+    .ceiling-card .title { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 0.75rem; }
+    .ceiling-card p { font-size: 0.95rem; line-height: 1.6; color: var(--text-soft); margin: 0; }
+    .ceiling-card p + p { margin-top: 0.7rem; }
+    .ceiling-card strong { color: var(--text); font-weight: 700; }
+
+    /* ============================================================
+       SLIDE · HOW WE WORK (EDGE)
+       ============================================================ */
+    .edge-grid { margin-top: 2.6rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    @media (max-width: 1000px) { .edge-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 620px) { .edge-grid { grid-template-columns: 1fr; } }
+    .edge-step {
+      position: relative; background: var(--bg-card, #fff);
+      border: 1px solid var(--border); border-radius: 16px;
+      padding: 1.5rem 1.4rem; display: flex; flex-direction: column;
+    }
+    .edge-step .letter {
+      font-size: 2.4rem; font-weight: 800; line-height: 1;
+      letter-spacing: -0.04em; color: var(--primary-light);
+    }
+    .edge-step .name {
+      margin-top: 0.4rem;
+      font-family: var(--mono); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--primary);
+    }
+    .edge-step .title { margin-top: 0.85rem; font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
+    .edge-step p { margin: 0.6rem 0 0; font-size: 0.92rem; line-height: 1.6; color: var(--text-soft); }
+    .edge-step .out {
+      margin-top: 1.1rem; padding-top: 0.85rem;
+      border-top: 1px solid var(--line-soft);
+      font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-mute);
+    }
+    .edge-note {
+      margin-top: 1.8rem; font-size: 1rem; color: var(--text-soft);
+      border-left: 3px solid var(--accent); padding-left: 1rem; max-width: 68ch;
+    }
+    .edge-note strong { color: var(--text); font-weight: 700; }
+
+    /* ============================================================
+       TEMPLATE FILL-IN MARKERS (merchant-specific slots)
+       ============================================================ */
+    .booked-band {
+      display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem 0.65rem;
+      margin: 1.4rem 0 0.35rem; padding: 0.7rem 0.95rem;
+      border-radius: 12px; background: rgba(30, 64, 175, 0.06);
+      border: 1px solid rgba(30, 64, 175, 0.16);
+    }
+    .booked-band .bk-lab {
+      font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.09em;
+      text-transform: uppercase; color: var(--text-soft);
+    }
+    .booked-band .bk-fig { font-size: 1.5rem; font-weight: 800; color: var(--navy); letter-spacing: -0.02em; }
+    .booked-band .bk-per { font-size: 0.9rem; color: var(--text-soft); }
+    .booked-band .bk-note { flex: 1 1 100%; font-size: 0.82rem; color: var(--text-soft); }
+    @media (max-width: 680px) {
+      .booked-band .bk-fig { font-size: 1.3rem; }
+    }
+    .found-slot, .found-total, .found-strength {
+      background: var(--bg-card, #fff); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.25rem 1.35rem;
+      border-left: 3px solid var(--navy, #1E40AF);
+    }
+    .found-total { border-left-color: #0891B2; margin-top: 1rem; }
+    .found-strength { border-left-color: var(--emerald, #059669); margin-top: 1rem; }
+    .found-tag {
+      display: inline-block; font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700;
+      color: #fff; background: var(--navy, #1E40AF);
+      padding: 0.22rem 0.55rem; border-radius: 999px; margin-bottom: 0.7rem;
+    }
+    .found-total .found-tag { background: #0891B2; }
+    .found-tag.ok { background: var(--emerald, #059669); }
+    .found-head { font-size: 1.02rem; font-weight: 700; line-height: 1.4; margin: 0 0 0.55rem; color: var(--navy, #1E40AF); }
+    .found-ev { font-size: 0.88rem; line-height: 1.62; color: var(--text-soft); margin: 0 0 0.5rem; }
+    .found-ev.sub { color: var(--text-mute); font-size: 0.845rem; }
+    .found-num {
+      font-family: var(--mono); font-size: 1.32rem; font-weight: 800;
+      color: var(--navy, #1E40AF); margin: 0.7rem 0 0.1rem; letter-spacing: -0.01em;
+    }
+    .found-num-note { font-size: 0.76rem; color: var(--text-mute); margin: 0; line-height: 1.5; }
+    .found-total .found-head { color: #0E7490; font-size: 1.1rem; }
+    .found-strength ul { margin: 0; padding-left: 1.1rem; }
+    .found-strength li { font-size: 0.87rem; line-height: 1.62; color: var(--text-soft); margin-bottom: 0.5rem; }
+    .found-strength li:last-child { margin-bottom: 0; }
+    .found-src {
+      margin-top: 1.1rem; font-family: var(--mono); font-size: 11.5px;
+      line-height: 1.6; color: var(--text-mute);
+    }
+    .align-band {
+      margin: 1rem 0 0; padding: 1.05rem 1.2rem;
+      border-radius: 14px; background: rgba(8, 145, 178, 0.07);
+      border: 1px solid rgba(8, 145, 178, 0.28); border-left: 3px solid #0891B2;
+    }
+    .align-band .align-head {
+      font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.09em;
+      text-transform: uppercase; font-weight: 700; color: #0E7490; margin: 0 0 0.55rem;
+    }
+    .align-band p { font-size: 0.9rem; line-height: 1.64; color: var(--text-soft); margin: 0 0 0.5rem; }
+    .align-band .align-kicker { font-size: 0.95rem; color: var(--navy, #1E40AF); margin: 0; }
+    .tpl-banner {
+      margin-top: 1.6rem;
+      display: flex; align-items: flex-start; gap: 0.7rem;
+      background: var(--accent-light); border: 1px dashed var(--accent-deep);
+      border-radius: 12px; padding: 0.85rem 1.05rem;
+      font-size: 0.9rem; line-height: 1.55; color: var(--accent-deep);
+      max-width: 74ch;
+    }
+    .tpl-banner strong { font-weight: 800; }
+    .tpl-slot {
+      border: 2px dashed var(--accent); border-radius: 14px;
+      background: repeating-linear-gradient(135deg, rgba(245,158,11,0.05) 0 10px, transparent 10px 20px);
+      padding: 1.4rem 1.5rem 1.5rem;
+      display: flex; flex-direction: column;
+    }
+    .tpl-tag {
+      align-self: flex-start;
+      font-family: var(--mono); font-size: 10.5px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      background: var(--accent); color: var(--navy);
+      border-radius: 999px; padding: 4px 11px; margin-bottom: 1rem;
+    }
+    .tpl-field {
+      font-family: var(--mono); font-size: 0.9rem; color: var(--accent-deep);
+      background: rgba(255,255,255,0.7);
+      border: 1px solid #FDE68A; border-radius: 8px;
+      padding: 0.55rem 0.7rem;
+    }
+    .tpl-field + .tpl-field { margin-top: 0.5rem; }
+    .tpl-field.big { font-size: 1.05rem; font-weight: 700; }
+    .tpl-field .hint { display: block; margin-top: 0.3rem; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-mute); }
+
+    .seen-grid { margin-top: 2.2rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+    /* Four findings for this merchant, so the diagnosis grid runs 2-up on desktop
+       rather than leaving an orphan card on a 3-column row. */
+    .seen-grid.seen-grid-4 { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 900px) { .seen-grid, .seen-grid.seen-grid-4 { grid-template-columns: 1fr; } }
+    .seen-total { margin-top: 1.4rem; }
+    .seen-strength {
+      margin-top: 1.4rem;
+      border: 2px dashed var(--emerald); border-radius: 14px;
+      background: repeating-linear-gradient(135deg, rgba(5,150,105,0.05) 0 10px, transparent 10px 20px);
+      padding: 1.3rem 1.5rem;
+      display: flex; flex-direction: column;
+    }
+    .seen-strength .tpl-tag { background: var(--emerald); color: #fff; }
+    .seen-strength .tpl-field { border-color: #A7F3D0; color: var(--emerald); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      .reveal-up { opacity: 1; transform: none; filter: none; }
+      .kt-word { transform: none !important; opacity: 1 !important; filter: none !important; }
+      .ambient-canvas { display: none; }
+    }
+    /* ---- Mobile overflow fixes (inherited from the template; scoped, mobile-only) ----
+       Three slides scroll horizontally at 390px in the base template:
+       - #s-engine: the SCALE grid is inline-styled repeat(3, 1fr) with no mobile fallback,
+         so its five cards squeeze to ~84px and spill past the viewport.
+       - #s6: .phase padding (1.75rem x2) pushes the card ~14px past the edge.
+       - #s1: decorative overflow with no overflowing child element.
+       Desktop layout is untouched. ------------------------------------------------------ */
+    @media (max-width: 680px) {
+      #s-engine .wrap > div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+      }
+      #s-engine .wrap > div[style*="grid-template-columns"] > div { min-width: 0; }
+      .phase { padding: 1.25rem; min-width: 0; }
+      .timeline { min-width: 0; }
+      section.slide { overflow-x: clip; }
+      .booked-band { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
+      .booked-band .bk-note { margin-top: 0.3rem; }
+      .found-slot, .found-total, .found-strength { padding: 1rem 1.05rem; }
+      .found-num { font-size: 1.15rem; }
+      .align-band { padding: 0.9rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+
+<div class="progress" id="progress"></div>
+
+<nav class="top">
+  <span class="brand-mark"><span class="logo">K</span> KwikShop</span>
+  <span class="by">KwikShop by GoKwik &middot; prepared for Hayyan Farms</span>
+</nav>
+
+<!-- ============================================================ -->
+<!-- SLIDE 1 · POSITIONING -->
+<!-- ============================================================ -->
+<!-- ============================================================ -->
+<!-- SLIDE 1 · POSITIONING -->
+<!-- ============================================================ -->
+<section class="slide slide-1" id="s1">
+  <span class="slide-num">01 / 13 · Where this goes</span>
+  <div class="wrap">
+    <div class="grid">
+      <div class="reveal-up in">
+        <p class="eyebrow">For D2C founders</p>
+
+        <p class="booked-band">
+          <span class="bk-lab">In four months you've booked</span>
+          <span class="bk-fig">&#8377;1.99Cr</span>
+          <span class="bk-per">/ total</span>
+          <span class="bk-note">13,595 orders since June &middot; <strong>and your basket has grown 52% across them</strong></span>
+        </p>
+
+        <div class="rev-arc" id="revArc">
+          <span class="rev-lab">Today you're booking</span>
+          <span class="rev-now">
+            <label class="rev-figure" for="revNow">
+              <span class="rev-cur">₹</span><input id="revNow" class="rev-input" type="text" inputmode="numeric" value="40" aria-label="Your monthly revenue, in lakhs"><span class="rev-unit">L</span>
+            </label>
+            <span class="rev-per">/ month</span>
+          </span>
+          <input id="revSlider" class="rev-slider" type="range" min="2" max="200" step="1" value="40" aria-label="Set your monthly revenue in lakhs">
+          <p class="rev-hint">&#8377;39.5L in the 30 days to 21 September, on 2,228 orders &middot; drag to adjust</p>
+
+          <div class="rev-link" aria-hidden="true"><span></span></div>
+
+          <h1 class="rev-head">
+            <span class="rev-lab">We're here to make it</span>
+            <span class="rev-big" id="revTarget">&#8377;68L</span>
+          </h1>
+          <p class="rev-band"><span class="rev-mult">1.5&times; &ndash; 2&times;</span><span class="rev-range" id="revRange">&#8377;60L &ndash; ₹80L</span></p>
+        </div>
+
+        <p class="rev-sub">And here's what makes your case unusual, because it is the opposite of almost
+        every brand we audit: <strong>your checkout converts eleven points above the median for your
+        category, and has beaten it in eleven of the last thirteen weeks</strong> &mdash; while the
+        traffic feeding it has fallen by nearly 70% since July. <strong>You are winning on conversion
+        and losing on demand.</strong> Most brands have that the wrong way round, and it is much harder
+        to fix in that direction than in this one.</p>
+      </div>
+
+      <div class="right reveal-up" style="--d: 280ms;">
+        <p class="rev-kicker">
+          Founders know the <span class="underline">product</span>.
+          <span class="accent">We know the market.</span>
+        </p>
+        <p class="lede" style="margin: 0;">
+          You know cold-pressed oil &mdash; the chekku, the Pollachi coconut, the Kangeyam herd, and why
+          a jar of ghee should take a day rather than an hour. We know what happens in the fifteen
+          seconds between a WhatsApp message and a paid order, across
+          <strong>15,000+ D2C brands</strong> and <strong>200M+ shoppers on the GoKwik network</strong>.
+          That's the half of your business you can't see from inside it.
+        </p>
+        <div class="pills">
+          <span class="pill live">Your mill</span>
+          <span class="pill live">Your 1,053 reviews at 4.8&#9733;</span>
+          <span class="pill live">Your WhatsApp list</span>
+          <span class="pill">Our network data</span>
+          <span class="pill">Our AI agents</span>
+        </div>
+        <div class="cta-row">
+          <a href="#s-ceiling" class="btn btn-primary">
+            Show me the gap
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#s8" class="btn btn-ghost">Skip to pricing</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2 · THE CEILING -->
+<section class="slide soft" id="s-ceiling">
+  <span class="slide-num">02 / 13 · The ceiling</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">The question nobody inside the business can answer</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      Doing well and doing what's <span class="accent">possible</span><br>are two different numbers.
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms;">
+      Your team is good. That isn't the question. The question is what <em>good</em> should be &mdash; and
+      that is the one number a brand can never read off its own dashboard.
+    </p>
+
+    <div class="ceiling-scale reveal-up" style="--d: 320ms;">
+      <div class="ceiling-track">
+        <div class="ceiling-band"></div>
+        <div class="ceiling-pin" style="left: 22%;"><span class="tag">You, on demand &mdash; weekly orders down 61% from the July peak</span></div>
+        <div class="ceiling-pin right" style="left: 93%;"><span class="tag">You, on checkout conversion &mdash; +11.1pp above your category</span></div>
+      </div>
+      <div class="ceiling-legend">
+        <span><i class="p1"></i>Weekly orders: 1,388 in the week of 6 July, 542 in the week of 14 September &mdash; and steady for a month</span>
+        <span><i class="p2"></i>Checkout conversion: 49.1% against a 38.0% category median &mdash; ahead of it 11 weeks out of 13</span>
+      </div>
+      <div class="ceiling-axis">
+        <span>Bottom of category</span>
+        <span>Category median</span>
+        <span>Best in category</span>
+      </div>
+      <div class="ceiling-gap">
+        <span class="n">+11.1pp<br><span style="font-size:0.5em;font-weight:600;">&darr;</span><br>&minus;61%</span>
+        <span class="t">Two pins, one business. You have built <strong>a checkout that beats its category
+        by eleven points</strong> &mdash; and <strong>the number of people arriving at it has fallen by
+        61% since the first week of July</strong>. Nothing about that gap is effort. It is the arithmetic of a brand that
+        stopped paying for volume and has not yet replaced how it earns it.</span>
+      </div>
+      <div class="tpl-banner">
+        <span>&#9702;</span>
+        <span><strong>Both pins come from your own GoKwik account.</strong> The right pin is measured
+        &mdash; 49.1% against a 38.0% category median, last 30 days, and above that median in eleven of
+        the last thirteen complete weeks. <strong>The left pin is measured too, and it is the one we'd
+        ask you to sit with:</strong> your best week was 1,388 orders in the week of 6 July; the week of
+        14 September did 542. Month on month, 4,721 orders in July against 3,168 in August.
+        <em>Your average order value rose throughout</em> &mdash; ₹1,231 to ₹1,866 &mdash; which is why
+        revenue fell more slowly than volume. The quality of the business went up. The size of it went
+        down. <strong>And it has stopped falling: the last four complete weeks ran 489, 556, 522 and
+        542 orders.</strong></span>
+      </div>
+    </div>
+
+    <div class="ceiling-cards">
+      <div class="ceiling-card reveal-up" style="--d: 420ms;">
+        <span class="k">What you can see</span>
+        <p class="title">Orders and basket</p>
+        <p>&#8377;39.5L booked in thirty days on 2,228 orders, an average basket that has climbed from
+        &#8377;1,231 to &#8377;1,866 in four months, and 1,053 Google reviews sitting at 4.8 stars. By that
+        measure the brand is in better shape than it was in June, and it is.</p>
+        <p><strong>It's the only measure your dashboard gives you.</strong></p>
+      </div>
+      <div class="ceiling-card reveal-up" style="--d: 500ms;">
+        <span class="k">What you can't</span>
+        <p class="title">What normal looks like</p>
+        <p>That a brand like yours converts 38.0% of the people who reach checkout, and you convert
+        49.1%. That <strong>48% of the messages you send each month return &#8377;12,645 between
+        them</strong>. That three of your four value packs cost <em>more</em> than buying the same
+        bottles separately. And roughly what each of those is worth in rupees a month.</p>
+        <p><strong>No amount of in-house talent produces this. It isn't a skill gap &mdash; it's a data gap.</strong></p>
+      </div>
+      <div class="ceiling-card hi reveal-up" style="--d: 580ms;">
+        <span class="k">What it's worth</span>
+        <p class="title">&#8377;7.1L a month, evidenced</p>
+        <p>Three findings, each sized off your own numbers and the network's measured lift &mdash; not off
+        a forecast. That is roughly <strong>an 18% increase on what you book today</strong>, and it assumes
+        <strong>not one rupee of extra ad spend and no return to discounting</strong>.</p>
+        <p><strong>Then we go and make those moves.</strong></p>
+      </div>
+    </div>
+
+    <p class="edge-note reveal-up" style="--d: 660ms;">
+      This is not a pitch about replacing your team. Your UPI success runs at 98.7%, your login step beats
+      its benchmark by fifteen points, only 7.4% of shoppers leave before typing a phone number &mdash; the
+      best number we have recorded on that &mdash; and you have earned
+      <strong>1,053 genuine reviews at 4.8 stars</strong>. That is a team executing well. It is a pitch
+      about the one input they cannot get from inside the building.
+    </p>
+  </div>
+</section>
+
+<section class="slide slide-2 dark" id="s2">
+  <canvas class="ambient-canvas" data-ambient="proof-particles"></canvas>
+  <div class="dot-grid"></div>
+  <span class="slide-num">03 / 13 · Proof</span>
+  <div class="wrap">
+    <div class="proof-hero-grid">
+      <div>
+        <p class="eyebrow cream no-line reveal-up"><span class="dot"></span>The ground we stand on</p>
+        <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+          <span class="accent">15,000+ brands.</span><br>
+          Already running on what we know.
+        </h2>
+        <p class="lede reveal-up" style="--d: 220ms;">
+          Every number below is a real GoKwik merchant outcome. We have not picked the prettiest ones
+          &mdash; we have picked the ones that were solving your problem.
+        </p>
+      </div>
+    </div>
+
+    <div class="proof-stats stagger">
+      <div class="proof-stat reveal-up" style="--d: 320ms;">
+        <p class="num" data-count="15000" data-suffix="+">0</p>
+        <p class="lbl">D2C brands</p>
+        <p class="sub">Already running on the engine</p>
+      </div>
+      <div class="proof-stat reveal-up" style="--d: 400ms;">
+        <p class="num" data-count="200" data-suffix="M+">0</p>
+        <p class="lbl">Shoppers on the GoKwik network</p>
+        <p class="sub">Pre-filled, recognised, retargetable</p>
+      </div>
+      <div class="proof-stat reveal-up" style="--d: 480ms;">
+        <p class="num" data-count="120" data-prefix="+" data-suffix="%">0</p>
+        <p class="lbl">Best conversion gain we've published</p>
+        <p class="sub">Dr Vaidya's, Ayurveda &mdash; a single brand, not an average</p>
+      </div>
+      <div class="proof-stat reveal-up" style="--d: 560ms;">
+        <p class="num" data-count="750" data-prefix="+" data-suffix="bps">0</p>
+        <p class="lbl">Measured AOV lift from checkout upsell</p>
+        <p class="sub">The exact lever for a basket with no ladder above it</p>
+      </div>
+    </div>
+
+    <div class="category-proof reveal-up" style="--d: 680ms;">
+      <p class="heading">Proof from GoKwik case studies — chosen for your problem, not ours</p>
+      <div class="proof-row">
+        <div class="case">
+          <div class="brand-line">
+            <span class="brand-logo text-logo">ZF</span>
+            <p class="brand">Zoff Foods</p>
+          </div>
+          <p class="category">Spices &amp; everyday food</p>
+          <p class="metric-big">+37%</p>
+          <p class="metric-label">checkout conversion &middot; 99% prepaid</p>
+        </div>
+        <div class="case">
+          <div class="brand-line">
+            <span class="brand-logo text-logo">BE</span>
+            <p class="brand">Bella</p>
+          </div>
+          <p class="category">WhatsApp-led retention</p>
+          <p class="metric-big">5.18&times;</p>
+          <p class="metric-label">WhatsApp ROAS</p>
+        </div>
+        <div class="case">
+          <div class="brand-line">
+            <span class="brand-logo text-logo">SO</span>
+            <p class="brand">Sons</p>
+          </div>
+          <p class="category">Repeat-purchase consumable</p>
+          <p class="metric-big">19.5&times;</p>
+          <p class="metric-label">retention ROAS</p>
+        </div>
+        <div class="case">
+          <div class="brand-line">
+            <span class="brand-logo text-logo">DV</span>
+            <p class="brand">Dr Vaidya's</p>
+          </div>
+          <p class="category">Ayurveda &middot; consumable</p>
+          <p class="metric-big">+120%</p>
+          <p class="metric-label">conversions</p>
+        </div>
+        <div class="case">
+          <div class="brand-line">
+            <span class="brand-logo text-logo">SU</span>
+            <p class="brand">Shop Unrush</p>
+          </div>
+          <p class="category">Growth &middot; paid media</p>
+          <p class="metric-big">+37%</p>
+          <p class="metric-label">ROAS in three months</p>
+        </div>
+        <div class="case">
+          <div class="brand-line">
+            <span class="brand-logo text-logo">AG</span>
+            <p class="brand">Aegte</p>
+          </div>
+          <p class="category">Beauty &amp; personal care</p>
+          <p class="metric-big">+33.8%</p>
+          <p class="metric-label">conversion growth</p>
+        </div>
+      </div>
+      <p class="source-note">Source: gokwik.co/case-studies. Chosen deliberately. You will notice there is
+      <strong>no returns case study on this slide</strong> &mdash; that is on purpose. Your book is
+      <strong>100% prepaid</strong>, and cash-on-delivery is the single biggest driver of returns in
+      Indian D2C. Leading with an RTO story would be answering a question you do not have. The two at
+      the front &mdash; Zoff Foods and Bella &mdash; are there because one is a prepaid-first everyday-food
+      brand and the other is a business that runs on WhatsApp. So is yours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3 · TWO KINDS OF WORK -->
+<!-- ============================================================ -->
+<section class="slide slide-3" id="s3">
+  <span class="slide-num">04 / 13 · Your team and us</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">A different way to split the work</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      Your team knows the brand. <span class="h">We know the market.</span>
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms;">
+      The best in-house team in the country still only ever sees one brand's data. That isn't a
+      criticism &mdash; it's arithmetic. Nobody inside Hayyan can know that a brand at your volume
+      typically converts 38.0% of its checkout traffic and you convert 49.1%, or that five of your twelve WhatsApp campaigns last month recorded a click rate of exactly
+      zero while the other seven ran between 7.9% and 13.0%. We bring the other 15,000 brands.
+    </p>
+
+    <div class="work-grid stagger">
+      <div class="work-card you reveal-up" style="--d: 320ms;">
+        <span class="label">Yours · always</span>
+        <h3>What only you know</h3>
+        <p class="tag">Founder-led, trusted, irreplaceable.</p>
+        <ul>
+          <li>The mill, the chekku, and why the oil comes out under 50&deg;C</li>
+          <li>Pollachi, the Kangeyam herd, and the farmers you buy from</li>
+          <li>Brand voice, and what &ldquo;100% natural&rdquo; is allowed to mean</li>
+        </ul>
+      </div>
+      <div class="work-card us reveal-up" style="--d: 440ms;">
+        <span class="label">Ours · gladly</span>
+        <h3>What we know</h3>
+        <p class="tag">Cross-merchant, data-tested, evolving weekly.</p>
+        <ul>
+          <li>Why 48% of your message volume returns &#8377;12,645 a month</li>
+          <li>Bundles, thresholds and the ladder above a &#8377;1,775 basket</li>
+          <li>How to rebuild demand without going back to a 57.8% discount</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="work-closer reveal-up" style="--d: 580ms;">
+      <strong>Your team keeps doing what it's already good at.</strong> They just stop having to guess at the numbers nobody inside a single brand can see.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5 · THE ENGINE (SCALE) -->
+<!-- ============================================================ -->
+<section class="slide" id="s-engine">
+  <span class="slide-num">05 / 13 · What we touch</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">What we run for you — end to end</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      Five parts of the business. <span class="h">We touch every one.</span>
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms; margin-top: 1.25rem;">
+      Growth is never one lever. In your case we can already tell you which are which:
+      <strong>Convert is the strongest we have audited this year</strong> and needs the least work.
+      <strong>Source is where the business is shrinking.</strong> <strong>Average up has no ladder to
+      climb at all</strong>, <strong>Loop back is carrying the business unaided</strong> &mdash; and
+      Evangelism is the surprise: the asset is already built and it is invisible to every search engine
+      on earth.
+    </p>
+    <div class="reveal-up" style="--d: 340ms; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem;">
+      <div style="background: var(--bg-card, #fff); border: 1px solid var(--border); border-radius: 16px; padding: 1.4rem 1.5rem;">
+        <span style="display:inline-flex;align-items:center;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;padding:.28rem .6rem;border-radius:999px;border:1px solid var(--border-strong);color:var(--text-mute);">S · Source</span>
+        <h3 style="margin:.8rem 0 .4rem;">Traffic &amp; performance marketing</h3>
+        <p style="font-size:.92rem;color:var(--text-soft);"><strong style="color:var(--rose,#E11D48)">Where the business is shrinking.</strong> New customers fell from <strong>3,035 in July to 1,470 in August, and 512 in the first three weeks of September</strong>. Weekly checkout sessions went from 3,282 to 1,000. Google and Facebook bring you almost identical order volumes &mdash; 665 and 620 &mdash; and <strong>your Meta ads connection inside GoKwik is failing to load, so no spend figure exists anywhere.</strong> That is the first thing we wire up.</p>
+      </div>
+      <div style="background: var(--bg-card, #fff); border: 1px solid var(--border); border-radius: 16px; padding: 1.4rem 1.5rem;">
+        <span style="display:inline-flex;align-items:center;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;padding:.28rem .6rem;border-radius:999px;border:1px solid var(--border-strong);color:var(--text-mute);">C · Convert</span>
+        <h3 style="margin:.8rem 0 .4rem;">Website &amp; checkout</h3>
+        <p style="font-size:.92rem;color:var(--text-soft);"><strong style="color:var(--emerald,#059669)">Your genuine advantage &mdash; leave most of it alone.</strong> 49.1% against 38.0% for your category, ahead in 11 of 13 weeks. Login 92.3% against 77.0%. UPI success 98.7%. <strong>Only 7.4% of shoppers leave before typing a phone number &mdash; the best figure we have recorded anywhere.</strong> There are five checkout features you are not running, worth 380 basis points between them. That is the whole job here.</p>
+      </div>
+      <div style="background: var(--bg-card, #fff); border: 1px solid var(--border); border-radius: 16px; padding: 1.4rem 1.5rem;">
+        <span style="display:inline-flex;align-items:center;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;padding:.28rem .6rem;border-radius:999px;border:1px solid var(--border-strong);color:var(--text-mute);">A · Average up</span>
+        <h3 style="margin:.8rem 0 .4rem;">Order value</h3>
+        <p style="font-size:.92rem;color:var(--text-soft);"><strong>There is no ladder to climb.</strong> <strong>Three of your four value packs cost more than buying the same bottles separately</strong> &mdash; the Premium Health Pack by &#8377;229. The ghee ladder turns against the shopper at 500ml: the litre jar costs <em>more</em> per millilitre, and so do the 2.5L and the 5L. And free shipping is unconditional in Tamil Nadu &mdash; which alone places <strong>61% of your orders</strong>.</p>
+      </div>
+      <div style="background: var(--bg-card, #fff); border: 1px solid var(--border); border-radius: 16px; padding: 1.4rem 1.5rem;">
+        <span style="display:inline-flex;align-items:center;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;padding:.28rem .6rem;border-radius:999px;border:1px solid var(--border-strong);color:var(--text-mute);">L · Loop back</span>
+        <h3 style="margin:.8rem 0 .4rem;">Retention &amp; WhatsApp</h3>
+        <p style="font-size:.92rem;color:var(--text-soft);"><strong>Already carrying the business, with no machinery behind it.</strong> Repeat buyers convert at <strong>58.2% against 45.1% for new</strong>, they are <strong>66.5% of September's customers so far and 71.2% of its revenue</strong> &mdash; and you have <strong>exactly one marketing automation, seven days old</strong>. No abandoned cart. No welcome. No win-back. <strong>No replenishment reminder, on a product people finish.</strong></p>
+      </div>
+      <div style="background: var(--bg-card, #fff); border: 1px solid var(--border); border-radius: 16px; padding: 1.4rem 1.5rem;">
+        <span style="display:inline-flex;align-items:center;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;padding:.28rem .6rem;border-radius:999px;border:1px solid var(--border-strong);color:var(--text-mute);">E · Evangelism</span>
+        <h3 style="margin:.8rem 0 .4rem;">Advocacy</h3>
+        <p style="font-size:.92rem;color:var(--text-soft);"><strong>The asset exists. It's just invisible.</strong> <strong>1,053 Google reviews at 4.8 stars</strong>, still arriving &mdash; the ten most recent all dated in the fortnight before we pulled this. They render on your product pages. <strong>Not one appears in the structured data Google or an AI assistant reads</strong>, so no star rating can show anywhere in search, on any of your 35 products.</p>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--text-mute);margin-top:1.5rem;font-family:var(--mono);--d: 500ms;" class="reveal-up">S · C · A · L · E — Source · Convert · Average up · Loop back · Evangelism</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6 · WHAT WE KNOW (6 questions) -->
+<!-- ============================================================ -->
+<section class="slide slide-4" id="s4">
+  <span class="slide-num">06 / 13 · What we know</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">The data founders don't have</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      Six questions <span class="h">we already answer</span> — for your category.
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms;">
+      These are the six we get asked most. Four we can answer for Hayyan outright, from the audit
+      that produced this deck; one in part; and one we cannot answer at all yet, and we say so
+      rather than dress it up.
+    </p>
+
+    <div class="know-grid stagger">
+
+      <div class="know-card k1 reveal-up" style="--d: 320ms;">
+        <p class="num">01</p>
+        <p class="q">Which ad creatives convert best in cold-pressed oils &amp; everyday food?</p>
+        <div class="answer">
+          Formats, hooks and angles ranked by conversions, not views. Relevant to you because
+          <span class="num-callout">665</span> orders came from Google and <strong>620</strong> from
+          Facebook last month &mdash; almost dead level &mdash; and nobody has ever been able to tell
+          you which of the two is actually paying for itself.
+        </div>
+        <p class="meta">Updated weekly &middot; per category</p>
+      </div>
+
+      <div class="know-card k2 reveal-up" style="--d: 380ms;">
+        <p class="num">02</p>
+        <p class="q">What ROAS is actually achievable?</p>
+        <div class="answer">
+          The network median and top quartile for brands your size. Worth saying plainly:
+          <strong>we could not compute your ROAS.</strong> Your Meta connection inside GoKwik returns
+          <em>&ldquo;couldn't load Meta connection&rdquo;</em> and has no KPIs configured, so
+          <strong>there is no spend figure in any system we can see.</strong> That is a broken
+          integration, and fixing it is a day-one job, not a quarter-three one.
+        </div>
+        <p class="meta">Cannot answer yet &middot; connection is down</p>
+      </div>
+
+      <div class="know-card k3 reveal-up" style="--d: 440ms;">
+        <p class="num">03</p>
+        <p class="q">What conversion rate should you expect?</p>
+        <div class="answer">
+          Answered: <strong>38.0%</strong> is the median for your cohort. You run
+          <span class="num-callout">49.1%</span> &mdash; and you have beaten that median in
+          <strong>eleven of the last thirteen weeks</strong>. <strong>This is the one number in the
+          deck where you are already the answer</strong>, and we would mostly leave it alone.
+        </div>
+        <p class="meta">Answered &middot; 30 days, 4,806 checkout sessions</p>
+      </div>
+
+      <div class="know-card k4 reveal-up" style="--d: 500ms;">
+        <p class="num">04</p>
+        <p class="q">Which offers move first-time buyers?</p>
+        <div class="answer">
+          Bundles and thresholds that convert without giving away margin. Answered, and it is the
+          sharpest finding here: <strong>three of your four value packs cost more than buying the
+          same bottles individually</strong> &mdash; the Premium Health Pack by
+          <span class="num-callout">&#8377;229</span>, or 18%. The fourth saves a shopper 1.1%.
+          Meanwhile your discount depth has fallen from 57.8% to 23.6%, which was the right call.
+        </div>
+        <p class="meta">Answered &middot; coupon-level detail still pending</p>
+      </div>
+
+      <div class="know-card k5 reveal-up" style="--d: 560ms;">
+        <p class="num">05</p>
+        <p class="q">Where is checkout friction happening?</p>
+        <div class="answer">
+          Answered, precisely &mdash; and the answer is mostly &ldquo;nowhere&rdquo;. Login runs
+          <span class="num-callout">92.3%</span> against a 77.0% benchmark, address 99.0%, UPI
+          success 98.7%, and only <strong>7.4%</strong> of shoppers leave before typing a phone
+          number. <strong>That last figure is the best we have recorded on any brand.</strong> The
+          one real gap is five checkout features you are not running.
+        </div>
+        <p class="meta">Answered &middot; 30 days, 4,806 checkout sessions</p>
+      </div>
+
+      <div class="know-card k6 reveal-up" style="--d: 620ms;">
+        <p class="num">06</p>
+        <p class="q">How do you build repeat purchase?</p>
+        <div class="answer">
+          Which journeys and timings bring buyers back. You already have the proof it works: repeat
+          buyers convert at <span class="num-callout">58.2%</span> against 45.1% for new, and in September so far they are <strong>66.5% of your customers and 71.2% of your revenue</strong>.
+          And you are running <strong>one marketing automation, seven days old</strong>, with no
+          replenishment reminder on a product people finish.
+        </div>
+        <p class="meta">Answered &middot; the machinery isn't built yet</p>
+      </div>
+
+    </div>
+
+    <p class="know-footnote reveal-up" style="--d: 740ms;">
+      Every figure marked &ldquo;answered&rdquo; is from your own GoKwik account, pulled 22 September
+      2026. Where we quote a category benchmark we use the funnel, payment and conversion cohorts,
+      <strong>never the average order value</strong> &mdash; your Kwik.ai category is a broad residual
+      bucket whose &#8377;6,369 average would have made your basket look 72% worse than it is. We have
+      used your platform percentile instead: <strong>89th on revenue, 57.5th on basket.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7 · HOW WE WORK (EDGE) -->
+<section class="slide" id="s-how">
+  <span class="slide-num">07 / 13 · How we work</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">The operating loop</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      Find the gap. <span class="accent">Close it.</span> Prove it moved.
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms;">
+      Four phases, running continuously. You are never handed a report and left to implement it —
+      the team that finds the gap is the team that closes it.
+    </p>
+
+    <div class="edge-grid">
+      <div class="edge-step reveal-up" style="--d: 320ms;">
+        <span class="letter">E</span>
+        <span class="name">Evaluate</span>
+        <p class="title">Where you actually stand</p>
+        <p>We read your store, your funnel, your basket and your repeat behaviour against the brands
+        in your category on our network — not against your own last quarter.</p>
+        <span class="out">Output · ranked gaps, sized in ₹</span>
+      </div>
+      <div class="edge-step reveal-up" style="--d: 400ms;">
+        <span class="letter">D</span>
+        <span class="name">Deploy</span>
+        <p class="title">We make the changes</p>
+        <p>Storefront edits, offer ladders, campaigns, checkout, lifecycle journeys. Built and shipped
+        by us, on your approval — not a deck of recommendations handed back to your team.</p>
+        <span class="out">Output · shipped changes, logged</span>
+      </div>
+      <div class="edge-step reveal-up" style="--d: 480ms;">
+        <span class="letter">G</span>
+        <span class="name">Grow</span>
+        <p class="title">Did it move?</p>
+        <p>Every change is measured against the metric it was meant to move. What works gets pushed
+        harder. What doesn't, we tell you, and drop.</p>
+        <span class="out">Output · weekly read on what changed</span>
+      </div>
+      <div class="edge-step reveal-up" style="--d: 560ms;">
+        <span class="letter">E</span>
+        <span class="name">Expand</span>
+        <p class="title">Widen the base</p>
+        <p>Once the core compounds: new products, new audiences, new channels — and turning repeat
+        buyers into the people who bring you the next ones.</p>
+        <span class="out">Output · new surface, same engine</span>
+      </div>
+    </div>
+
+    <p class="edge-note reveal-up" style="--d: 640ms;">
+      <strong>The loop never stops at Evaluate.</strong> Most audits end exactly where the hard part
+      begins. This one is judged on what moved, not on what was found.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8 · 90 DAYS -->
+<!-- ============================================================ -->
+<section class="slide slide-10" id="s6">
+  <span class="slide-num">08 / 13 · The first 90 days</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">Sequenced, because you cannot fix what you cannot yet see</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      Turn the lights on. <span class="h">Then the basket. Then the demand.</span>
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms; margin-top: 1.25rem;">
+      For Hayyan the order is unusual, and it is worth saying why. <strong>Two of your instruments are
+      dark:</strong> not one of your 9,498 orders in three months has a delivery outcome recorded, and
+      your Meta connection will not load. Until both are fixed, nobody &mdash; us included &mdash; can
+      tell you what a returned parcel or a rupee of ad spend is doing to this business.
+      <strong>That is day one, and almost all of month one costs nothing at all.</strong>
+    </p>
+    <div class="timeline stagger">
+      <div class="timeline-line" aria-hidden="true"><span></span><i class="mid-node"></i></div>
+      <div class="phase phase-diagnostic reveal-up" style="--d: 260ms;">
+        <span class="stamp">Day 30 · Audit + benchmark report</span><span class="fee-chip">₹10,000 · one-time</span>
+        <p class="title">Consulting-grade diagnosis — and the instruments back on.</p>
+        <p class="diagnostic-copy">
+          <strong>Most of the diagnosis is already done</strong> &mdash; the findings in this deck are
+          the audit. Days 1&ndash;30 go at the two blind spots: <strong>connect the courier feed so
+          delivery outcomes reach your dashboard</strong> (today it is 0% of orders, because nothing is
+          shipping through KwikShip and no external credentials are connected), and
+          <strong>repair the Meta connection</strong>. Alongside them, the free fixes that are ours to make:
+          <strong>take the three American offices off your contact page</strong>, and give you back a
+          real story page instead of the wholesale pitch that currently sits on it.
+          <em>(Getting your 1,053 reviews into product schema sits in the discoverability module,
+          which is scoped and priced separately &mdash; see slide 12.)</em>
+        </p>
+        <div class="diagnostic-board" aria-label="Day 30 audit outputs">
+          <div class="diagnostic-row">
+            <b>Delivery feed</b>
+            <span class="diagnostic-track"><i style="--w: 100%"></i></span>
+            <span>0% of orders tracked</span>
+          </div>
+          <div class="diagnostic-row">
+            <b>Meta connection</b>
+            <span class="diagnostic-track"><i style="--w: 92%"></i></span>
+            <span>Failing to load</span>
+          </div>
+          <div class="diagnostic-row">
+            <b>Storefront trust</b>
+            <span class="diagnostic-track"><i style="--w: 74%"></i></span>
+            <span>Contact &amp; story pages</span>
+          </div>
+        </div>
+        <div class="report-pills">
+          <span>Courier feed connected</span>
+          <span>Meta connection restored</span>
+          <span>Contact page and story page rewritten</span>
+          <span>Four return policies reduced to one</span>
+        </div>
+        <p class="deliverable"><strong>Out of day 30:</strong> a delivery number you can read for the first time, a ROAS you can read for the first time, a contact page that does not claim you have an office in Austin, and one return policy instead of four.</p>
+      </div>
+      <div class="phase reveal-up" style="--d: 380ms;">
+        <span class="stamp">Day 60 &middot; Build the basket</span>
+        <p class="title">Give the shopper a reason to trade up.</p>
+        <ul>
+          <li><strong>Re-price the packs.</strong> Three of the four cost more than their parts today &mdash; the Premium Health Pack by &#8377;229. A value pack has to be worth something.</li>
+          <li><strong>Fix the ghee ladder.</strong> 500ml is &#8377;1,798 a litre, and the 1L, 2.5L and 5L are all dearer per millilitre than that &mdash; on your premium line.</li>
+          <li><strong>Checkout upsell.</strong> 932 orders a month sit between &#8377;1,000 and &#8377;2,000, an average of &#8377;455 short of your own free-shipping threshold.</li>
+          <li><strong>Four more features.</strong> Turn on the checkout features you already own &mdash; 380 basis points between them.</li>
+          <li><strong>Settle free shipping.</strong> Tamil Nadu gets it unconditionally and places 61% of your orders; everyone else waits until &#8377;1,999.</li>
+          <li><strong>A/B test all of it.</strong> Every offer tested, so you see the trade in your own numbers.</li>
+        </ul>
+      </div>
+      <div class="phase reveal-up" style="--d: 500ms;">
+        <span class="stamp">Day 90 &middot; Rebuild demand without rebuying it</span>
+        <p class="title">Growth on top of a fixed base.</p>
+        <ul>
+          <li><strong>Repair five templates.</strong> The five WhatsApp campaigns recording a 0.0% click rate carry 28,828 messages a month, against &#8377;22.96 per message on the seven that work.</li>
+          <li><strong>Build the lifecycle stack.</strong> Abandoned cart, welcome, post-purchase, win-back &mdash; and a replenishment reminder, on a product people finish.</li>
+          <li><strong>Rebuild paid.</strong> Off a measured ROAS, once the Meta connection is back &mdash; and Google, which already out-orders Facebook, funded properly.</li>
+          <li><strong>Optional add-on.</strong> Search &amp; AI discoverability &mdash; no homepage H1, no product schema on ten of 35 pages, 1,053 reviews invisible to Google, and the extra-virgin coconut oil URL pointing at a combos page. Scoped and priced separately.</li>
+          <li><strong>The next 90 days.</strong> Planned and priced off a delivered number you can finally see.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9 · DASHBOARD -->
+<!-- ============================================================ -->
+<section class="slide slide-9" id="s7">
+  <span class="slide-num">09 / 13 · Your dashboard</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">One place, everything visible</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      One place. <span class="h">Everything visible.</span>
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms;">
+      What is running, what needs your approval, and what changed this week &mdash; led by the two
+      numbers that matter most here: <strong>how many orders arrived, and what share of them came
+      back</strong>. The second of those is a number you cannot see today at all.
+    </p>
+
+    <div class="dashboard reveal-up" style="--d: 360ms;">
+      <div class="dash-chrome">
+        <span class="dash-dot"></span>
+        <span class="dash-dot"></span>
+        <span class="dash-dot"></span>
+        <span class="dash-url">app.kwikshop.in / hayyan</span>
+      </div>
+      <div class="dash-body">
+        <div class="dash-header">
+          <div>
+            <div class="brand-name">Hayyan Farms <span>&middot; Owner view</span></div>
+          </div>
+          <div class="period">This week</div>
+        </div>
+
+        <div class="dash-stats">
+          <div class="stat-tile">
+            <p class="lbl">Booked GMV</p>
+            <p class="num">&#8377;11.8L</p>
+            <p class="delta">+14% wow</p>
+          </div>
+          <div class="stat-tile">
+            <p class="lbl">Orders</p>
+            <p class="num">618</p>
+            <p class="delta">+12% wow</p>
+          </div>
+          <div class="stat-tile">
+            <p class="lbl">AOV</p>
+            <p class="num">&#8377;1,911</p>
+            <p class="delta">+2.5% wow</p>
+          </div>
+          <div class="stat-tile">
+            <p class="lbl">Delivered &amp; tracked</p>
+            <p class="num">96%</p>
+            <p class="delta">from 0%</p>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="head">
+            <h4>Today's activity</h4>
+            <span class="meta live-feed-meta"><span class="notification-dot"></span>Live · all AI</span>
+          </div>
+          <div class="feed" data-live-feed>
+            <div class="feed-item">
+              <span class="t">07:42</span>
+              <span class="body"><span class="agent ops">ops</span> Courier feed healthy &mdash; 612 of 618 orders now returning a delivery status.</span>
+            </div>
+            <div class="feed-item">
+              <span class="t">09:14</span>
+              <span class="body"><span class="agent site">site</span> Premium Health Pack re-priced to &#8377;1,249 &mdash; now &#8377;21 cheaper than its parts.</span>
+            </div>
+            <div class="feed-item">
+              <span class="t">10:26</span>
+              <span class="body"><span class="agent site">site</span> Ghee pack ladder corrected &mdash; 1L, 2.5L and 5L now cheaper per litre than 500ml.</span>
+            </div>
+            <div class="feed-item">
+              <span class="t">11:18</span>
+              <span class="body"><span class="agent support">support</span> 31 WhatsApp queries on delivery time resolved by AI.</span>
+            </div>
+            <div class="feed-item">
+              <span class="t">12:48</span>
+              <span class="body"><span class="agent ops">ops</span> Replenishment reminder sent to 486 buyers at day 45 &mdash; 38 reordered.</span>
+            </div>
+            <div class="feed-item">
+              <span class="t">22:11</span>
+              <span class="body"><span class="agent site">site</span> Combos added to the main navigation on mobile and desktop.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="head">
+            <h4>Waiting on you</h4>
+            <span class="meta" data-approval-count>3 approvals</span>
+          </div>
+          <div class="approval">
+            <p class="title">Re-price the three value packs</p>
+            <p class="sub">The Premium Health Pack is &#8377;1,499; the same ghee and VCO bought separately are &#8377;1,270. We need your call on whether the pack carries a real kitting cost, or whether the price comes down.</p>
+            <div class="row">
+              <button class="btn-mini" type="button">Approve</button>
+              <button class="btn-mini ghost" type="button">Modify</button>
+              <span class="by">margin · 2h ago</span>
+            </div>
+          </div>
+          <div class="approval">
+            <p class="title">Free shipping: one rule, or keep Tamil Nadu unconditional?</p>
+            <p class="sub">Tamil Nadu places 61% of your orders and pays no threshold. Everywhere else waits until &#8377;1,999. We can hold that, or set a lower TN threshold to build the basket at home too.</p>
+            <div class="row">
+              <button class="btn-mini" type="button">Approve</button>
+              <button class="btn-mini ghost" type="button">Modify</button>
+              <span class="by">aov &middot; 5h ago</span>
+            </div>
+          </div>
+          <div class="approval">
+            <p class="title">Remove the digestion claim from the A2 Ghee page</p>
+            <p class="sub">The page says the ghee &ldquo;includes natural fiber&rdquo;. Ghee has none. We'd like to replace it with the Kangeyam and curd-churn story, which is already yours and needs no substantiation.</p>
+            <div class="row">
+              <button class="btn-mini" type="button">Approve</button>
+              <button class="btn-mini ghost" type="button">Modify</button>
+              <span class="by">claims · yesterday</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="head">
+            <h4>Weekly digest</h4>
+            <span class="meta">Mon → today</span>
+          </div>
+          <div class="digest">
+            <div class="item">
+              <span class="marker"></span>
+              <span class="text"><span class="label">Top win.</span> Courier feed live: 96% of orders now return a delivery outcome, from zero.</span>
+            </div>
+            <div class="item">
+              <span class="marker"></span>
+              <span class="text"><span class="label">AOV win.</span> Checkout upsell on carts under &#8377;1,999: +&#8377;214 on 1 in 5 orders.</span>
+            </div>
+            <div class="item">
+              <span class="marker"></span>
+              <span class="text"><span class="label">Messaging win.</span> Three repaired templates went from 0.0% to 9.1% click rate.</span>
+            </div>
+            <div class="item warn">
+              <span class="marker"></span>
+              <span class="text"><span class="label">Watch.</span> New-customer intake still below July. Meta connection restored 6 days ago; too early to read.</span>
+            </div>
+            <div class="item warn">
+              <span class="marker"></span>
+              <span class="text"><span class="label">Watch.</span> Two of 35 products still out of stock &mdash; and they are your two dearest.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-card dash-harmony">
+          <div class="head">
+            <h4>Network effects — this week</h4>
+            <span class="meta">Compound impact</span>
+          </div>
+          <div style="padding: 1rem 1.25rem; display: grid; gap: 0.5rem; font-size: 13.5px; color: var(--text-soft); line-height: 1.55;">
+            <div>&middot; 118 carts lifted over the free-shipping line by the checkout upsell</div>
+            <div>&middot; 64 orders recovered by the three repaired WhatsApp templates</div>
+            <div>&middot; 38 buyers reordered off the new replenishment reminder</div>
+            <div>&middot; Net result: <strong style="color: var(--text);">&#8377;1.7L incremental GMV this week.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="footer-note reveal-up" style="--d: 460ms; margin-top: 1rem; font-family: var(--mono); font-size: 12px; color: var(--text-mute);">Illustrative dashboard — numbers are representative, not from a live store.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10 · CONTROL -->
+<!-- ============================================================ -->
+<section class="slide" id="s-control">
+  <span class="slide-num">10 / 13 · Control</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">The operating agreement</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      We operate. <span class="h">You approve.</span>
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms;">
+      Every change is either queued for your sign-off or logged where you can see it.
+      Your brand never moves without you.
+    </p>
+    <div class="control-grid">
+      <div class="control-card reveal-up" style="--d: 300ms;">
+        <span class="gate amber">Needs your yes</span>
+        <p class="title">Always your call</p>
+        <ul>
+          <li>Pricing, discounts, and offers &mdash; <strong>including every pack re-price</strong></li>
+          <li>Campaign launches and budget jumps</li>
+          <li><strong>Anything that touches a product claim</strong> &mdash; &ldquo;100% natural&rdquo;, &ldquo;organic&rdquo;, &ldquo;NABL lab tested&rdquo;, and anything the FSSAI licence has to stand behind</li>
+          <li>Anything that changes how customers see you</li>
+        </ul>
+        <p class="foot">Queued in your approvals. Nothing ships without your yes.</p>
+      </div>
+      <div class="control-card reveal-up" style="--d: 400ms;">
+        <span class="gate green">Handled quietly</span>
+        <p class="title">Never on your desk</p>
+        <ul>
+          <li>Broken links, duplicate collections, the empty and test pages</li>
+          <li>Copy and policy corrections &mdash; the US offices, the four return policies</li>
+          <li>Tracking and attribution hygiene across your channels</li>
+          <li>Every fix logged in your weekly digest</li>
+        </ul>
+        <p class="foot">Safe, reversible housekeeping — done and reported.
+        <strong>Search &amp; AI discoverability is a separate, separately-priced engagement</strong> — see slide 12.</p>
+      </div>
+      <div class="control-card reveal-up" style="--d: 500ms;">
+        <span class="gate blue">Your side of the deal</span>
+        <p class="title">What we need from you</p>
+        <ul>
+          <li><strong>Courier credentials and ad-account access at kickoff</strong> &mdash; these are the two systems we cannot see at all, and both are blocking</li>
+          <li><strong>Two answers we can't get anywhere else:</strong> was pulling the discount back a decision? And is prepaid-plus-partial-COD the settled plan?</li>
+          <li>One weekly call — 30 minutes</li>
+          <li>Approvals as they queue — minutes, not meetings</li>
+        </ul>
+        <p class="foot">That's the whole job. Everything else sits with us.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11 · WHAT WE'VE SEEN -->
+<section class="slide soft" id="s-seen">
+  <span class="slide-num">11 / 13 &middot; Your diagnosis</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">Specific to you, not to your category</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      What we've already seen <span class="accent">in your business</span>.
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms;">
+      We ran your store and all five of your GoKwik surfaces against the network before this meeting
+      &mdash; sixty questions in all. Four findings: the three we can put a number on, and one we
+      deliberately cannot, because two of your instruments are dark.
+    </p>
+
+    <div class="seen-grid seen-grid-4">
+      <div class="found-slot reveal-up" style="--d: 360ms;">
+        <span class="found-tag">Finding 1 &middot; the big one</span>
+        <p class="found-head"><strong>Three of your four value packs cost more</strong> than buying the same bottles separately.</p>
+        <p class="found-ev">Checked against your own live prices on 22 September. The
+        <strong>Premium Health Pack</strong> is &#8377;1,499; the A2 Ghee 500ml and the VCO 500ml inside
+        it are &#8377;899 and &#8377;371 &mdash; <strong>&#8377;1,270, so the pack is &#8377;229 dearer,
+        18% more.</strong> The <strong>Mini Essentials Pack</strong> is &#8377;43 dearer than its four
+        bottles; the <strong>Family Monthly Pack</strong> &#8377;59 dearer. Only the Mega Oil Combo saves
+        anything, and it saves <strong>1.1%</strong>. Three of the four display no discount at all, sitting beside SKUs that shout <em>40% OFF</em>.</p>
+        <p class="found-ev sub">And the ladder behind them runs the same way. <strong>Your A2 ghee
+        500ml is &#8377;1,798 a litre. The 1L jar is &#8377;1,900, the 2.5L &#8377;1,940 and the 5L
+        &#8377;1,944</strong> &mdash; so on your premium line, every step up costs the shopper
+        <em>more</em> per millilitre. Groundnut 10L is dearer per litre than the 5L, and its
+        &ldquo;was&rdquo; price of &#8377;3,900 sits <em>below</em> its &#8377;3,950 selling price. Meanwhile
+        <strong>932 orders a month land between &#8377;1,000 and &#8377;2,000 at an average of
+        &#8377;1,544</strong> &mdash; &#8377;455 short of your own free-shipping line &mdash; and
+        <strong>every product on the store is single-variant</strong>, so a shopper on the 250ml page
+        cannot step up to a litre without going back to a collection. There is no Combos link in your
+        navigation either.</p>
+        <p class="found-num">&#8377;3.0L / month</p>
+        <p class="found-num-note">Checkout upsell at the network's measured <strong>+750bps on
+        AOV</strong>: &#8377;2.97L on your 2,228 orders. Cross-check on your own numbers: moving a
+        quarter of those 932 mid-band orders over the &#8377;1,999 line is <strong>&#8377;1.06L</strong>
+        on that band alone &mdash; <strong>and the pack re-pricing is free.</strong></p>
+      </div>
+
+      <div class="found-slot reveal-up" style="--d: 420ms;">
+        <span class="found-tag">Finding 2 &middot; messaging</span>
+        <p class="found-head"><strong>48% of the messages you send</strong> returned &#8377;12,645 between them.</p>
+        <p class="found-ev">WhatsApp <em>is</em> this business &mdash; 175,271 sends, 1,046 orders and
+        <strong>&#8377;19.8L attributed in thirty days</strong>. But the twelve WhatsApp campaigns split cleanly in two.
+        <strong>Seven run click rates of 7.9% to 13.0%</strong> and earn
+        <strong>&#8377;22.96 per message</strong> &mdash; the five biggest, &#8377;27.51.
+        <strong>Five record a click rate of exactly 0.0%</strong> &mdash; on <strong>28,828 messages</strong> &mdash; and returned
+        <strong>&#8377;9,036 in total. One of them, 9,505 messages, produced no orders at all.</strong>
+        Add the 50,886-message email campaign that earned &#8377;3,609 and
+        <strong>79,714 of your 165,766 monthly sends returned &#8377;12,645.</strong></p>
+        <p class="found-ev sub">The reason we are confident this is fixable: <strong>those five
+        delivered fine</strong> &mdash; 70.9% to 87.5% &mdash; and <strong>all 113 of your live templates
+        are approved, none rejected, none paused, unsubscribes at 0.06%.</strong> So the messages arrived
+        and were read. <strong>A click rate of precisely zero on five templates, while seven others on
+        the same list in the same month run 7.9&ndash;13.0%, is a broken link or missing tracking in
+        those templates &mdash; not an audience problem.</strong> Underneath it sits the second half:
+        <strong>you have exactly one marketing automation, live since 16 September, and it earns
+        &#8377;30.23 per message against broadcast's &#8377;16.90.</strong> There is no abandoned cart, no
+        welcome, no win-back and <strong>no replenishment reminder on a product people finish.</strong></p>
+        <p class="found-num">&#8377;2.5L / month</p>
+        <p class="found-num-note">The band, honestly: at a quarter of your own working templates'
+        &#8377;22.96 per message, those 28,828 messages are worth <strong>&#8377;1.65L</strong>; at a
+        third, <strong>&#8377;2.18L</strong>. Shifting even a tenth of broadcast volume into automations
+        adds <strong>&#8377;1.45L</strong> on its own. <strong>We have banked &#8377;2.5L for the pair
+        together &mdash; below the bottom of our own range, and not one number each</strong>, because
+        both draw on the same message budget. Two caveats we would rather state: four of the five dead
+        campaigns look like local lists, and the &#8377;30.23 automation figure rests on seven days and
+        61 orders.</p>
+      </div>
+
+      <div class="found-slot reveal-up" style="--d: 480ms;">
+        <span class="found-tag">Finding 3 &middot; checkout</span>
+        <p class="found-head">Five checkout features you already own and are not running &mdash; <strong>380 basis points</strong>.</p>
+        <p class="found-ev">This is the smallest finding in the deck and that is the point:
+        <strong>your checkout is the best we have audited this year and mostly needs leaving
+        alone.</strong> 49.1% against a 38.0% category median, ahead of it in eleven of thirteen weeks.
+        Login <strong>92.3%</strong> against 77.0%. Address 99.0%. UPI success <strong>98.7%</strong>,
+        blended 96.0% against 92.1%, debited-but-unconfirmed at 0.09%. <strong>Only 7.4% of shoppers
+        leave before typing a phone number &mdash; the lowest figure we have recorded on any brand, against 34.5% at the worst.</strong> Eighty-nine failed payments in a whole month.</p>
+        <p class="found-ev sub">What is left is configuration. <strong>Exit Coupon on Checkout
+        (+90bps), the coupon-failure cart popup (+115bps), Payment Rearrangement (+75bps), Checkout
+        Upsell (+50bps) and per-item delivery dates (+50bps)</strong> are all off. Two further features
+        the network rates highly &mdash; prepaid incentives and risk-based COD blocking &mdash;
+        <strong>do not apply to you at all</strong>, because your book is already 100% prepaid. The one
+        cohort worth a closer look is a data defect rather than a customer segment:
+        <strong>483 sessions a month where GoKwik cannot resolve who the shopper is, converting at
+        13.7% against your 49.1%.</strong></p>
+        <p class="found-num">&#8377;1.6L / month</p>
+        <p class="found-num-note">380bps on 4,806 checkout sessions is <strong>+183 orders, or
+        &#8377;3.24L</strong>. <strong>We have banked half</strong>, because five features' published
+        lifts do not simply add up, and because a funnel already eleven points ahead has less slack in it
+        than the network average assumes.</p>
+      </div>
+
+      <div class="found-slot reveal-up" style="--d: 540ms;">
+        <span class="found-tag">Finding 4 &middot; demand</span>
+        <p class="found-head">Weekly orders are down <strong>61% from the July peak</strong> &mdash; and we won't put a number on it.</p>
+        <p class="found-ev"><strong>1,388 orders in the week of 6 July. 542 in the week of
+        14 September.</strong> Month on month, <strong>4,721 in July against 3,168 in August</strong>.
+        Weekly checkout sessions fell from 3,282 to 1,000 over the same span, and new customers went <strong>3,035 in July to 1,470 in August to 512 in the first three weeks of September</strong>. And the most likely reason is visible in your own
+        data: <strong>month on month your discount burn fell from &#8377;17.77L to &#8377;3.31L and
+        average depth from 57.8% to 23.6% &mdash; and across ninety days the share of orders carrying a
+        discount fell from 86.7% to 56.2%, at depths of 78.3% and then 51%.</strong></p>
+        <p class="found-ev sub">Two things belong beside that, and the first is genuinely good news.
+        <strong>Of the &#8377;21.6L of revenue that went away, &#8377;14.46L &mdash; two thirds &mdash; was
+        discount you were funding yourself.</strong> Your basket rose in all four months, &#8377;1,231 to
+        &#8377;1,866, and crossed your category median in August. <strong>Cutting that discount looks
+        like the right call and we would not undo it</strong> &mdash; and the bleeding has already
+        stopped: the last four complete weeks ran 489, 556, 522 and 542 orders. The second thing is why we are not sizing
+        this. <strong>Your Meta connection inside GoKwik returns &ldquo;couldn't load Meta connection&rdquo;
+        and has no KPIs configured, so there is no spend figure in any system we can read</strong> &mdash;
+        and separately, <strong>not one of your 9,498 orders across three months has a delivery outcome
+        recorded. AWB fill is 0%, and KwikShip holds zero shipments.</strong> Without either, a
+        rebuild plan would be a guess dressed as arithmetic.</p>
+        <p class="found-num">Not sized</p>
+        <p class="found-num-note"><strong>Deliberately excluded from the total below.</strong> For scale
+        only: getting back to the prior month's order count at today's basket is
+        <strong>&#8377;65.2L a month</strong>, and at today's discount rate it would cost
+        <strong>&#8377;5.5L of discount instead of &#8377;17.8L.</strong> We are not putting that in a total
+        we would then be held to. <strong>The courier feed and the Meta connection on day one are how
+        this stops being a guess.</strong></p>
+      </div>
+    </div>
+
+    <div class="found-total reveal-up" style="--d: 620ms;">
+      <span class="found-tag">Total, evidenced</span>
+      <p class="found-head"><strong>&#8377;7.1L / month</strong> &mdash; about 18% on top of your booked
+      GMV, from findings 1, 2 and 3 alone. <strong>That total assumes nothing at all from Finding 4,
+      not one extra rupee of ad spend, and no return to discounting.</strong></p>
+      <p class="found-ev">The arithmetic, so you can check it: &#8377;3.0L from the basket +
+      &#8377;2.5L from messaging + &#8377;1.6L from the checkout features. They overlap a little &mdash; a
+      shopper recovered by a repaired WhatsApp template also gets the basket lift &mdash; which is one
+      reason we have banked only half of the checkout stack and treated the two messaging fixes as a
+      single number. <strong>And here is the figure worth sitting with: the discounted volume you gave
+      up was contributing about &#8377;7.1L a month net of its own discount.</strong> Those two numbers
+      were computed independently and they land in the same place. <strong>Which means the three
+      findings above are worth roughly what the discount was buying you &mdash; without the
+      discount.</strong></p>
+    </div>
+
+    <div class="found-strength reveal-up" style="--d: 680ms;">
+      <span class="found-tag ok">What's already working &mdash; and it's a lot</span>
+      <ul>
+        <li><strong>Your checkout is the best we have audited this year.</strong> 49.1% against a 38.0%
+        category median, ahead of it in eleven of the last thirteen weeks, with login at
+        <strong>92.3% against 77.0%</strong>, address at 99.0%, UPI success at <strong>98.7%</strong> and
+        <strong>only 7.4% of shoppers leaving before they type a phone number</strong>. On that last
+        measure you are the best brand in our audit set; the worst runs 34.5%.</li>
+        <li><strong>You are in the top 11% of Shopify merchants on this network by revenue</strong>
+        &mdash; &#8377;39.5L a month at the 89th percentile, and <strong>&#8377;1.99Cr across the four
+        months we can see.</strong> Your basket has risen every single month of that, &#8377;1,231 to
+        &#8377;1,866.</li>
+        <li><strong>You found the middle path on cash-on-delivery before we arrived.</strong> Full COD is
+        off and your book is <strong>100% prepaid</strong> &mdash; which removes the single biggest driver
+        of returns in Indian D2C &mdash; while <strong>partial-COD quietly carries 9.2% of your revenue at
+        an average order of &#8377;2,002, the second-highest of any payment method, converting
+        15.7 points above the benchmark for it.</strong> Very few brands at your volume have managed
+        that trade.</li>
+        <li><strong>Your repeat engine is already carrying the business.</strong> Returning buyers
+        convert at 58.2% against 45.1% for new, and in September so far they are <strong>66.5% of your
+        customers and 71.2% of your revenue</strong> &mdash; achieved with one marketing automation that
+        is a week old. Imagine it with five.</li>
+        <li><strong>1,053 Google reviews at 4.8 stars</strong>, the ten most recent all dated within the
+        fortnight before we pulled this &mdash; and they already render on your product pages. <strong>Not one appears in the structured
+        data Google and AI assistants read</strong>, so no star rating can show in a search result
+        anywhere. <strong>This is the cheapest win available to you</strong> &mdash; and it is the one thing in
+        this deck that sits in the discoverability module rather than inside the revenue share.</li>
+      </ul>
+    </div>
+
+    <p class="found-src reveal-up" style="--d: 740ms;">
+      Sources: all five of your GoKwik surfaces &mdash; Checkout, RTO, KwikEngage, Meta Ads and KwikShip
+      &mdash; for 23 August to 21 September 2026, plus a crawl of hayyan.in on 22 September. Four
+      caveats we would rather state than bury. <strong>We have not quoted your average order value
+      against the category average</strong> &mdash; your Kwik.ai category is a broad residual bucket whose
+      &#8377;6,369 average would have made your basket look 72% worse than it is; we have used your
+      platform percentile instead. <strong>We have not quoted a returns rate at all</strong> &mdash; not
+      even a floor &mdash; because 0% of your orders return a delivery status, and Kwik.ai's own guidance
+      is not to make decisions on those figures until the feed is fixed. <strong>We have not computed a
+      ROAS</strong>, because the Meta connection will not load. And <strong>your coupon-level and
+      gateway-level data failed to load on repeated attempts</strong>, so neither appears anywhere in
+      this deck.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12 · PRICING -->
+<!-- ============================================================ -->
+<section class="slide slide-11" id="s8">
+  <span class="slide-num">12 / 13 · The deal</span>
+  <div class="wrap">
+    <p class="eyebrow muted reveal-up">The math, simply</p>
+    <h2 class="reveal-up" style="--d: 100ms; margin-top: 1.25rem;">
+      <span class="h">One rate on monthly GMV.</span> Everything in.
+    </h2>
+    <p class="lede reveal-up" style="--d: 220ms;">
+      The rate drops as you grow &mdash; 12% early, 8% at scale. Checkout and WhatsApp fees sit <em>inside</em> the rate, not on top of it.
+    </p>
+
+    <div class="audit-band reveal-up" style="--d: 260ms;">
+      <span class="step">Step 1 &middot; One-time</span>
+      <p><strong>30-day audit + benchmark report &mdash; &#8377;10,000.</strong> The revenue share below applies once the growth channels go live.</p>
+    </div>
+
+    <div class="align-band reveal-up" style="--d: 280ms;">
+      <p class="align-head">Read this before the slider &mdash; and read it as the marginal number, because that is what it is.</p>
+      <p>At <strong>&#8377;39.5L a month your rate is 10%</strong>. The <strong>2.5% checkout fee</strong>
+      and the <strong>5% KwikEngage fee</strong> sit <em>inside</em> that rate, and those two come to
+      <strong>7.5%</strong> &mdash; <strong>both of which you are already running and already paying
+      for today.</strong> Your checkout is GoKwik and your WhatsApp is KwikEngage; they sent 175,271
+      messages last month. <strong>So the whole growth engine &mdash; media, storefront, offers,
+      lifecycle, the operating team &mdash; comes to 2.5 points on top of what you already carry.</strong>
+      And the rate falls as you grow: crossing <strong>&#8377;50L a month takes it to 8%</strong>, which is
+      half a point above those two fees &mdash; on the whole month, not just the part above the line.</p>
+      <p class="align-kicker">Our share is charged on <strong>delivered</strong> order value, net of
+      returns and cancellations. <strong>Every order that comes back is one we don't get paid for</strong>
+      &mdash; which is also why <strong>connecting your courier feed is the first thing we do</strong>:
+      right now neither of us can see what is arriving.</p>
+    </div>
+
+    <div class="rate-tiers reveal-up" style="--d: 300ms;" id="rateTiers">
+      <div class="tier">
+        <p class="range">Monthly GMV up to ₹10L</p>
+        <p class="rate">12%</p>
+        <p class="hint">on your full monthly GMV</p>
+      </div>
+      <div class="tier">
+        <p class="range">₹10L – ₹50L a month</p>
+        <p class="rate">10%</p>
+        <p class="hint">on your full monthly GMV</p>
+      </div>
+      <div class="tier">
+        <p class="range">Above ₹50L a month</p>
+        <p class="rate">8%</p>
+        <p class="hint">on your full monthly GMV</p>
+      </div>
+    </div>
+
+    <div class="price-flow reveal-up" style="--d: 380ms;">
+      <div class="gmv-control">
+        <div>
+          <p class="kicker">Drag your monthly GMV</p>
+          <p class="gmv-value" id="gmvLabel">&#8377;40L</p>
+        </div>
+        <div>
+          <input id="gmvSlider" type="range" min="2" max="200" step="1" value="40" aria-label="Monthly GMV in lakhs">
+          <div class="range-labels"><span>₹2L</span><span>₹2Cr</span></div>
+        </div>
+      </div>
+      <div class="price-results">
+        <div class="price-card after">
+          <div>
+            <p class="label">Your fee today<span class="applied-rate" id="appliedRate">@ 10%</span></p>
+            <p class="price" id="kwikshopFee">&#8377;4L</p>
+          </div>
+          <p class="note">One bill. The <strong>2.5% checkout fee</strong> and the <strong>5% KwikEngage fee</strong> sit inside this rate &mdash; that is <strong>7.5% you already pay today</strong>, on two products already live on your account. Everything below arrives for the <strong>2.5 points on top</strong>, and that gap narrows to half a point once you pass &#8377;50L.</p>
+        </div>
+        <div class="price-card scale">
+          <div>
+            <p class="label">What you keep at the number on slide one<span class="applied-rate" id="rateAtScale">@ 8%</span></p>
+            <p class="price" id="keepAtScale">&#8377;62.6L</p>
+          </div>
+          <p class="note">On <span id="gmvAtScale">&#8377;68L</span> a month, billed at <strong>8%</strong>. Our share only grows when yours does &mdash; and crossing &#8377;50L lowers the rate on the <em>whole</em> month, not just the part above the line.</p>
+        </div>
+        <p class="savings-band">Retainers and salaries get paid whether the order arrives or not. Ours is a share of delivered GMV &mdash; <span>if it doesn't arrive, we don't get paid for it.</span></p>
+      </div>
+    </div>
+
+    <div class="included reveal-up" style="--d: 460ms;">
+      <div class="head">
+        <p class="label">Included in the revenue share</p>
+        <p class="price-callout">Including the <strong>2.5% checkout fee</strong> and the <strong>5% KwikEngage fee</strong> &mdash; 7.5% of what you pay today</p>
+      </div>
+      <div class="items">
+        <span class="item">Checkout fee (2.5%) + KwikEngage fee (5%) covered</span>
+        <span class="item">Performance marketing &amp; daily ad optimisation</span>
+        <span class="item">Website conversion optimisation &amp; checkout</span>
+        <span class="item">Retention &amp; WhatsApp management</span>
+        <span class="item">Offer, bundle &amp; pricing-ladder design</span>
+        <span class="item">Setup &amp; configuration of whatever's required</span>
+        <span class="item">Dashboard + Monday digest</span>
+        <span class="item">Weekly category benchmarks · approvals queue</span>
+      </div>
+    </div>
+
+    <div class="audit-band reveal-up" style="--d: 500ms;">
+      <span class="step">Add-on &middot; priced separately</span>
+      <p><strong>Search &amp; AI discoverability (SEO / GEO) is not included in the revenue share.</strong>
+      It is a separate, separately-priced engagement &mdash; organic and AI-answer visibility, structured
+      data, the product schema your 1,053 reviews need, content and technical SEO. We have told you what
+      is wrong with it in this deck because the audit covers it; <strong>fixing it is scoped and quoted
+      on its own.</strong> Everything else listed above sits inside the rate.</p>
+    </div>
+
+    <p class="gmv-note reveal-up" style="--d: 540ms;">
+      <strong>How GMV is counted:</strong> the aggregate <strong>delivered</strong> order value &mdash; net
+      of returns and cancellations &mdash; in a calendar month, as reported in your Shopify dashboard. The
+      revenue share applies to GMV generated through the GoKwik-managed growth channels, and your whole
+      month is billed at the single rate of the slab it lands in. The slider above sits at
+      <strong>&#8377;40L</strong> &mdash; rounded from the &#8377;39.5L you booked in the 30 days to
+      21 September. On a fully prepaid book, booked and delivered should sit unusually close together
+      &mdash; but <strong>today 0% of your orders return a delivery status</strong>, so making that number
+      visible is the first month's work, for both of us.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 13 · CLOSE -->
+<!-- ============================================================ -->
+<section class="slide slide-12 dark" id="s9">
+  <canvas class="ambient-canvas" data-ambient="mesh"></canvas>
+  <div class="dot-grid"></div>
+  <span class="slide-num">13 / 13 · Close</span>
+  <div class="wrap">
+    <p class="eyebrow cream no-line reveal-up"><span class="dot"></span>One last thing</p>
+    <h2 class="reveal-up" style="--d: 200ms;">
+      You already built the hard half.<br>
+      <span class="accent">Now let's put people back in front of it.</span>
+    </h2>
+    <p class="sub reveal-up" style="--d: 500ms;">
+      A mill in Pollachi, a checkout that beats its category by eleven points, a basket that has grown
+      every month for four months, and 1,053 customers who went out of their way to leave you 4.8 stars.
+      Nothing here asks you to change any of that. It asks one question:
+      <strong>in July, 4,721 orders came through. Last month, 3,168.</strong> What would this business
+      look like if that line turned back up &mdash; without paying for it with a 57% discount?
+    </p>
+    <div class="cta-row reveal-up" style="--d: 700ms;">
+      <a href="#" class="btn btn-light">
+        Start with the ₹10,000 audit
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#s1" class="btn btn-light-ghost">Walk me through it again</a>
+    </div>
+  </div>
+</section>
+<footer>
+  <span><strong>KwikShop</strong> &nbsp;by GoKwik &middot; prepared for Hayyan Farms</span>
+  <span>13 slides &middot; data pulled 22 Sep 2026</span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasGSAP = Boolean(window.gsap && window.ScrollTrigger);
+  if (hasGSAP) gsap.registerPlugin(ScrollTrigger);
+
+  function clamp(n, min = 0, max = 1) { return Math.max(min, Math.min(max, n)); }
+
+  function splitTextNode(node) {
+    const parts = node.textContent.split(/(\s+)/);
+    const frag = document.createDocumentFragment();
+    parts.forEach(part => {
+      if (!part) return;
+      if (/^\s+$/.test(part)) {
+        frag.appendChild(document.createTextNode(part));
+        return;
+      }
+      const mask = document.createElement('span');
+      const word = document.createElement('span');
+      mask.className = 'kt-mask';
+      word.className = 'kt-word';
+      word.textContent = part;
+      mask.appendChild(word);
+      frag.appendChild(mask);
+    });
+    node.replaceWith(frag);
+  }
+
+  function splitHeadingNode(node) {
+    Array.from(node.childNodes).forEach(child => {
+      if (child.nodeType === Node.TEXT_NODE) splitTextNode(child);
+      if (child.nodeType === Node.ELEMENT_NODE && !child.matches('script, style, svg, .kt-mask')) {
+        splitHeadingNode(child);
+      }
+    });
+  }
+
+  function initKineticType() {
+    document.querySelectorAll('h1, h2').forEach(heading => {
+      if (heading.dataset.kineticReady) return;
+      heading.dataset.kineticReady = '1';
+      heading.classList.add('kinetic-heading');
+      splitHeadingNode(heading);
+      if (hasGSAP && !prefersReduced) {
+        heading.classList.add('in');
+        const words = heading.querySelectorAll('.kt-word');
+        gsap.set(words, { yPercent: 112, rotateX: -34, opacity: 0, filter: 'blur(9px)' });
+        ScrollTrigger.create({
+          trigger: heading,
+          start: 'top 88%',
+          once: true,
+          onEnter: () => {
+            gsap.to(words, {
+              yPercent: 0,
+              rotateX: 0,
+              opacity: 1,
+              filter: 'blur(0px)',
+              duration: 1.08,
+              ease: 'power4.out',
+              stagger: { each: 0.035, from: 'start' },
+              onComplete: () => heading.classList.add('is-revealed')
+            });
+          }
+        });
+      }
+    });
+  }
+  initKineticType();
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('in');
+      if (entry.target.classList.contains('proof-stat')) {
+        const n = entry.target.querySelector('[data-count]');
+        if (n && !n.dataset.done) { animateCount(n); n.dataset.done = "1"; }
+      }
+      io.unobserve(entry.target);
+    });
+  }, { threshold: 0.14, rootMargin: "0px 0px -6% 0px" });
+  document.querySelectorAll('.reveal-up:not(.in)').forEach(el => io.observe(el));
+
+  function animateCount(el) {
+    const target = parseFloat(el.dataset.count);
+    const suffix = el.dataset.suffix || "";
+    const prefix = el.dataset.prefix || "";
+    const dur = prefersReduced ? 1 : 1300;
+    const start = performance.now();
+    const fmt = (v) => target >= 1000 ? Math.round(v).toLocaleString('en-IN') : Math.round(v);
+    function tick(now) {
+      const t = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = prefix + fmt(target * eased) + suffix;
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const bar = document.getElementById('progress');
+  const darkGrids = Array.from(document.querySelectorAll('section.slide.dark .dot-grid'));
+  const timelineSection = document.getElementById('s6');
+  let ticking = false;
+
+  function updateScrollEffects() {
+    const root = document.documentElement;
+    const max = root.scrollHeight - root.clientHeight;
+    bar.style.width = (max > 0 ? (root.scrollTop / max) * 100 : 0) + '%';
+
+    if (!prefersReduced) {
+      darkGrids.forEach(grid => {
+        const section = grid.closest('section.slide');
+        const rect = section.getBoundingClientRect();
+        const offset = (rect.top + rect.height * 0.5 - window.innerHeight * 0.5) * -0.045;
+        grid.style.setProperty('--parallax-y', `${offset}px`);
+      });
+    }
+
+    if (timelineSection && (!hasGSAP || prefersReduced)) {
+      const rect = timelineSection.getBoundingClientRect();
+      const travel = Math.max(1, rect.height * 0.86);
+      const progress = clamp((window.innerHeight * 0.76 - rect.top) / travel);
+      timelineSection.style.setProperty('--phase-progress', progress.toFixed(3));
+      timelineSection.style.setProperty('--line-progress', progress.toFixed(3));
+    }
+
+    ticking = false;
+  }
+
+  function requestScrollUpdate() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(updateScrollEffects);
+  }
+  document.addEventListener('scroll', requestScrollUpdate, { passive: true });
+  window.addEventListener('resize', requestScrollUpdate);
+  updateScrollEffects();
+
+  function initScrollScenes() {
+    if (!hasGSAP || prefersReduced) return;
+
+    const mm = gsap.matchMedia();
+
+    mm.add('(min-width: 900px)', () => {
+      const slide = document.querySelector('#s5');
+      const container = document.querySelector('#s5 .horizontal-scroll-container');
+      const wrapper = document.querySelector('#s5 .levers-wrapper');
+      const cards = gsap.utils.toArray('#s5 .levers-wrapper .lever');
+      const headerBits = gsap.utils.toArray('#s5 .gsap-fade');
+      if (!slide || !container || !wrapper || !cards.length) return;
+
+      cards[0]?.classList.add('is-active');
+      gsap.set(headerBits, { autoAlpha: 1 });
+      gsap.set(cards, { autoAlpha: 0, y: 28, scale: 0.96 });
+
+      const setActive = (progress) => {
+        const activeIndex = Math.min(cards.length - 1, Math.floor(progress * cards.length));
+        cards.forEach((card, i) => card.classList.toggle('is-active', i === activeIndex));
+      };
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: slide,
+          start: 'top 72%',
+          end: 'bottom 38%',
+          scrub: 0.65,
+          invalidateOnRefresh: true,
+          onUpdate: self => setActive(self.progress),
+          onLeave: () => cards[cards.length - 1]?.classList.add('is-active'),
+          onEnterBack: self => setActive(self.progress)
+        }
+      });
+
+      tl.from(headerBits, {
+        autoAlpha: 0,
+        y: 18,
+        duration: 0.22,
+        stagger: 0.04,
+        ease: 'power2.out'
+      }, 0)
+      .to(cards, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 1,
+        ease: 'none',
+        stagger: 0.08
+      }, 0.08);
+
+      return () => {
+        cards.forEach(card => card.classList.remove('is-active'));
+        gsap.set(cards, { clearProps: 'all' });
+        gsap.set(headerBits, { clearProps: 'all' });
+      };
+    });
+
+    const phaseCards = gsap.utils.toArray('#s6 .phase');
+    const phaseSlide = document.querySelector('#s6');
+    if (phaseSlide && phaseCards.length) {
+      const setPhaseState = (progress) => {
+        const fill = clamp(progress * 1.08);
+        phaseSlide.style.setProperty('--line-progress', fill.toFixed(3));
+        const thresholds = [0, 0.42, 0.74];
+        phaseCards.forEach((card, i) => {
+          card.classList.toggle('is-lit', progress >= thresholds[i]);
+        });
+      };
+      phaseCards[0]?.classList.add('is-lit');
+      gsap.set(phaseCards, { y: 24 });
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: phaseSlide,
+          start: 'top 72%',
+          end: 'bottom 34%',
+          scrub: 0.75,
+          onUpdate: self => setPhaseState(self.progress),
+          onEnter: () => setPhaseState(0),
+          onLeave: () => setPhaseState(1),
+          onEnterBack: self => setPhaseState(self.progress),
+          onLeaveBack: () => setPhaseState(0)
+        }
+      })
+      .to(phaseCards, { y: 0, duration: 0.7, ease: 'none', stagger: 0.08 }, 0);
+    }
+  }
+
+  function buildSparklinePath(values, w = 160, h = 56, pad = 10) {
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const range = max - min || 1;
+    return values.map((v, i) => {
+      const x = pad + (i / (values.length - 1)) * (w - pad * 2);
+      const y = h - pad - ((v - min) / range) * (h - pad * 2);
+      return `${i === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)}`;
+    }).join(' ');
+  }
+
+  function injectSparklines() {
+    // One series per stat tile, in tile order, each matching the direction of its own
+    // metric, and all framed so up = good. Tile 2 is delivered-as-a-%-of-BOOKED — the
+    // same denominator slide 1 uses (₹11.5L of ₹68L = 16.9%), so the two never conflict.
+    // Do not switch it to the post-cancellation base: that reads ~56% and looks like a
+    // contradiction against slide 1.
+    const sets = [
+      { points: [3.6, 4.1, 4.0, 4.8, 5.1, 5.7, 6.4], color: '#1E40AF' },        // Delivered GMV ₹L/wk, rising
+      { points: [17, 19, 21, 23, 25, 26, 28], color: '#059669' },                // Delivered % of booked, rising from today's 17%
+      { points: [1.8, 2.2, 2.6, 3.4, 4.6, 6.2, 8.0], color: '#F59E0B' },         // Prepaid share %, rising
+      { points: [1133, 1148, 1166, 1182, 1205, 1228, 1248], color: '#0891B2' }   // AOV ₹, rising
+    ];
+
+    document.querySelectorAll('.stat-tile').forEach((tile, i) => {
+      if (tile.querySelector('.sparkline')) return;
+      const cfg = sets[i % sets.length];
+      const line = buildSparklinePath(cfg.points);
+      const area = `${line} L150 56 L10 56 Z`;
+      tile.style.setProperty('--spark', cfg.color);
+      tile.insertAdjacentHTML('afterbegin', `
+        <svg class="sparkline" viewBox="0 0 160 56" aria-hidden="true" preserveAspectRatio="none">
+          <path class="area" d="${area}"></path>
+          <path class="spark-path" d="${line}"></path>
+        </svg>
+      `);
+    });
+  }
+
+  function initSparklineAnimations() {
+    injectSparklines();
+    const paths = Array.from(document.querySelectorAll('.spark-path'));
+    if (!paths.length) return;
+    paths.forEach(path => {
+      const len = path.getTotalLength();
+      path.style.strokeDasharray = len;
+      path.style.strokeDashoffset = prefersReduced ? 0 : len;
+    });
+    if (!hasGSAP || prefersReduced) return;
+    gsap.to(paths, {
+      strokeDashoffset: 0,
+      duration: 1.8,
+      ease: 'power3.out',
+      stagger: 0.12,
+      scrollTrigger: {
+        trigger: '#s7 .dashboard',
+        start: 'top 78%',
+        once: true
+      }
+    });
+  }
+
+  function initAmbientCanvases() {
+    if (prefersReduced) return;
+    const canvases = Array.from(document.querySelectorAll('.ambient-canvas'));
+    if (!canvases.length) return;
+    const pointer = { x: -9999, y: -9999, active: false };
+    window.addEventListener('pointermove', (e) => {
+      pointer.x = e.clientX;
+      pointer.y = e.clientY;
+      pointer.active = true;
+    }, { passive: true });
+    window.addEventListener('pointerleave', () => { pointer.active = false; }, { passive: true });
+
+    canvases.forEach(canvas => {
+      const ctx = canvas.getContext('2d', { alpha: true });
+      const type = canvas.dataset.ambient || 'mesh';
+      let w = 0, h = 0, dpr = 1;
+      const particles = Array.from({ length: type === 'proof-particles' ? 34 : 0 }, (_, i) => ({
+        x: 0.6 + (((i * 37) % 100) / 100) * 0.34,
+        y: 0.14 + (((i * 53) % 100) / 100) * 0.72,
+        vx: ((((i * 29) % 100) / 100) - 0.5) * 0.34,
+        vy: ((((i * 47) % 100) / 100) - 0.5) * 0.34,
+        r: 1.4 + (((i * 17) % 100) / 100) * 2.8,
+        glow: 0.28 + (((i * 23) % 100) / 100) * 0.5
+      }));
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        dpr = Math.min(window.devicePixelRatio || 1, 1.7);
+        w = Math.max(1, Math.floor(rect.width));
+        h = Math.max(1, Math.floor(rect.height));
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function drawBlob(x, y, radius, color) {
+        const g = ctx.createRadialGradient(x, y, 0, x, y, radius);
+        g.addColorStop(0, color);
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function drawMesh(t) {
+        ctx.clearRect(0, 0, w, h);
+        ctx.globalCompositeOperation = 'lighter';
+        drawBlob(w * (0.22 + Math.sin(t * 0.00022) * 0.04), h * 0.32, w * 0.44, 'rgba(30,64,175,0.28)');
+        drawBlob(w * (0.72 + Math.cos(t * 0.00018) * 0.05), h * (0.28 + Math.sin(t * 0.00016) * 0.05), w * 0.38, 'rgba(245,158,11,0.20)');
+        drawBlob(w * (0.46 + Math.sin(t * 0.00014) * 0.08), h * 0.78, w * 0.48, 'rgba(8,145,178,0.18)');
+        ctx.globalCompositeOperation = 'source-over';
+      }
+
+      function drawProofParticles(t) {
+        ctx.clearRect(0, 0, w, h);
+        ctx.globalCompositeOperation = 'lighter';
+        drawBlob(w * 0.82, h * 0.35, w * 0.28, 'rgba(30,64,175,0.13)');
+        drawBlob(w * 0.78, h * 0.58, w * 0.22, 'rgba(245,158,11,0.1)');
+        ctx.globalCompositeOperation = 'source-over';
+
+        const bounds = { l: w * 0.55, r: w * 0.985, t: h * 0.1, b: h * 0.82 };
+        const rect = canvas.getBoundingClientRect();
+        const px = pointer.x - rect.left;
+        const py = pointer.y - rect.top;
+        const pointerInField = pointer.active && px > bounds.l && px < bounds.r && py > bounds.t && py < bounds.b;
+        const driftX = Math.sin(t * 0.00035) * 0.018;
+        const driftY = Math.cos(t * 0.00029) * 0.018;
+
+        ctx.globalCompositeOperation = 'lighter';
+        particles.forEach((p, i) => {
+          const x = p.x * w;
+          const y = p.y * h;
+
+          p.vx += driftX * (0.3 + p.glow);
+          p.vy += driftY * (0.24 + p.glow);
+
+          if (pointerInField) {
+            const dx = px - x;
+            const dy = py - y;
+            const dist = Math.max(40, Math.hypot(dx, dy));
+            const force = clamp(1 - dist / 260, 0, 1) * 0.018;
+            p.vx += (dx / dist) * force;
+            p.vy += (dy / dist) * force;
+          }
+
+          p.vx *= 0.965;
+          p.vy *= 0.965;
+          p.x += p.vx / w;
+          p.y += p.vy / h;
+
+          if (p.x * w < bounds.l || p.x * w > bounds.r) p.vx *= -0.92;
+          if (p.y * h < bounds.t || p.y * h > bounds.b) p.vy *= -0.92;
+          p.x = clamp(p.x, bounds.l / w, bounds.r / w);
+          p.y = clamp(p.y, bounds.t / h, bounds.b / h);
+
+          const pulse = 0.72 + Math.sin(t * 0.002 + i) * 0.18;
+          const drawX = p.x * w;
+          const drawY = p.y * h;
+          const halo = p.r * (8 + p.glow * 8) * pulse;
+          const g = ctx.createRadialGradient(drawX, drawY, 0, drawX, drawY, halo);
+          g.addColorStop(0, `rgba(255,236,190,${0.42 * p.glow})`);
+          g.addColorStop(0.35, `rgba(245,158,11,${0.16 * p.glow})`);
+          g.addColorStop(1, 'rgba(245,158,11,0)');
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(drawX, drawY, halo, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = `rgba(255,255,255,${0.46 + p.glow * 0.22})`;
+          ctx.beginPath();
+          ctx.arc(drawX, drawY, p.r * pulse, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.globalCompositeOperation = 'source-over';
+      }
+
+      function frame(t) {
+        const rect = canvas.getBoundingClientRect();
+        if (rect.bottom > -100 && rect.top < window.innerHeight + 100) {
+          type === 'proof-particles' ? drawProofParticles(t) : drawMesh(t);
+        }
+        requestAnimationFrame(frame);
+      }
+
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+      requestAnimationFrame(frame);
+    });
+  }
+
+  const initialHash = window.location.hash;
+  if (initialHash === '#s5' && hasGSAP && !prefersReduced) {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+  initScrollScenes();
+  initSparklineAnimations();
+  initAmbientCanvases();
+  if (hasGSAP) {
+    window.addEventListener('load', () => {
+      const settleHashScroll = () => {
+        ScrollTrigger.refresh();
+        if (!window.location.hash) return;
+        if (window.location.hash === '#s5') {
+          const st = ScrollTrigger.getById('s5-horizontal');
+          if (st) {
+            window.scrollTo({ top: st.start + 2, behavior: 'auto' });
+          } else {
+            document.querySelector(window.location.hash)?.scrollIntoView({ block: 'start' });
+          }
+        } else {
+          document.querySelector(window.location.hash)?.scrollIntoView({ block: 'start' });
+        }
+        ScrollTrigger.update();
+      };
+      settleHashScroll();
+      [180, 520, 980].forEach(delay => window.setTimeout(settleHashScroll, delay));
+    });
+  }
+
+  document.querySelectorAll('.agents-grid .agent, .levers-wrapper .lever, .proof-stat, .category-proof .case, .work-card, .stat-tile').forEach(card => {
+    card.addEventListener('pointermove', (e) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--glow-x', `${((e.clientX - r.left) / r.width) * 100}%`);
+      card.style.setProperty('--glow-y', `${((e.clientY - r.top) / r.height) * 100}%`);
+      if (card.matches('.proof-stat, .category-proof .case, .work-card, .stat-tile')) {
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.setProperty('--tilt-x', `${(-y * 4).toFixed(2)}deg`);
+        card.style.setProperty('--tilt-y', `${(x * 5).toFixed(2)}deg`);
+      }
+    });
+    card.addEventListener('pointerleave', () => {
+      card.style.setProperty('--tilt-x', '0deg');
+      card.style.setProperty('--tilt-y', '0deg');
+    });
+  });
+
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('pointermove', (e) => {
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - r.left;
+      const y = e.clientY - r.top;
+      btn.style.setProperty('--rx', `${(x / r.width) * 100}%`);
+      btn.style.setProperty('--ry', `${(y / r.height) * 100}%`);
+      btn.style.setProperty('--mx', `${(x - r.width / 2) / 12}px`);
+      btn.style.setProperty('--my', `${(y - r.height / 2) / 16}px`);
+    });
+    btn.addEventListener('pointerleave', () => {
+      btn.style.setProperty('--mx', '0px');
+      btn.style.setProperty('--my', '0px');
+    });
+    btn.addEventListener('click', (e) => {
+      if (prefersReduced) return;
+      const r = btn.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.left = `${e.clientX - r.left}px`;
+      ripple.style.top = `${e.clientY - r.top}px`;
+      btn.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
+    });
+  });
+
+  const gmvSlider = document.getElementById('gmvSlider');
+  const gmvLabel = document.getElementById('gmvLabel');
+  const kwikshopFee = document.getElementById('kwikshopFee');
+  const keepAtScale = document.getElementById('keepAtScale');
+  const gmvAtScale = document.getElementById('gmvAtScale');
+  const rateAtScale = document.getElementById('rateAtScale');
+
+  function formatLakh(lakh, plus = false) {
+    const rounded = Math.round(lakh * 10) / 10;
+    let value;
+    if (rounded >= 100) {
+      const cr = rounded / 100;
+      value = `₹${Number.isInteger(cr) ? cr.toFixed(0) : cr.toFixed(1)}Cr`;
+    } else {
+      value = `₹${Number.isInteger(rounded) ? rounded.toFixed(0) : rounded.toFixed(1)}L`;
+    }
+    return plus ? `${value}+` : value;
+  }
+
+  const appliedRate = document.getElementById('appliedRate');
+  const rateTiers = document.querySelectorAll('#rateTiers .tier');
+
+  // Bracket-rate revenue share: the entire month's GMV is billed at the
+  // single rate of the slab it lands in (gmv in lakhs / month).
+  function kwikTier(gmv) {
+    if (gmv <= 10) return 0;
+    if (gmv <= 50) return 1;
+    return 2;
+  }
+  const TIER_RATES = [0.12, 0.10, 0.08];
+
+  function updatePricing() {
+    if (!gmvSlider) return;
+    const gmv = Number(gmvSlider.value);
+    const fill = ((gmv - Number(gmvSlider.min)) / (Number(gmvSlider.max) - Number(gmvSlider.min))) * 100;
+    gmvSlider.style.setProperty('--fill', `${fill}%`);
+    const tier = kwikTier(gmv);
+    const rate = TIER_RATES[tier];
+    gmvLabel.textContent = formatLakh(gmv);
+    kwikshopFee.textContent = formatLakh(gmv * rate);
+    const fmtRate = (r) => { const pct = Math.round(r * 1000) / 10; return `@ ${pct % 1 ? pct.toFixed(1) : pct.toFixed(0)}%`; };
+    if (appliedRate) appliedRate.textContent = fmtRate(rate);
+    // Same slab logic at 4x. Show what the merchant KEEPS, not the bill —
+    // the fee in isolation reads as a cost, which is the wrong note here.
+    const scaled = gmv * 1.7;
+    const scaledRate = TIER_RATES[kwikTier(scaled)];
+    if (keepAtScale) keepAtScale.textContent = formatLakh(scaled * (1 - scaledRate));
+    if (gmvAtScale) gmvAtScale.textContent = formatLakh(scaled);
+    if (rateAtScale) rateAtScale.textContent = fmtRate(scaledRate);
+    rateTiers.forEach((t, i) => t.classList.toggle('active', i === tier));
+  }
+  gmvSlider?.addEventListener('input', updatePricing);
+  updatePricing();
+
+  /* ---- Revenue-first opener (slide 1) ----------------------------------
+     One number drives the whole deck: the founder's monthly revenue is set
+     here and flows straight through to the pricing slider on slide 10, so
+     the fee is always quoted against the number they just watched grow.
+     Prefill without editing the file with ?gmv=29 (lakhs per month).      */
+  const revNow = document.getElementById('revNow');
+  const revSlider = document.getElementById('revSlider');
+  const revTarget = document.getElementById('revTarget');
+  const revRange = document.getElementById('revRange');
+
+  const REV_MIN = 2, REV_MAX = 200;
+  const REV_LO = 1.5, REV_MID = 1.7, REV_HI = 2;
+
+  function clampRev(v) {
+    if (!Number.isFinite(v)) return REV_MIN;
+    return Math.min(REV_MAX, Math.max(REV_MIN, Math.round(v)));
+  }
+
+  let revAnim = null;
+
+  // Counts the headline from today's revenue up to the target — the number
+  // literally grows in front of the founder. Skipped under reduced motion.
+  function animateRevTarget(fromLakh, toLakh) {
+    if (!revTarget) return;
+    if (revAnim) cancelAnimationFrame(revAnim);
+    if (prefersReduced) { revTarget.textContent = formatLakh(toLakh); return; }
+    const start = performance.now();
+    const dur = 1400;
+    (function tick(now) {
+      const t = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      revTarget.textContent = formatLakh(fromLakh + (toLakh - fromLakh) * eased);
+      if (t < 1) revAnim = requestAnimationFrame(tick);
+      else revAnim = null;
+    })(start);
+  }
+
+  function paintRevenue(lakh, { animate = false, skipInput = false, hold = false } = {}) {
+    if (revSlider) {
+      revSlider.value = lakh;
+      const fill = ((lakh - REV_MIN) / (REV_MAX - REV_MIN)) * 100;
+      revSlider.style.setProperty('--fill', `${fill}%`);
+    }
+    if (revNow && !skipInput) revNow.value = String(lakh);
+    // Tabular digits mean 1ch == 1 digit, so the unit stays glued to the number.
+    if (revNow) revNow.style.width = `${Math.max(1, revNow.value.length)}ch`;
+    if (revRange) revRange.textContent = `${formatLakh(lakh * REV_LO)} – ${formatLakh(lakh * REV_HI)}`;
+    if (revTarget) {
+      // hold: park on today's number so the count-up can grow out of it
+      // instead of painting the target and snapping back.
+      if (animate) animateRevTarget(lakh, lakh * REV_MID);
+      else revTarget.textContent = formatLakh(hold ? lakh : lakh * REV_MID);
+    }
+  }
+
+  // Single entry point: repaint slide 1 and keep the pricing slider in step.
+  function setRevenue(lakh, opts = {}) {
+    const v = clampRev(lakh);
+    paintRevenue(v, opts);
+    if (gmvSlider && Number(gmvSlider.value) !== v) {
+      gmvSlider.value = v;
+      updatePricing();
+    }
+    return v;
+  }
+
+  revSlider?.addEventListener('input', () => setRevenue(Number(revSlider.value)));
+
+  revNow?.addEventListener('input', () => {
+    const digits = revNow.value.replace(/[^0-9]/g, '').slice(0, 3);
+    if (digits !== revNow.value) revNow.value = digits;
+    revNow.style.width = `${Math.max(1, digits.length)}ch`;
+    if (digits === '') return;               // let them clear the field mid-type
+    setRevenue(Number(digits), { skipInput: true });
+  });
+  // Commit on blur/Enter so a cleared or out-of-range field can't be left behind.
+  const commitRev = () => setRevenue(Number(revNow.value));
+  revNow?.addEventListener('blur', commitRev);
+  revNow?.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); revNow.blur(); } });
+  revNow?.addEventListener('focus', () => revNow.select());
+
+  // Slide 10 is the same number: dragging the pricing slider rewrites slide 1.
+  gmvSlider?.addEventListener('input', () => paintRevenue(clampRev(Number(gmvSlider.value))));
+
+  const revParam = Number(new URLSearchParams(window.location.search).get('gmv'));
+  const revStart = Number.isFinite(revParam) && revParam > 0 ? clampRev(revParam) : clampRev(Number(revSlider?.value));
+  setRevenue(revStart, { hold: !prefersReduced });
+  // Slide 1 is above the fold, so the reveal observer never fires for it.
+  if (prefersReduced) paintRevenue(revStart);
+  else window.setTimeout(() => paintRevenue(revStart, { animate: true }), 420);
+
+  const feed = document.querySelector('[data-live-feed]');
+  const notificationDot = document.querySelector('.notification-dot');
+  const feedTemplates = [
+    { cls: 'ads', agent: 'ads', text: 'New trust-led creative in test.' },
+    { cls: 'site', agent: 'site', text: 'Mobile decision flow improving.' },
+    { cls: 'ops', agent: 'ops', text: 'Two returns routed to exchange.' },
+    { cls: 'margin', agent: 'margin', text: 'Bundle band updated.' },
+    { cls: 'ads', agent: 'ads', text: 'High-intent nudges queued.' },
+    { cls: 'ops', agent: 'ops', text: 'Risky orders verified by AI.' }
+  ];
+  let feedIndex = 0;
+
+  function currentTime() {
+    return new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: false });
+  }
+
+  function addFeedItem() {
+    if (!feed) return;
+    const item = feedTemplates[feedIndex % feedTemplates.length];
+    feedIndex += 1;
+    const row = document.createElement('div');
+    row.className = 'feed-item feed-new';
+    row.innerHTML = `<span class="t">${currentTime()}</span><span class="body"><span class="agent ${item.cls}">${item.agent}</span> ${item.text}</span>`;
+    feed.prepend(row);
+    Array.from(feed.querySelectorAll('.feed-item')).slice(10).forEach(old => old.remove());
+    if (notificationDot) {
+      notificationDot.classList.remove('pulse');
+      void notificationDot.offsetWidth;
+      notificationDot.classList.add('pulse');
+    }
+  }
+  if (!prefersReduced && feed) setInterval(addFeedItem, 6200);
+
+  function updateApprovalCount() {
+    const meta = document.querySelector('[data-approval-count]');
+    if (!meta) return;
+    const count = document.querySelectorAll('.approval:not(.is-approved)').length;
+    meta.textContent = count ? `${count} approval${count === 1 ? '' : 's'}` : 'All clear';
+  }
+
+  document.querySelectorAll('.approval .btn-mini:not(.ghost)').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.approval');
+      if (!card || card.classList.contains('is-approved')) return;
+      btn.textContent = 'Approved';
+      btn.classList.add('approved');
+      btn.disabled = true;
+      card.classList.add('is-approved');
+      setTimeout(() => {
+        card.remove();
+        updateApprovalCount();
+      }, prefersReduced ? 0 : 720);
+    });
+  });
+
+  const slides = Array.from(document.querySelectorAll('section.slide'));
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'PageDown' && e.key !== 'PageUp' && e.key !== ' ') return;
+    e.preventDefault();
+    const y = window.scrollY + window.innerHeight * 0.4;
+    let idx = 0;
+    slides.forEach((s, i) => { if (s.offsetTop <= y) idx = i; });
+    const dir = (e.key === 'ArrowUp' || e.key === 'PageUp') ? -1 : 1;
+    slides[Math.max(0, Math.min(slides.length - 1, idx + dir))].scrollIntoView({ behavior: 'smooth' });
+  });
+
+</script>
+
+</body>
+</html>
